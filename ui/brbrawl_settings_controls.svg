@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="860" viewBox="0 0 1280 860" role="img" aria-labelledby="title desc">
+<title id="title">Battle Rap Brawl settings controls</title>
+<desc id="desc">Editable arcade-style tabs, toggles, sliders, gamer tag field, and action buttons, on transparent background.</desc>
+<defs>
+ <linearGradient id="panel" x2="0" y2="1"><stop stop-color="#211a27"/><stop offset="1" stop-color="#100d16"/></linearGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#ffe18a"/><stop offset="1" stop-color="#d69a32"/></linearGradient>
+ <linearGradient id="red" x2="0" y2="1"><stop stop-color="#781b2a"/><stop offset="1" stop-color="#310e19"/></linearGradient>
+</defs>
+<!-- section tabs -->
+<g font-family="Press Start 2P, Courier New, monospace" font-size="13" text-anchor="middle">
+ <g transform="translate(20 22)"><path d="M12 0h247l12 12v53l-12 12H12L0 65V12z" fill="url(#red)" stroke="#f4c45d" stroke-width="3"/><text x="135" y="47" fill="#fff6e9">GAME</text></g>
+ <g transform="translate(310 22)"><path d="M12 0h247l12 12v53l-12 12H12L0 65V12z" fill="url(#panel)" stroke="#786370" stroke-width="2"/><text x="135" y="47" fill="#f5eee4">AUDIO</text></g>
+ <g transform="translate(600 22)"><path d="M12 0h247l12 12v53l-12 12H12L0 65V12z" fill="url(#panel)" stroke="#786370" stroke-width="2"/><text x="135" y="47" fill="#f5eee4">CONTROLS</text></g>
+ <g transform="translate(890 22)"><path d="M12 0h347l12 12v53l-12 12H12L0 65V12z" fill="url(#panel)" stroke="#786370" stroke-width="2"/><text x="185" y="47" fill="#f5eee4">ACCESSIBILITY</text></g>
+</g>
+<!-- gamer tag field -->
+<text x="26" y="158" fill="#e9c05a" font-family="Press Start 2P, Courier New, monospace" font-size="13">GAMER TAG</text>
+<path d="M25 180h612l14 14v54l-14 14H25l-14-14v-54z" fill="#09070d" stroke="#786370" stroke-width="3"/>
+<path d="M42 188h570" stroke="#e54250" stroke-width="3"/><text x="48" y="226" fill="#f5eee4" font-family="Inter, Arial, sans-serif" font-size="24">ENTER TAG</text><path d="M172 202v30" stroke="#f4c45d" stroke-width="3"/>
+<!-- toggle examples -->
+<g font-family="Press Start 2P, Courier New, monospace" font-size="13" fill="#f5eee4">
+ <text x="26" y="334">CLEAN MODE</text><text x="26" y="424">MUSIC</text><text x="26" y="514">SFX</text><text x="26" y="604">SCREEN SHAKE</text>
+</g>
+<!-- off toggle -->
+<g transform="translate(305 290)"><path d="M12 0h224l12 12v52l-12 12H12L0 64V12z" fill="url(#panel)" stroke="#786370" stroke-width="2"/><rect x="13" y="13" width="90" height="50" rx="8" fill="#37313c" stroke="#a99ba7" stroke-width="2"/><circle cx="38" cy="38" r="17" fill="#c8bec6"/><text x="162" y="45" text-anchor="middle" fill="#aaa0aa" font-family="Press Start 2P, Courier New, monospace" font-size="13">OFF</text></g>
+<!-- on toggle -->
+<g transform="translate(565 290)"><path d="M12 0h224l12 12v52l-12 12H12L0 64V12z" fill="url(#red)" stroke="#f4c45d" stroke-width="2"/><rect x="143" y="13" width="90" height="50" rx="8" fill="#2a1118" stroke="#ff5360" stroke-width="2"/><circle cx="207" cy="38" r="17" fill="url(#gold)"/><text x="74" y="45" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="13">ON</text></g>
+<!-- audio sliders -->
+<text x="855" y="334" fill="#e9c05a" font-family="Press Start 2P, Courier New, monospace" font-size="13">MUSIC VOL</text>
+<text x="855" y="424" fill="#e9c05a" font-family="Press Start 2P, Courier New, monospace" font-size="13">SFX VOL</text>
+<g transform="translate(855 354)"><rect x="0" y="0" width="320" height="10" rx="5" fill="#38303b"/><rect x="0" y="0" width="205" height="10" rx="5" fill="#e54250"/><path d="M202-8h26v26h-26z" fill="url(#gold)" stroke="#fff0ba" stroke-width="2"/><path d="M207-3h16v16h-16z" fill="#35111a"/></g>
+<g transform="translate(855 444)"><rect x="0" y="0" width="320" height="10" rx="5" fill="#38303b"/><rect x="0" y="0" width="145" height="10" rx="5" fill="#e54250"/><path d="M142-8h26v26h-26z" fill="url(#gold)" stroke="#fff0ba" stroke-width="2"/><path d="M147-3h16v16h-16z" fill="#35111a"/></g>
+<!-- plus/minus and arrows -->
+<g transform="translate(28 676)" font-family="Arial Black, Arial, sans-serif" text-anchor="middle">
+ <g><path d="M8 0h66l10 10v54L74 74H8L0 66V8z" fill="url(#panel)" stroke="#e54250" stroke-width="3"/><text x="42" y="52" fill="#fff6e9" font-size="34">−</text></g>
+ <g transform="translate(96)"><path d="M8 0h66l10 10v54L74 74H8L0 66V8z" fill="url(#panel)" stroke="#e54250" stroke-width="3"/><text x="42" y="52" fill="#fff6e9" font-size="34">+</text></g>
+ <g transform="translate(196)"><path d="M8 0h66l10 10v54L74 74H8L0 66V8z" fill="url(#panel)" stroke="#786370" stroke-width="2"/><text x="42" y="49" fill="#f4c45d" font-size="28">◀</text></g>
+ <g transform="translate(292)"><path d="M8 0h66l10 10v54L74 74H8L0 66V8z" fill="url(#panel)" stroke="#786370" stroke-width="2"/><text x="42" y="49" fill="#f4c45d" font-size="28">▶</text></g>
+</g>
+<!-- bottom action buttons -->
+<g font-family="Press Start 2P, Courier New, monospace" font-size="13" text-anchor="middle">
+ <g transform="translate(534 676)"><path d="M12 0h184l12 12v52l-12 12H12L0 64V12z" fill="url(#panel)" stroke="#786370" stroke-width="2"/><text x="104" y="45" fill="#f5eee4">BACK</text></g>
+ <g transform="translate(758 676)"><path d="M12 0h184l12 12v52l-12 12H12L0 64V12z" fill="url(#red)" stroke="#f4c45d" stroke-width="3"/><text x="104" y="45" fill="#fff6e9">APPLY</text></g>
+ <g transform="translate(982 676)"><path d="M12 0h184l12 12v52l-12 12H12L0 64V12z" fill="url(#panel)" stroke="#e54250" stroke-width="2"/><text x="104" y="45" fill="#f5eee4">RESET</text></g>
+</g>
+</svg>

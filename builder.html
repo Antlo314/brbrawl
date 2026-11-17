@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Battler Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<!--
+  Battler builder: fill in each battler's taglines, style, signature moves, outfits and voice clips.
+  Run the game with  node serve.js  and open http://localhost:8090/builder.html. Saving writes MM Game/battlers/<id>.json
+  (everything) and battlers.js (what the game shows: names, taglines, quotes, move names, style, voice clips).
+-->
+<style>
+  :root { --ember: #ff5a1f; --hot: #ffd23f; --ice: #39c8ff; --ink: #f6f1e8; --mute: #9a96a0; --bg: #08080c; --panel: #111118; --line: #24242e; --ok: #3ddc84; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font: 14px/1.5 Inter, system-ui, sans-serif; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  a { color: var(--hot); }
+  .app { display: grid; grid-template-columns: 230px 1fr; min-height: 100vh; }
+  aside { position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid var(--line); background: #0b0b10; padding: 16px 10px; }
+  aside h1 { font: 400 22px/1 Anton, Impact, sans-serif; letter-spacing: .08em; padding: 0 8px 4px; }
+  aside p { font-size: 12px; color: var(--mute); padding: 0 8px 12px; }
+  .who { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px; border: 0; background: none; text-align: left; cursor: pointer; border-radius: 6px; }
+  .who:hover { background: #17171f; } .who.on { background: #201510; box-shadow: inset 3px 0 0 var(--ember); }
+  .who b { font: 400 15px/1.1 Anton, Impact, sans-serif; letter-spacing: .04em; flex: 1; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: #3a3a46; flex: none; }
+  .dot.waiting { background: var(--hot); } .dot.approved { background: var(--ok); }
+  .who small { font-size: 10px; color: var(--mute); }
+  main { min-width: 0; }
+  .top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 24px; background: rgba(8,8,12,.95);
+    border-bottom: 1px solid var(--line); backdrop-filter: blur(6px); }
+  .top h2 { font: 400 28px/1 Anton, Impact, sans-serif; letter-spacing: .04em; margin-right: auto; }
+  .top select { width: auto; padding: 7px 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; }
+  .btn { padding: 9px 18px; border: 0; border-radius: 6px; background: var(--ember); color: #160800; font: 400 16px/1 Anton, Impact, sans-serif; letter-spacing: .08em; cursor: pointer; }
+  .btn.ghost { background: transparent; border: 1px solid #3a3a46; color: var(--ink); }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .saved { font-size: 12px; color: var(--mute); min-width: 150px; text-align: right; }
+  .saved.dirty { color: var(--hot); } .saved.ok { color: var(--ok); } .saved.err { color: #ff5a5a; }
+  .banner { margin: 16px 24px 0; padding: 12px 16px; border-radius: 8px; background: #2a1408; border: 1px solid var(--ember); }
+  form { padding: 8px 24px 80px; max-width: 1100px; }
+  section { margin-top: 22px; padding: 18px 18px 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  section > h3 { font: 400 20px/1 Anton, Impact, sans-serif; letter-spacing: .08em; margin-bottom: 4px; }
+  section > p.lead { color: var(--mute); font-size: 13px; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+  .grid .wide { grid-column: 1 / -1; }
+  label.f { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; font-weight: 600; font-size: 13px; }
+  label.f small { font-weight: 400; color: var(--mute); }
+  input[type=text], select, textarea { width: 100%; padding: 9px 11px; background: #0a0a0f; border: 1px solid var(--line); border-radius: 6px; }
+  textarea { min-height: 64px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--ice); outline-offset: 0; border-color: transparent; }
+  .bars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .card { border: 1px solid var(--line); border-radius: 8px; padding: 14px 14px 2px; margin-bottom: 14px; background: #0d0d13; }
+  .card > h4 { font: 400 16px/1 Anton, Impact, sans-serif; letter-spacing: .06em; margin-bottom: 10px; color: var(--hot); }
+  .voice { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 9px 10px; margin: -4px 0 14px; border: 1px dashed #33333f; border-radius: 6px; font-size: 12px; }
+  .voice b { font-size: 11px; letter-spacing: .1em; color: var(--mute); text-transform: uppercase; }
+  .voice .state { color: var(--mute); flex: 1 1 160px; }
+  .voice .state.ok { color: var(--ok); } .voice .state.err { color: #ff5a5a; }
+  .voice input[type=text] { width: auto; flex: 1 1 200px; padding: 6px 8px; }
+  .voice input.t { flex: 0 0 64px; text-align: center; }
+  .mini { padding: 6px 10px; border: 1px solid #3a3a46; border-radius: 5px; background: #16161e; cursor: pointer; font-size: 12px; font-weight: 600; }
+  .mini:hover { border-color: var(--ice); }
+  .slider { display: grid; grid-template-columns: 160px 1fr 30px; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .slider span { font-weight: 600; } .slider em { font-style: normal; color: var(--mute); font-size: 12px; grid-column: 2 / -1; margin-top: -8px; }
+  .slider input { accent-color: var(--ember); }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
+  .stats span { padding: 5px 10px; background: #0a0a0f; border: 1px solid var(--line); border-radius: 20px; font-size: 12px; }
+  .stats span.up { border-color: var(--ok); color: var(--ok); } .stats span.down { border-color: #ff7a5a; color: #ff9a7a; }
+  .photos { display: flex; flex-wrap: wrap; gap: 8px; margin: -4px 0 12px; align-items: center; }
+  .photos figure { position: relative; width: 84px; height: 84px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); }
+  .photos img { width: 100%; height: 100%; object-fit: cover; }
+  .photos figure button { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border-radius: 50%; border: 0; background: rgba(0,0,0,.75); cursor: pointer; }
+  .check { display: flex; align-items: center; gap: 8px; font-weight: 600; margin-bottom: 12px; }
+  .hidden { display: none !important; }
+  @media (max-width: 820px) {
+    .app { grid-template-columns: 1fr; } aside { position: static; height: auto; display: flex; overflow-x: auto; gap: 4px; padding: 8px; border-right: 0; border-bottom: 1px solid var(--line); }
+    aside h1, aside p { display: none; } .who { flex: none; width: auto; }
+    .grid { grid-template-columns: 1fr; } .bars { grid-template-columns: repeat(2, 1fr); } form { padding: 8px 12px 80px; } .top { padding: 10px 12px; }
+    .slider { grid-template-columns: 120px 1fr 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <h1>BATTLER BUILDER</h1>
+    <p>Fill in a battler, hit Save, and it's in the game. Dots: gray = not asked, yellow = waiting on the battler, green = approved.</p>
+    <nav id="list"></nav>
+  </aside>
+  <main>
+    <div class="top">
+      <h2 id="title">—</h2>
+      <select id="status" aria-label="Approval">
+        <option value="not-asked">Not asked yet</option><option value="waiting">Waiting on the battler</option><option value="approved">Approved by the battler</option>
+      </select>
+      <a class="btn ghost" href="index.html" target="_blank" rel="noopener">OPEN THE GAME</a>
+      <button class="btn" id="save" type="button">SAVE</button>
+      <span class="saved" id="saved"></span>
+    </div>
+    <div class="banner hidden" id="banner"></div>
+    <form id="form" autocomplete="off" onsubmit="return false"></form>
+  </main>
+</div>
+
+<script src="fighters.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const ROSTER = window.ALL_FIGHTERS || window.FIGHTERS || []; // the whole roster, benched battlers too
+let all = {}, cur = null, dirty = false, apiOK = true;
+
+// ---------- the questions ----------
+const BUILDS = ['slim', 'lean', 'medium', 'athletic', 'stocky', 'heavy'];
+const SPECIAL_TYPES = [['projectile', 'Throws something (projectile)'], ['rush', 'Rushing strike'], ['uppercut', 'Rising uppercut (anti-air)'], ['grab', 'Grab / command throw'],
+  ['counter', 'Counter'], ['slam', 'Ground slam / shockwave'], ['buff', 'Power-up (gets stronger for a bit)']];
+const SUPER_TYPES = [['blast', 'Big blast across the screen'], ['rush', 'Rushing combo'], ['grab', 'Grab into a beatdown'], ['cinematic', 'Full cinematic (hits, then a cutscene plays)']];
+const SPECIAL_INPUTS = [['', 'Auto (from the move type)'], ...['qcf', 'qcb', 'dp', 'hcf', 'hcb', 'dd'].flatMap(m => ['p', 'k'].map(b => [`${m}+${b}`, `${{ qcf: '↓↘→', qcb: '↓↙←', dp: '→↓↘', hcf: '←↙↓↘→', hcb: '→↘↓↙←', dd: '↓↓' }[m]} + ${b.toUpperCase()}`]))];
+const SUPER_INPUTS = [['', 'Auto'], ...['qcf2', 'qcb2'].flatMap(m => ['p', 'k'].map(b => [`${m}+${b}`, `${m === 'qcf2' ? '↓↘→↓↘→' : '↓↙←↓↙←'} + ${b.toUpperCase()}`]))];
+const CUTSCENES = [['none', 'No cutscene'], ['cutin', 'Quick cut-in (his face flashes on screen)'], ['full', 'Full cutscene (a short scene plays)']];
+const STYLE = [
+  ['punchlines', 'Punchlines', 'hits harder'], ['wordplay', 'Wordplay', 'longer combos'], ['performance', 'Performance / crowd', 'super meter fills faster'],
+  ['writtens', 'Writtens / schemes', 'more health'], ['freestyle', 'Freestyle / rebuttals', 'jumps higher, recovers faster'], ['aggression', 'Aggression', 'walks faster'],
+];
+
+const get = (path) => path.split('.').reduce((o, k) => (o == null ? o : o[k]), cur);
+function set(path, v) {
+  const keys = path.split('.'); let o = cur;
+  for (const k of keys.slice(0, -1)) { if (o[k] == null) o[k] = /^\d+$/.test(k) ? [] : {}; o = o[k]; }
+  o[keys.at(-1)] = v; markDirty();
+}
+const text = (path, label, opt = {}) => `<label class="f${opt.wide ? ' wide' : ''}">${label}${opt.help ? ` <small>${opt.help}</small>` : ''}
+  ${opt.area ? `<textarea data-k="${path}" placeholder="${esc(opt.ph || '')}">${esc(get(path))}</textarea>` : `<input type="text" data-k="${path}" value="${esc(get(path))}" placeholder="${esc(opt.ph || '')}">`}</label>`;
+const select = (path, label, options, opt = {}) => `<label class="f${opt.wide ? ' wide' : ''}">${label}<select data-k="${path}">${options.map(([v, t]) =>
+  `<option value="${v}"${get(path) === v ? ' selected' : ''}>${esc(t)}</option>`).join('')}</select></label>`;
+const voice = (slot, label) => {
+  const v = (cur.voice || {})[slot] || {};
+  return `<div class="voice" data-slot="${slot}"><b>${label}</b>
+    <button type="button" class="mini" data-act="upload">${v.raw ? 'Replace clip' : 'Upload clip'}</button>
+    <input type="file" accept="audio/*,video/*" hidden>
+    <button type="button" class="mini${v.game ? '' : ' hidden'}" data-act="play">▶ Play</button>
+    <span class="state ${v.game ? 'ok' : v.error ? 'err' : ''}">${v.game ? `In the game (${v.seconds || '?'}s)` : v.error ? esc(v.error) : v.link ? 'Video link saved: ask Claude to cut it' : 'No clip yet'}</span>
+    <input type="text" data-v="link" value="${esc(v.link)}" placeholder="or a battle video link (YouTube, etc.)">
+    <input type="text" class="t" data-v="start" value="${esc(v.start)}" placeholder="start" title="Start time, like 1:23">
+    <input type="text" class="t" data-v="end" value="${esc(v.end)}" placeholder="end" title="End time, like 1:26">
+    <button type="button" class="mini${v.raw ? '' : ' hidden'}" data-act="retrim">Re-cut</button></div>`;
+};
+function moveCard(kind, i) {
+  const base = `moves.${kind}.${i}`, sup = kind === 'supers';
+  const title = sup ? (i ? 'Super 2 (level 3, the ultra)' : 'Super 1 (SUPER button)') : `Special ${i + 1}${i ? '' : ' (SP button)'}`;
+  const slot = sup ? (i ? 'super2' : 'super') : (i ? `special${i + 1}` : 'special');
+  const cs = get(`${base}.cutscene`) || 'none';
+  return `<div class="card"><h4>${title}</h4><div class="grid">
+    ${text(`${base}.name`, 'Move name', { ph: sup ? 'e.g. BODY BAG' : 'e.g. REBUTTAL' })}
+    ${select(`${base}.type`, 'What kind of move', sup ? SUPER_TYPES : SPECIAL_TYPES)}
+    ${select(`${base}.input`, 'Input', sup ? SUPER_INPUTS : SPECIAL_INPUTS)}
+    <p class="f" style="font-weight:400;color:var(--mute);font-size:12px;align-self:end">${sup ? (i ? 'Or ↓ + SUPER. Needs a full meter and hits 30% harder.' : 'Or the SUPER button. Needs a full meter.') : `Or ${['the SP button', '↓ + SP', '→ + SP'][i]} (the one-touch shortcut for phones).`}</p>
+    ${text(`${base}.look`, 'What it looks like', { area: true, wide: true, ph: 'Describe it like a director: what he does, what flies, the colors, how it hits' })}
+    ${select(`${base}.cutscene`, 'Cutscene', CUTSCENES)}
+    <div class="${cs === 'none' ? 'hidden' : ''}" data-show="${base}.cutscene">${text(`${base}.cutsceneNote`, 'Describe the cutscene', { area: true, ph: 'Shot by shot, e.g. the camera zooms on his face, the crowd erupts, he leans into the mic…' })}</div>
+  </div>${voice(slot, 'Voice line')}</div>`;
+}
+function outfitCard(i) {
+  const o = `outfits.${i}`, photos = get(`${o}.photos`) || [];
+  return `<div class="card"><h4>Outfit ${i + 1}${i ? '' : ' (what he wears now)'}</h4><div class="grid">
+    ${text(`${o}.name`, 'Outfit name', { ph: i ? 'e.g. Summer Madness, Championship' : 'Main' })}
+    ${text(`${o}.colors`, 'Colors', { ph: 'e.g. black, orange and gold' })}
+    ${text(`${o}.look`, 'Head to toe', { area: true, wide: true, ph: 'Hat, hair, glasses, top, jacket, chain, pants, shoes…' })}
+  </div>
+  <div class="photos" data-outfit="${i}">${photos.map((p, k) => `<figure><img src="/api/file?p=${encodeURIComponent(p)}" alt=""><button type="button" data-rm="${k}" title="Remove">✕</button></figure>`).join('')}
+    <button type="button" class="mini" data-act="photo">+ Add photos</button><input type="file" accept="image/*" multiple hidden></div>
+  ${text(`${o}.links`, 'Photo links', { area: true, ph: 'Instagram, X or other links to photos of this outfit' })}</div>`;
+}
+function statsPreview() {
+  const def = ROSTER.find(d => d.id === cur.id), b = def ? def.stats : null, s = cur.style || {};
+  if (!b) return '';
+  const v = k => +s[k] || 3;
+  const st = [['Power', b.power, +(b.power * (1 + 0.04 * (v('punchlines') - 3))).toFixed(2)], ['Health', b.health, Math.round(b.health + 25 * (v('writtens') - 3))],
+    ['Walk speed', b.walk, +(b.walk + 0.12 * (v('aggression') - 3)).toFixed(2)], ['Jump', b.jump, +(b.jump + 0.3 * (v('freestyle') - 3)).toFixed(1)],
+    ['Meter gain', 1, +(1 + 0.08 * (v('performance') - 3)).toFixed(2)], ['Combo damage', 1, +(1 + 0.05 * (v('wordplay') - 3)).toFixed(2)]];
+  return st.map(([n, a, c]) => `<span class="${c > a ? 'up' : c < a ? 'down' : ''}">${n}: ${c}${c !== a ? ` (was ${a})` : ''}</span>`).join('');
+}
+function render() {
+  const f = $('#form'), t = cur.taglines || {};
+  $('#title').textContent = (cur.profile && cur.profile.name) || cur.id;
+  $('#status').value = (cur.approval && cur.approval.status) || 'not-asked';
+  f.innerHTML = `
+  <section><h3>PROFILE</h3><p class="lead">Who he is. The name and hometown show in the game as soon as you save.</p><div class="grid">
+    ${text('profile.name', 'Name in the game')}${text('profile.title', 'Nickname or title', { ph: 'e.g. The Bell Ringer' })}
+    ${text('profile.hometown', 'Hometown', { help: 'shows under his name' })}${text('profile.height', 'Height', { ph: `e.g. 5'10"` })}
+    ${select('profile.build', 'Build', BUILDS.map(b => [b, b[0].toUpperCase() + b.slice(1)]))}<div></div>
+    ${text('profile.bio', 'Short bio', { area: true, wide: true, help: 'select screen and story mode', ph: 'One or two lines' })}
+    ${text('profile.rivals', 'Real battles and rivals', { area: true, wide: true, ph: 'e.g. vs Calicoe (URL, 2012): the classic' })}
+  </div></section>
+
+  <section><h3>TAGLINES &amp; VOICE</h3><p class="lead">What he says and when. Attach a clip to any line: upload one he sent you (best), or paste a battle video link with the start and end time and I'll cut it.</p>
+    ${text('taglines.tagline', 'Tagline', { help: 'select screen and VS screen', ph: 'His catchphrase' })}
+    ${text('taglines.intro', 'Walkout line', { help: 'said on the VS screen before round 1' })}${voice('intro', 'Clip')}
+    ${text('taglines.win', 'Win quote', { help: 'results screen' })}${voice('win', 'Clip')}
+    ${text('taglines.taunt', 'Taunt')}${voice('taunt', 'Clip')}
+    ${text('taglines.lose', 'When he loses')}${voice('lose', 'Clip')}
+    <div class="grid">${text('taglines.call', 'Call and response: he says', { ph: 'e.g. GOD IS GOOD...' })}${text('taglines.response', 'The crowd answers', { ph: 'e.g. ALL THE TIME!' })}</div>${voice('call', 'Clip')}
+    <label class="f">Bubble words <small>pop off his special when it hits</small></label>
+    <div class="bars" style="margin:-6px 0 14px">${[0, 1, 2, 3].map(i => `<input type="text" data-k="taglines.bars.${i}" value="${esc((t.bars || [])[i])}" placeholder="e.g. OHHH!">`).join('')}</div>
+  </section>
+
+  <section><h3>BATTLE STYLE</h3><p class="lead">His strengths in battle (1 to 5, 3 is average). These tune how he fights.</p>
+    ${STYLE.map(([k, n, eff]) => `<div class="slider"><span>${n}</span><input type="range" min="1" max="5" step="1" data-k="style.${k}" data-num value="${(cur.style || {})[k] || 3}"><output>${(cur.style || {})[k] || 3}</output><em>${eff}</em></div>`).join('')}
+    <div class="stats" id="stats">${statsPreview()}</div>
+    ${text('style.knownFor', "What he's known for in battles", { area: true, ph: 'e.g. punchline machine, crowd control, angles, rebuttals' })}
+  </section>
+
+  <section><h3>SIGNATURE MOVES</h3><p class="lead">Up to 3 specials and 2 supers, each with a Street Fighter–style input. Think Marvel vs Capcom: big, readable, and true to him. Moves with a cutscene get their own art. Specials left blank get defaults that fit his build (heavy: a grab and a ground slam; slim: a rush and an uppercut).</p>
+    ${[0, 1, 2].map(i => moveCard('specials', i)).join('')}${[0, 1].map(i => moveCard('supers', i)).join('')}
+  </section>
+
+  <section><h3>OUTFITS</h3><p class="lead">Two or three looks, picked on the select screen. Photos help the most.</p>${[0, 1, 2].map(outfitCard).join('')}</section>
+
+  <section><h3>ANIMATION &amp; PERSONALITY</h3><p class="lead">How he moves. This shapes every pose I draw.</p><div class="grid">
+    ${text('animation.idle', 'How he stands between moves', { area: true, ph: 'e.g. bouncing, hands low, talking with his hands' })}${text('animation.walk', 'How he walks', { area: true, ph: 'e.g. slow and heavy, a little lean back' })}
+    ${text('animation.intro', 'Walkout (before round 1)', { area: true, ph: 'e.g. walks out wiping his face with a towel' })}${text('animation.taunt', 'Taunt', { area: true })}
+    ${text('animation.win1', 'Win pose 1', { area: true })}${text('animation.win2', 'Win pose 2', { area: true })}
+    ${text('animation.gestures', 'Signature gestures and mannerisms', { area: true, wide: true, ph: 'e.g. taps his temple after a bar, diamond hands' })}
+  </div></section>
+
+  <section><h3>EXTRAS</h3><div class="grid">
+    ${text('extras.song', 'Walkout song')}<label class="check"><input type="checkbox" data-k="extras.songRights" ${(cur.extras || {}).songRights ? 'checked' : ''}> We have the rights to use it</label>
+    ${text('approval.notes', 'Who approved what', { area: true })}${text('extras.notes', 'Anything else for Claude', { area: true })}
+  </div></section>`;
+}
+
+// ---------- editing ----------
+function markDirty() { dirty = true; const s = $('#saved'); s.textContent = 'Unsaved changes'; s.className = 'saved dirty'; }
+$('#form').addEventListener('input', e => {
+  const el = e.target, k = el.dataset.k;
+  if (k) {
+    set(k, el.type === 'checkbox' ? el.checked : el.dataset.num != null ? +el.value : el.value);
+    if (el.dataset.num != null) { el.nextElementSibling.textContent = el.value; $('#stats').innerHTML = statsPreview(); }
+    if (k === 'profile.name') $('#title').textContent = el.value || cur.id;
+    document.querySelectorAll(`[data-show="${k}"]`).forEach(d => d.classList.toggle('hidden', el.value === 'none'));
+  }
+  const v = el.dataset.v, box = el.closest('.voice');
+  if (v && box) { cur.voice = cur.voice || {}; const slot = box.dataset.slot; cur.voice[slot] = { ...(cur.voice[slot] || {}), [v]: el.value.trim() }; markDirty(); }
+});
+$('#status').addEventListener('change', e => { cur.approval = { ...(cur.approval || {}), status: e.target.value }; markDirty(); drawList(); });
+$('#form').addEventListener('click', async e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const act = b.dataset.act, box = b.closest('.voice'), photos = b.closest('.photos');
+  if (act === 'upload' || act === 'photo') { (box || photos).querySelector('input[type=file]').click(); return; }
+  if (act === 'play') { new Audio(`audio/sfx/vo_${cur.id}_${box.dataset.slot}.mp3?${Date.now()}`).play(); return; }
+  if (act === 'retrim') { await sendVoice(box, null); return; }
+  if (b.dataset.rm != null && photos) {
+    const i = +photos.dataset.outfit; cur.outfits[i].photos.splice(+b.dataset.rm, 1); markDirty(); render(); return;
+  }
+});
+$('#form').addEventListener('change', async e => {
+  const el = e.target; if (el.type !== 'file' || !el.files.length) return;
+  const box = el.closest('.voice'), photos = el.closest('.photos');
+  if (box) await sendVoice(box, el.files[0]);
+  if (photos) {
+    const i = +photos.dataset.outfit;
+    for (const file of el.files) {
+      const r = await post(`/api/photo/${cur.id}?outfit=${i + 1}`, file, { 'x-file-name': file.name });
+      if (r.ok) { cur.outfits[i].photos = cur.outfits[i].photos || []; cur.outfits[i].photos.push(r.path); }
+    }
+    markDirty(); render(); await save();
+  }
+  el.value = '';
+});
+async function sendVoice(box, file) {
+  const slot = box.dataset.slot, v = (cur.voice || {})[slot] || {}, st = box.querySelector('.state');
+  st.textContent = file ? 'Uploading…' : 'Re-cutting…'; st.className = 'state';
+  const q = new URLSearchParams({ start: v.start || '', end: v.end || '' });
+  if (!file) q.set('raw', v.raw || '');
+  const r = await post(`/api/voice/${cur.id}/${slot}${file ? '' : '/retrim'}?${q}`, file || '', file ? { 'x-file-name': file.name } : {});
+  cur.voice = cur.voice || {};
+  cur.voice[slot] = { ...v, raw: r.raw || v.raw, game: r.processed ? r.game : v.game, seconds: r.seconds || v.seconds, error: r.processed ? '' : (r.error || '') };
+  markDirty(); render(); await save();
+}
+
+// ---------- saving ----------
+async function post(url, body, headers = {}) {
+  try { const res = await fetch(url, { method: 'POST', body, headers }); return await res.json(); }
+  catch (e) { return { ok: false, error: 'The game server isn\'t running (node serve.js).' }; }
+}
+async function save() {
+  if (!cur || !apiOK) return;
+  const s = $('#saved'); s.textContent = 'Saving…'; s.className = 'saved';
+  const r = await post(`/api/battler/${cur.id}`, JSON.stringify(cur), { 'Content-Type': 'application/json' });
+  if (r.ok) { cur.updated = r.updated; all[cur.id] = cur; dirty = false; s.textContent = `Saved ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} · in the game`; s.className = 'saved ok'; drawList(); }
+  else { s.textContent = r.error || 'Save failed'; s.className = 'saved err'; }
+}
+$('#save').addEventListener('click', save);
+addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); } });
+addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+// ---------- battler list ----------
+function drawList() {
+  $('#list').innerHTML = ROSTER.map(d => {
+    const b = all[d.id] || {}, st = (b.approval || {}).status || 'not-asked';
+    return `<button class="who${cur && cur.id === d.id ? ' on' : ''}" data-id="${d.id}"><span class="dot ${st}"></span><b>${esc((b.profile || {}).name || d.name)}</b><small>${b.updated ? 'edited' : ''}</small></button>`;
+  }).join('');
+}
+$('#list').addEventListener('click', async e => {
+  const b = e.target.closest('.who'); if (!b) return;
+  if (dirty) await save();
+  open(b.dataset.id);
+});
+function open(id) {
+  cur = JSON.parse(JSON.stringify(all[id] || { id }));
+  dirty = false; $('#saved').textContent = cur.updated ? `Last saved ${new Date(cur.updated).toLocaleString()}` : 'Not edited yet'; $('#saved').className = 'saved';
+  history.replaceState(null, '', `#${id}`); render(); drawList(); scrollTo(0, 0);
+}
+
+(async () => {
+  try { const r = await fetch('/api/battlers'); if (!r.ok) throw 0; all = await r.json(); }
+  catch (e) {
+    apiOK = false; $('#save').disabled = true;
+    const b = $('#banner'); b.classList.remove('hidden');
+    b.innerHTML = 'The builder saves through the game\'s local server. In the <b>global-reset-fighter</b> folder run <b>node serve.js</b>, then open <b>http://localhost:8090/builder.html</b>.';
+  }
+  const want = location.hash.slice(1);
+  open(ROSTER.some(d => d.id === want) ? want : (ROSTER[0] || {}).id);
+})();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "title": "BRBrawl Menu & Settings Button Kit",
+  "theme": {
+    "background": "#07050b",
+    "accent_red": "#e54250",
+    "accent_gold": "#f4c45d",
+    "text": "#f5eee4"
+  },
+  "menu_atlas": {
+    "file": "brbrawl_menu_buttons.svg",
+    "size": [
+      1200,
+      902
+    ],
+    "cell_size": [
+      400,
+      82
+    ],
+    "columns": [
+      "default",
+      "focused",
+      "pressed"
+    ],
+    "labels": [
+      "PRESS START",
+      "STORY",
+      "ARCADE",
+      "THE CLOSER",
+      "WIN THE CROWD",
+      "GHOST SURVIVAL",
+      "VERSUS",
+      "ONLINE BATTLE",
+      "SELECT FIGHTER",
+      "SETTINGS",
+      "BACK"
+    ]
+  },
+  "settings_controls": "brbrawl_settings_controls.svg",
+  "web_styles": "brbrawl-ui.css",
+  "preview": "preview.html",
+  "integration_status": "visual and CSS handoff only; not wired into game source"
+}

@@ -1,0 +1,18 @@
+{
+  "model": "acestep_v1.5_xl_turbo_bf16.safetensors (bf16)",
+  "planner": "qwen_1.7b_ace15",
+  "caption": "Epic orchestral trap instrumental at 90 BPM, like a fighting game boss theme recorded with a real orchestra and a hip-hop producer. Thunderous live drums and taiko hits, hard snare, trap hi-hat rolls, a distorted 808 bass. A concert grand piano plays a menacing ostinato, real tubular bells and church bells toll, string section stabs, brass swells, a dark analog synth lead. Big, polished Hollywood mix with natural reverb, instrumental, no vocals.",
+  "lyrics": "[Intro - solo grand piano and ringing bells]\n\n[Verse - hard live drums and deep 808 bass come in]\n\n[Hook - full arrangement, bells and synth pad swell]\n\n[Outro - piano and bells alone]",
+  "bpm": 90,
+  "key": "C minor",
+  "time_signature": "4/4",
+  "seconds": 120,
+  "seed": 23,
+  "steps": 8,
+  "cfg": 1.0,
+  "sampler": "euler/simple",
+  "shift": 3.0,
+  "seconds_taken": 26.2,
+  "peak_vram_gb": 11.2,
+  "made": "2026-10-30 with D:\\ComfyUI\\ace_step3_beat.py"
+}

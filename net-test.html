@@ -1,0 +1,86 @@
+<!doctype html>
+<!-- Online play test bench (local only, not deployed): two copies of the game side by side, each a different player.
+     Open http://localhost:8090/net-test.html, then run NT.connect() and NT.fight() from the console. -->
+<html><head><meta charset="utf-8"><title>Online test</title>
+<style>body{margin:0;background:#111;display:grid;grid-template-columns:1fr 1fr;gap:6px;height:100vh}iframe{width:100%;height:100%;border:0}</style></head>
+<body><iframe id="a" src="index.html"></iframe><iframe id="b" src="index.html"></iframe>
+<script>
+const A = () => document.getElementById('a').contentWindow, B = () => document.getElementById('b').contentWindow;
+const wait = ms => new Promise(r => setTimeout(r, ms));
+window.NT = {
+  // Host in the left copy, join from the right one with the code it shows.
+  async connect(p1 = 'rosenberg', p2 = 'msfit', stage = 'venue') {
+    for (const w of [A(), B()]) { w.Online.open(); }
+    A().document.getElementById('on-battler').value = p1; A().document.getElementById('on-stage').value = stage;
+    B().document.getElementById('on-battler').value = p2;
+    await A().Online.host();
+    let code = ''; for (let i = 0; i < 50 && !code; i++) { await wait(100); code = A().document.getElementById('on-code').textContent; }
+    B().document.getElementById('on-join').value = code;
+    await B().Online.join();
+    return code;
+  },
+  // Holds keys in one copy for a number of frames (side 'a' or 'b'), like a player would.
+  async press(side, codes, ms = 120) {
+    const w = side === 'a' ? A() : B();
+    for (const c of codes) { w.dispatchEvent(new w.KeyboardEvent('keydown', { code: c, key: c })); }
+    await wait(ms);
+    for (const c of codes) { w.dispatchEvent(new w.KeyboardEvent('keyup', { code: c, key: c })); }
+  },
+  stats: () => ({ a: A().Online.stats(), b: B().Online.stats(), aSum: A().GR.net.checksum(), bSum: B().GR.net.checksum() }),
+  // Both games' fingerprints at the same frame (the latest one both have confirmed inputs for), from their rollback snapshots.
+  // (aSum/bSum above are read wherever each copy is right now, which can be a frame or two apart.)
+  sameAt() {
+    const a = A().Online, b = B().Online, f = Math.min(a.R.confirmed, b.R.confirmed) - 4;
+    const at = w => { const R = w.Online.R, G = w.GR.net; if (!R.snaps.has(f)) return null; const now = G.save(); G.load(R.snaps.get(f)); const c = G.checksum(); G.load(now); return c; };
+    const x = at(A()), y = at(B());
+    return { frame: f, a: x, b: y, same: x !== null && x === y };
+  },
+  // A whole match online where side A wins every round (short rounds, A pokes, B stands): checks the THIRTY lands on both
+  // machines (the banner, F.thirty, the results screen) on the same frame, with the checksums still matched. Set rounds on both first.
+  async thirty(lag = 0, roundSecs = 6) {
+    const yieldNow = () => new Promise(r => { const c = new MessageChannel(); c.port1.onmessage = () => r(); c.port2.postMessage(0); });
+    for (const w of [A(), B()]) { w.GR.applySettings({ rounds: roundSecs, hazards: 0, pickups: 0 }); w.GR.dev.hold(true, 960); w.Online.CFG.testLag = lag; }
+    const t0 = performance.now(); let i = 0, seen = null;
+    for (; i < 60 * 600 && performance.now() - t0 < 600000; i++) { // up to 10 min, paced at 60 fps like drive() (the packets need real time to cross)
+      const Fa = A().GR.net.F, me = Fa.f[0], o = Fa.f[1], I = A().GR.Input;
+      I.keys.clear(); B().GR.Input.keys.clear();
+      if (Fa.phase === 'fight' && me && o) { // A walks in and jabs; B does nothing
+        if (Math.abs(o.x - me.x) > 95) I.keys.add(o.x > me.x ? 'KeyD' : 'KeyA');
+        else if (i % 9 === 0) { I.hit.add('KeyJ'); I.keys.add('KeyJ'); }
+      }
+      A().Online.tick(); B().Online.tick();
+      if (Fa.phase === 'over' && !seen) seen = { frame: Fa.clock, a: !!Fa.thirty, b: !!B().GR.net.F.thirty, method: [Fa.method, B().GR.net.F.method] };
+      if (seen && A().GR.scene === 'results' && B().GR.scene === 'results') break;
+      const until = t0 + (i + 1) * (1000 / 60); do { await yieldNow(); } while (performance.now() < until);
+    }
+    for (let k = 0; k < 60; k++) { A().Online.tick(); B().Online.tick(); await yieldNow(); }
+    const s = this.stats(), banner = w => { const el = w.document.getElementById('res-thirty'); return !!el && !el.hidden; };
+    for (const w of [A(), B()]) w.GR.applySettings({ rounds: 60 });
+    return { ...s, same: s.aSum === s.bSum, sameAt: this.sameAt(), over: seen, results: [A().GR.scene, B().GR.scene], banner: [banner(A()), banner(B())], wins: [A().GR.net.F.f.map(f => f.wins), B().GR.net.F.f.map(f => f.wins)], secs: Math.round((performance.now() - t0) / 1000) };
+  },
+  // Runs both games frame by frame (no browser timing involved) with made-up button mashing on both sides,
+  // optionally over a fake slow connection (lag = frames each way), then checks both games ended up identical.
+  async drive(frames = 1200, lag = 0) {
+    const yieldNow = () => new Promise(r => { const c = new MessageChannel(); c.port1.onmessage = () => r(); c.port2.postMessage(0); });
+    const KEYS = ['KeyA', 'KeyD', 'KeyW', 'KeyS'], BTN = ['KeyJ', 'KeyK', 'KeyL', 'KeyI'];
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (const w of [A(), B()]) { w.GR.dev.hold(true, 960); w.Online.CFG.testLag = lag; }
+    const plan = [{ dir: null, t: 0 }, { dir: null, t: 0 }];
+    const t0 = performance.now();
+    for (let i = 0; i < frames; i++) {
+      [A(), B()].forEach((w, s) => {
+        const I = w.GR.Input, p = plan[s];
+        if (--p.t <= 0) { p.dir = rnd() < 0.6 ? KEYS[rnd() * 4 | 0] : null; p.t = 8 + (rnd() * 30 | 0); }
+        I.keys.clear(); if (p.dir) I.keys.add(p.dir);
+        if (rnd() < 0.12) { const b = BTN[rnd() * (rnd() < 0.05 ? 4 : 3) | 0]; I.hit.add(b); I.keys.add(b); }
+        w.Online.tick();
+      });
+      const until = t0 + (i + 1) * (1000 / 60); do { await yieldNow(); } while (performance.now() < until); // real 60 fps pacing
+    }
+    for (const w of [A(), B()]) { w.GR.Input.keys.clear(); w.Online.CFG.testLag = 0; }
+    for (let i = 0; i < 120; i++) { A().Online.tick(); B().Online.tick(); await yieldNow(); await yieldNow(); }  // let the last real inputs land
+    const s = this.stats();
+    return { ...s, same: s.aSum === s.bSum, hpA: A().GR.net.F.f.map(f => f.hp), hpB: B().GR.net.F.f.map(f => f.hp), phase: [A().GR.net.F.phase, B().GR.net.F.phase] };
+  },
+};
+</script></body></html>

@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="902" viewBox="0 0 1200 902" role="img" aria-labelledby="title desc">
+<title id="title">Battle Rap Brawl menu button atlas</title>
+<desc id="desc">Eleven labeled arcade menu buttons, each in default, focused, and pressed states. Transparent background.</desc>
+<defs>
+ <linearGradient id="idle" x2="0" y2="1"><stop stop-color="#211a27"/><stop offset="1" stop-color="#100d16"/></linearGradient>
+ <linearGradient id="focus" x2="0" y2="1"><stop stop-color="#781b2a"/><stop offset="1" stop-color="#310e19"/></linearGradient>
+ <linearGradient id="down" x2="0" y2="1"><stop stop-color="#ffe18a"/><stop offset="1" stop-color="#d69a32"/></linearGradient>
+</defs>
+<path d="M22 9 H372 L390 27 V55 L372 73 H22 L10 61 V21 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 9 H372 L390 27 V55 L372 73 H22 L10 61 V21 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 14 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 20 V60" stroke="#e54250" stroke-width="6"/>
+<path d="M34 65 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="50" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">PRESS START</text>
+<path d="M422 9 H772 L790 27 V55 L772 73 H422 L410 61 V21 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 9 H772 L790 27 V55 L772 73 H422 L410 61 V21 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 14 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 20 V60" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 65 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 32 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="50" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">PRESS START</text>
+<path d="M822 9 H1172 L1190 27 V55 L1172 73 H822 L810 61 V21 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 9 H1172 L1190 27 V55 L1172 73 H822 L810 61 V21 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 14 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 20 V60" stroke="#a22231" stroke-width="6"/>
+<path d="M834 65 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="50" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">PRESS START</text>
+<path d="M1142 54 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 91 H372 L390 109 V137 L372 155 H22 L10 143 V103 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 91 H372 L390 109 V137 L372 155 H22 L10 143 V103 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 96 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 102 V142" stroke="#e54250" stroke-width="6"/>
+<path d="M34 147 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="132" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">STORY</text>
+<path d="M422 91 H772 L790 109 V137 L772 155 H422 L410 143 V103 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 91 H772 L790 109 V137 L772 155 H422 L410 143 V103 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 96 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 102 V142" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 147 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 114 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="132" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">STORY</text>
+<path d="M822 91 H1172 L1190 109 V137 L1172 155 H822 L810 143 V103 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 91 H1172 L1190 109 V137 L1172 155 H822 L810 143 V103 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 96 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 102 V142" stroke="#a22231" stroke-width="6"/>
+<path d="M834 147 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="132" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">STORY</text>
+<path d="M1142 136 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 173 H372 L390 191 V219 L372 237 H22 L10 225 V185 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 173 H372 L390 191 V219 L372 237 H22 L10 225 V185 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 178 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 184 V224" stroke="#e54250" stroke-width="6"/>
+<path d="M34 229 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="214" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">ARCADE</text>
+<path d="M422 173 H772 L790 191 V219 L772 237 H422 L410 225 V185 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 173 H772 L790 191 V219 L772 237 H422 L410 225 V185 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 178 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 184 V224" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 229 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 196 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="214" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">ARCADE</text>
+<path d="M822 173 H1172 L1190 191 V219 L1172 237 H822 L810 225 V185 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 173 H1172 L1190 191 V219 L1172 237 H822 L810 225 V185 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 178 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 184 V224" stroke="#a22231" stroke-width="6"/>
+<path d="M834 229 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="214" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">ARCADE</text>
+<path d="M1142 218 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 255 H372 L390 273 V301 L372 319 H22 L10 307 V267 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 255 H372 L390 273 V301 L372 319 H22 L10 307 V267 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 260 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 266 V306" stroke="#e54250" stroke-width="6"/>
+<path d="M34 311 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="296" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">THE CLOSER</text>
+<path d="M422 255 H772 L790 273 V301 L772 319 H422 L410 307 V267 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 255 H772 L790 273 V301 L772 319 H422 L410 307 V267 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 260 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 266 V306" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 311 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 278 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="296" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">THE CLOSER</text>
+<path d="M822 255 H1172 L1190 273 V301 L1172 319 H822 L810 307 V267 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 255 H1172 L1190 273 V301 L1172 319 H822 L810 307 V267 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 260 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 266 V306" stroke="#a22231" stroke-width="6"/>
+<path d="M834 311 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="296" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">THE CLOSER</text>
+<path d="M1142 300 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 337 H372 L390 355 V383 L372 401 H22 L10 389 V349 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 337 H372 L390 355 V383 L372 401 H22 L10 389 V349 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 342 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 348 V388" stroke="#e54250" stroke-width="6"/>
+<path d="M34 393 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="378" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">WIN THE CROWD</text>
+<path d="M422 337 H772 L790 355 V383 L772 401 H422 L410 389 V349 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 337 H772 L790 355 V383 L772 401 H422 L410 389 V349 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 342 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 348 V388" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 393 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 360 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="378" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">WIN THE CROWD</text>
+<path d="M822 337 H1172 L1190 355 V383 L1172 401 H822 L810 389 V349 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 337 H1172 L1190 355 V383 L1172 401 H822 L810 389 V349 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 342 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 348 V388" stroke="#a22231" stroke-width="6"/>
+<path d="M834 393 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="378" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">WIN THE CROWD</text>
+<path d="M1142 382 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 419 H372 L390 437 V465 L372 483 H22 L10 471 V431 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 419 H372 L390 437 V465 L372 483 H22 L10 471 V431 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 424 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 430 V470" stroke="#e54250" stroke-width="6"/>
+<path d="M34 475 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="460" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">GHOST SURVIVAL</text>
+<path d="M422 419 H772 L790 437 V465 L772 483 H422 L410 471 V431 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 419 H772 L790 437 V465 L772 483 H422 L410 471 V431 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 424 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 430 V470" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 475 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 442 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="460" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">GHOST SURVIVAL</text>
+<path d="M822 419 H1172 L1190 437 V465 L1172 483 H822 L810 471 V431 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 419 H1172 L1190 437 V465 L1172 483 H822 L810 471 V431 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 424 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 430 V470" stroke="#a22231" stroke-width="6"/>
+<path d="M834 475 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="460" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">GHOST SURVIVAL</text>
+<path d="M1142 464 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 501 H372 L390 519 V547 L372 565 H22 L10 553 V513 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 501 H372 L390 519 V547 L372 565 H22 L10 553 V513 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 506 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 512 V552" stroke="#e54250" stroke-width="6"/>
+<path d="M34 557 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="542" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">VERSUS</text>
+<path d="M422 501 H772 L790 519 V547 L772 565 H422 L410 553 V513 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 501 H772 L790 519 V547 L772 565 H422 L410 553 V513 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 506 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 512 V552" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 557 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 524 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="542" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">VERSUS</text>
+<path d="M822 501 H1172 L1190 519 V547 L1172 565 H822 L810 553 V513 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 501 H1172 L1190 519 V547 L1172 565 H822 L810 553 V513 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 506 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 512 V552" stroke="#a22231" stroke-width="6"/>
+<path d="M834 557 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="542" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">VERSUS</text>
+<path d="M1142 546 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 583 H372 L390 601 V629 L372 647 H22 L10 635 V595 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 583 H372 L390 601 V629 L372 647 H22 L10 635 V595 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 588 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 594 V634" stroke="#e54250" stroke-width="6"/>
+<path d="M34 639 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="624" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">ONLINE BATTLE</text>
+<path d="M422 583 H772 L790 601 V629 L772 647 H422 L410 635 V595 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 583 H772 L790 601 V629 L772 647 H422 L410 635 V595 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 588 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 594 V634" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 639 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 606 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="624" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">ONLINE BATTLE</text>
+<path d="M822 583 H1172 L1190 601 V629 L1172 647 H822 L810 635 V595 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 583 H1172 L1190 601 V629 L1172 647 H822 L810 635 V595 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 588 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 594 V634" stroke="#a22231" stroke-width="6"/>
+<path d="M834 639 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="624" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">ONLINE BATTLE</text>
+<path d="M1142 628 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 665 H372 L390 683 V711 L372 729 H22 L10 717 V677 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 665 H372 L390 683 V711 L372 729 H22 L10 717 V677 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 670 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 676 V716" stroke="#e54250" stroke-width="6"/>
+<path d="M34 721 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="706" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">SELECT FIGHTER</text>
+<path d="M422 665 H772 L790 683 V711 L772 729 H422 L410 717 V677 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 665 H772 L790 683 V711 L772 729 H422 L410 717 V677 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 670 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 676 V716" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 721 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 688 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="706" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">SELECT FIGHTER</text>
+<path d="M822 665 H1172 L1190 683 V711 L1172 729 H822 L810 717 V677 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 665 H1172 L1190 683 V711 L1172 729 H822 L810 717 V677 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 670 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 676 V716" stroke="#a22231" stroke-width="6"/>
+<path d="M834 721 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="706" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="11" font-weight="700" letter-spacing="1">SELECT FIGHTER</text>
+<path d="M1142 710 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 747 H372 L390 765 V793 L372 811 H22 L10 799 V759 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 747 H372 L390 765 V793 L372 811 H22 L10 799 V759 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 752 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 758 V798" stroke="#e54250" stroke-width="6"/>
+<path d="M34 803 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="788" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">SETTINGS</text>
+<path d="M422 747 H772 L790 765 V793 L772 811 H422 L410 799 V759 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 747 H772 L790 765 V793 L772 811 H422 L410 799 V759 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 752 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 758 V798" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 803 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 770 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="788" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">SETTINGS</text>
+<path d="M822 747 H1172 L1190 765 V793 L1172 811 H822 L810 799 V759 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 747 H1172 L1190 765 V793 L1172 811 H822 L810 799 V759 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 752 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 758 V798" stroke="#a22231" stroke-width="6"/>
+<path d="M834 803 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="788" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">SETTINGS</text>
+<path d="M1142 792 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+<path d="M22 829 H372 L390 847 V875 L372 893 H22 L10 881 V841 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M22 829 H372 L390 847 V875 L372 893 H22 L10 881 V841 Z" fill="url(#idle)" stroke="#786370" stroke-width="3"/>
+<path d="M28 834 H366" stroke="#e54250" stroke-width="2" opacity=".85"/>
+<path d="M23 840 V880" stroke="#e54250" stroke-width="6"/>
+<path d="M34 885 H107" stroke="#e54250" stroke-width="2" opacity=".8"/>
+<text x="210" y="870" text-anchor="middle" fill="#f5eee4" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">BACK</text>
+<path d="M422 829 H772 L790 847 V875 L772 893 H422 L410 881 V841 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M422 829 H772 L790 847 V875 L772 893 H422 L410 881 V841 Z" fill="url(#focus)" stroke="#f4c45d" stroke-width="3"/>
+<path d="M428 834 H766" stroke="#ff4354" stroke-width="2" opacity=".85"/>
+<path d="M423 840 V880" stroke="#ff4354" stroke-width="6"/>
+<path d="M434 885 H507" stroke="#ff4354" stroke-width="2" opacity=".8"/>
+<path d="M446 852 l12 8 -12 8z" fill="#f4c45d"/>
+<text x="618" y="870" text-anchor="middle" fill="#fff6e9" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">BACK</text>
+<path d="M822 829 H1172 L1190 847 V875 L1172 893 H822 L810 881 V841 Z" transform="translate(0 4)" fill="#030208" opacity=".8"/>
+<path d="M822 829 H1172 L1190 847 V875 L1172 893 H822 L810 881 V841 Z" fill="url(#down)" stroke="#fff0ba" stroke-width="3"/>
+<path d="M828 834 H1166" stroke="#a22231" stroke-width="2" opacity=".85"/>
+<path d="M823 840 V880" stroke="#a22231" stroke-width="6"/>
+<path d="M834 885 H907" stroke="#a22231" stroke-width="2" opacity=".8"/>
+<text x="1010" y="870" text-anchor="middle" fill="#120b12" font-family="Press Start 2P, Courier New, monospace" font-size="13" font-weight="700" letter-spacing="1">BACK</text>
+<path d="M1142 874 l9 9 18-21" fill="none" stroke="#2a1114" stroke-width="4" stroke-linecap="square"/>
+</svg>

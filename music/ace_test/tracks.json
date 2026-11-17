@@ -1,0 +1,71 @@
+{
+  "made_by": "tools/batch_tracks.py (rebuilt every run)",
+  "tracks": [
+    {
+      "name": "arcade_boss_95",
+      "bpm": 95.0,
+      "key": "F minor",
+      "style": "epic dark orchestral trap with a choir, a pipe organ and a distorted 808",
+      "mood": "menacing, final boss, everything on the line",
+      "bars": 16,
+      "seconds": 40.421,
+      "loop": "music/ace_test/stems/arcade_boss_95/loop/",
+      "preview": "music/ace_test/previews/arcade_boss_95_demo.mp3"
+    },
+    {
+      "name": "arcade_mainevent_95",
+      "bpm": 95.0,
+      "key": "F minor",
+      "style": "hard-hitting cinematic trap with a string section, war drums and brass hits",
+      "mood": "aggressive, arena lights, the crowd on its feet",
+      "bars": 16,
+      "seconds": 40.421,
+      "loop": "music/ace_test/stems/arcade_mainevent_95/loop/",
+      "preview": "music/ace_test/previews/arcade_mainevent_95_demo.mp3"
+    },
+    {
+      "name": "arcade_walkout_95",
+      "bpm": 95.0,
+      "key": "F minor",
+      "style": "gritty East Coast boom bap with a vinyl-sampled soul piano, horn stabs and a crowd chanting in the distance",
+      "mood": "confident, street, the walk to the ring",
+      "bars": 16,
+      "seconds": 40.421,
+      "loop": "music/ace_test/stems/arcade_walkout_95/loop/",
+      "preview": "music/ace_test/previews/arcade_walkout_95_demo.mp3"
+    },
+    {
+      "name": "boss_orchestral_trap_90",
+      "bpm": 90.0,
+      "key": "C minor",
+      "style": null,
+      "mood": null,
+      "bars": 16,
+      "seconds": 42.6667,
+      "loop": "music/ace_test/stems/boss_orchestral_trap_90/loop/",
+      "preview": "music/ace_test/previews/boss_orchestral_trap_90_demo.mp3"
+    },
+    {
+      "name": "ghost_fight_90",
+      "bpm": 90.0,
+      "key": "C minor",
+      "style": "aggressive orchestral boom bap with brass stabs, pounding taiko drums and a dark choir",
+      "mood": "relentless, triumphant, final-round energy",
+      "bars": 16,
+      "seconds": 42.6667,
+      "loop": "music/ace_test/stems/ghost_fight_90/loop/",
+      "preview": "music/ace_test/previews/ghost_fight_90_demo.mp3"
+    },
+    {
+      "name": "ghost_haunted_90",
+      "bpm": 90.0,
+      "key": "C minor",
+      "style": "dark haunted trap with an eerie music box melody, a pipe organ and tolling church bells",
+      "mood": "eerie, creeping, Halloween night in a graveyard",
+      "bars": 16,
+      "seconds": 42.6667,
+      "loop": "music/ace_test/stems/ghost_haunted_90/loop/",
+      "preview": "music/ace_test/previews/ghost_haunted_90_demo.mp3"
+    }
+  ]
+}

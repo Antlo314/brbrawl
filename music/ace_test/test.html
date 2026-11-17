@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptive Music Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<!-- The adaptive-music layers by hand (2026-10-30): the same player the game uses (../../adaptive.js), on its own. Open it from the game's
+     local server: node serve.js, then http://localhost:8080/music/ace_test/test.html -->
+<style>
+  :root { --bg: #0b0b12; --panel: #151522; --line: rgba(255,255,255,.12); --ink: #f3f1ea; --dim: #a5a3b5; --ember: #ff5a1f; --ice: #9fe8ff; --danger: #ff3b3b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 Inter, system-ui, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { margin: 0; font: 400 34px/1 Anton, Impact, sans-serif; letter-spacing: .06em; }
+  h2 { margin: 0 0 12px; font: 400 18px/1 Anton, Impact, sans-serif; letter-spacing: .1em; color: var(--dim); }
+  .sub { margin: 6px 0 22px; color: var(--dim); }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+  button { font: 400 16px/1 Anton, Impact, sans-serif; letter-spacing: .08em; color: var(--ink); background: transparent; border: 1px solid rgba(255,255,255,.28);
+    border-radius: 6px; padding: 11px 16px; cursor: pointer; }
+  button:hover { border-color: var(--ink); }
+  button:disabled { opacity: .35; cursor: default; }
+  button.on { background: var(--ember); border-color: var(--ember); color: #160800; }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--ice); outline-offset: 2px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .big { font-size: 22px; padding: 14px 26px; }
+  #status { color: var(--dim); }
+  .clock { display: flex; align-items: center; gap: 18px; margin-top: 14px; font: 400 22px/1 Anton, Impact, sans-serif; letter-spacing: .06em; }
+  .dots { display: flex; gap: 8px; }
+  .dots i { width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,.12); }
+  .dots i.lit { background: var(--ice); box-shadow: 0 0 12px var(--ice); }
+  .dots i.lit.one { background: var(--ember); box-shadow: 0 0 12px var(--ember); }
+  #mixname { color: var(--ice); }
+  .seg { display: inline-flex; border: 1px solid rgba(255,255,255,.28); border-radius: 6px; overflow: hidden; }
+  .seg button { border: 0; border-radius: 0; padding: 9px 12px; font-size: 14px; }
+  .label { color: var(--dim); font-size: 13px; margin-right: 6px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 7px 4px; border-top: 1px solid var(--line); vertical-align: middle; }
+  td.n { width: 108px; font-weight: 600; }
+  td.m { width: 42%; }
+  .meter { height: 12px; border-radius: 6px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .meter b { display: block; height: 100%; width: 0; background: var(--ice); border-radius: 6px; }
+  td.t { white-space: nowrap; }
+  input[type=range] { width: 140px; accent-color: var(--ember); vertical-align: middle; }
+  select { font: 600 14px/1 Inter, system-ui, sans-serif; color: var(--ink); background: #0c0c15; border: 1px solid rgba(255,255,255,.28); border-radius: 6px; padding: 10px 8px; max-width: 100%; }
+  output { display: inline-block; width: 40px; text-align: right; color: var(--dim); font-variant-numeric: tabular-nums; }
+  code { display: block; margin-top: 10px; padding: 10px; background: #0c0c15; border-radius: 6px; color: var(--dim); font-size: 12.5px; overflow-x: auto; white-space: pre; }
+  #caption { margin-top: 12px; min-height: 22px; font-weight: 600; color: var(--ice); }
+  ol { margin: 10px 0 0; padding-left: 22px; color: var(--dim); font-size: 13.5px; }
+  ol li.now { color: var(--ink); font-weight: 600; }
+  @media (max-width: 560px) { td.m { width: 30%; } input[type=range] { width: 92px; } h1 { font-size: 28px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>ADAPTIVE MUSIC TEST</h1>
+  <p class="sub" id="trackline">Loading the track's details…</p>
+
+  <section>
+    <div class="row">
+      <button class="big" id="go">START</button>
+      <label class="label" for="track">TRACK</label><select id="track"></select>
+      <span id="status">Press START (browsers only play sound after a tap). Change the track while it plays: the new one comes in on the next bar.</span>
+    </div>
+    <div class="clock"><span>BAR <span id="bar">–</span></span><div class="dots" id="dots"><i></i><i></i><i></i><i></i></div><span id="mixname"></span></div>
+  </section>
+
+  <section>
+    <h2>MIX</h2>
+    <div class="row" id="mixes"></div>
+    <div class="row" style="margin-top:12px">
+      <span class="label">SWITCH ON</span>
+      <div class="seg" id="quant"><button data-q="beat" class="on">NEXT BEAT</button><button data-q="bar">NEXT BAR</button><button data-q="now">NOW</button></div>
+      <button id="lift">BADGE LIFT</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>LAYERS</h2>
+    <table id="layers"></table>
+    <code id="trims"></code>
+  </section>
+
+  <section>
+    <h2>A SCRIPTED RUN</h2>
+    <div class="row">
+      <select id="runpick"><option value="survival">GHOST RUMBLE (SURVIVAL, 3 TRACKS)</option><option value="arcade">ARCADE LADDER (FIRST FIGHT, THEN THE BOSS)</option></select>
+      <button id="run">PLAY IT</button>
+      <button id="render">RENDER IT TO A FILE</button>
+    </div>
+    <div id="caption"></div>
+    <ol id="steps"></ol>
+  </section>
+</main>
+<script src="../../adaptive.js"></script>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const url = name => new URL('../../' + GRAdaptive.base(name), location.href).href;
+const FAMILY = GRAdaptive.SURVIVAL.tracks;
+const LEVEL = 0.85; // straight to the speakers: the full mix lands at Rosenberg's theme's loudness
+const NAMES = { drums_core: 'DRUMS', perc: 'PERCUSSION', bass_808: '808', piano: 'PIANO', synth: 'SYNTH', bells: 'BELLS' };
+const MIX_BUTTONS = [['intro', 'INTRO'], ['story', 'STORY'], ['crowd', 'CROWD'], ['boss', 'BOSS'], ['danger', 'DANGER'], ['drop', 'K.O. DROP']];
+// The scripted run, in bars (a quarter = one beat): [bar, mix, fade in beats, what's happening, the track from here on]. The times are the
+// ones the game's rules land on (adaptive.js survivalMix / tick): K.O. cuts on a beat, the next fight slams in on a bar line (on the next
+// track every two ghosts down), DANGER fades in over a beat.
+const RUN = [
+  [0, 'intro', 1, 'VS screen and the FIGHT 1 countdown: the haunted track, no drums yet', FAMILY[0]],
+  [2, 'story', 0.25, 'FIGHT 1: STORY'],
+  [6.5, 'crowd', 1, 'The ghost is in DANGER: one step up'],
+  [8.25, 'drop', 0.25, 'K.O.'],
+  [10, 'story', 0.25, 'FIGHT 2'],
+  [13.25, 'drop', 0.25, 'K.O. (2 ghosts down)'],
+  [15, 'crowd', 0.25, 'FIGHT 3: a new track (the orchestral boss theme), + PERCUSSION', FAMILY[1]],
+  [19.5, 'danger', 1, "You're in DANGER: drums, 808 and bells"],
+  [22.25, 'drop', 0.25, 'K.O.'],
+  [24, 'crowd', 0.25, 'FIGHT 4'],
+  [27, 'boss', 1, 'NEW BADGE: two bars of everything'],
+  [29, 'crowd', 1, '…and back'],
+  [30.25, 'drop', 0.25, 'K.O. (4 ghosts down)'],
+  [32, 'boss', 0.25, 'FIGHT 5: a new track (relentless) at BOSS, everything', FAMILY[2]],
+  [38.5, 'danger', 1, "You're in DANGER"],
+  [41.25, 'drop', 0.25, 'You go down: K.O.'],
+  [43, null, 0, 'Results screen: the game\'s own results music takes over'],
+];
+// ARCADE (adaptive.js arcadeMix): a match is three rounds, round 1 story, 2 + percussion, the final round boss; the ladder's first fight on
+// the walkout, its last on the boss track (never under crowd). A mix of null mid-run is the results screen between fights.
+const ARC = GRAdaptive.ARCADE.tracks;
+const ARC_RUN = [
+  [0, 'intro', 1, 'ARCADE, fight 1 of the ladder: the VS screen, the walkout track', ARC[0]],
+  [2, 'story', 0.25, 'ROUND 1: STORY'],
+  [6.25, 'drop', 0.25, 'K.O.'],
+  [8, 'crowd', 0.25, 'ROUND 2: + PERCUSSION'],
+  [11.5, 'boss', 1, 'The ghost is in DANGER: one step up'],
+  [12.25, 'drop', 0.25, 'K.O.'],
+  [14, 'boss', 0.25, 'FINAL ROUND: everything'],
+  [18.25, 'drop', 0.25, 'K.O.: he took all three'],
+  [20, null, 0, 'Results screen (the game\'s own music)…'],
+  [22, 'intro', 1, '…the LAST FIGHT of the ladder: the VS screen, the boss track', ARC[2]],
+  [24, 'crowd', 0.25, 'ROUND 1: the boss fight starts at CROWD'],
+  [28.5, 'danger', 1, "You're in DANGER"],
+  [30.25, 'drop', 0.25, 'K.O.'],
+  [32, 'crowd', 0.25, 'ROUND 2'],
+  [35.5, 'boss', 1, 'The ghost is in DANGER'],
+  [36.25, 'drop', 0.25, 'K.O.'],
+  [38, 'boss', 0.25, 'FINAL ROUND: everything'],
+  [42.25, 'drop', 0.25, 'K.O.: ladder cleared'],
+  [44, null, 0, 'Results screen: the game\'s own results music takes over'],
+];
+const RUNS = { survival: RUN, arcade: ARC_RUN };
+let run = RUN, runName = 'survival';
+let ac = null, p = null, quant = 'beat', timers = [], liftT = 0, chosen = FAMILY[0], layersBuilt = false;
+const players = {}, trim = { ...GRAdaptive.TRIM };
+
+fetch('tracks.json').then(r => r.json()).then(j => j.tracks.map(t => t.name)).catch(() => FAMILY).then(names => {
+  $('#track').innerHTML = names.map(n => `<option value="${n}">${n.replace(/_/g, ' ')}</option>`).join('');
+  $('#track').value = chosen = names.includes(FAMILY[0]) ? FAMILY[0] : names[0]; describe(chosen);
+});
+function describe(name) {
+  fetch(url(name) + 'loop.json').then(r => r.json()).then(i => {
+    $('#trackline').textContent = `${i.track.replace(/_/g, ' ')} · ${i.bpm} BPM · ${i.bars} bars · ${i.seconds.toFixed(1)} s loop · ${i.layers.length} layers`;
+    if (layersBuilt) return; layersBuilt = true;
+    $('#layers').innerHTML = i.layers.map(n => `<tr><td class="n">${NAMES[n] || n}</td><td class="m"><div class="meter"><b data-m="${n}"></b></div></td>
+      <td class="t"><span class="label">TRIM</span><input type="range" min="0" max="300" step="5" data-t="${n}" value="${Math.round(trim[n] * 100)}"><output data-o="${n}">${trim[n].toFixed(2)}</output></td></tr>`).join('');
+    document.querySelectorAll('[data-t]').forEach(inp => inp.addEventListener('input', () => {
+      const n = inp.dataset.t; trim[n] = inp.value / 100; $(`[data-o="${n}"]`).textContent = trim[n].toFixed(2); showTrims();
+      if (p && p.playing && p.mix) { p.trim = { ...trim }; p.set(p.mix, { quant: 'now', fade: 0.25 }); }
+    }));
+    showTrims();
+  });
+}
+const showSteps = () => { $('#steps').innerHTML = run.map(r => `<li>${r[3]}</li>`).join(''); };
+showSteps();
+$('#runpick').addEventListener('change', e => { if (timers.length) stopAll(); runName = e.target.value; run = RUNS[runName]; showSteps(); });
+$('#mixes').innerHTML = MIX_BUTTONS.map(([m, l]) => `<button data-mix="${m}">${l}</button>`).join('');
+function showTrims() { $('#trims').textContent = `TRIM for adaptive.js: ${JSON.stringify(trim).replace(/"/g, '').replace(/:/g, ': ').replace(/,/g, ', ')}`; }
+
+// A track's player on a context (one per track per context), with the page's trims
+function get(ctx, name, pool) {
+  if (!pool[name]) { const q = pool[name] = new GRAdaptive.Player(ctx, ctx.destination, url(name)); q.name = name; q.level = LEVEL; }
+  pool[name].trim = { ...trim }; return pool[name];
+}
+async function live(name) {
+  if (!ac) { ac = new (window.AudioContext || window.webkitAudioContext)(); }
+  if (ac.state === 'suspended') await ac.resume();
+  const q = get(ac, name, players);
+  if (!q.ready) { $('#status').textContent = `Loading ${name.replace(/_/g, ' ')}…`; await q.load(); }
+  return q;
+}
+function stopAll() { timers.forEach(clearTimeout); timers = []; Object.values(players).forEach(q => q.stop()); $('#go').textContent = 'START'; $('#run').textContent = 'PLAY IT'; $('#caption').textContent = ''; markStep(-1); }
+$('#go').addEventListener('click', async () => {
+  if (Object.values(players).some(q => q.playing)) { stopAll(); $('#status').textContent = 'Stopped.'; return; }
+  p = await live(chosen); p.start('story'); $('#go').textContent = 'STOP';
+  $('#status').textContent = `Playing ${chosen.replace(/_/g, ' ')} (${p.buf.drums_core.length === Math.round((p.len + 2 * p.pad) * ac.sampleRate) ? 'OGG' : 'M4A'}, ${ac.sampleRate} Hz). Pick a mix.`;
+});
+// Another track while one plays: it comes in from its bar 1 on the next bar line as the last one goes, in the same mix (what the game does)
+$('#track').addEventListener('change', async e => {
+  chosen = e.target.value; describe(chosen);
+  if (!p || !p.playing || timers.length) return;
+  const nx = await live(chosen); if (nx === p || !p.playing) return;
+  const at = p.next(p.bar); p.stop(0.25 * p.beat, at); nx.start(p.mix || 'story', at, 0.25); p = nx;
+  $('#status').textContent = `${chosen.replace(/_/g, ' ')} came in on the bar line.`;
+});
+$('#mixes').addEventListener('click', e => { const b = e.target.closest('[data-mix]'); if (b && p && p.playing) { clearTimeout(liftT); p.set(b.dataset.mix, { quant }); } });
+$('#quant').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (!b) return; quant = b.dataset.q; document.querySelectorAll('#quant button').forEach(x => x.classList.toggle('on', x === b)); });
+// The game's badge lift: everything from the next beat until two bars after the next bar line, then back
+$('#lift').addEventListener('click', () => {
+  if (!p || !p.playing) return;
+  const back = p.mix && p.mix !== 'boss' ? p.mix : 'story', end = p.next(p.bar) + 2 * p.bar;
+  p.set('boss', { quant: 'beat' }); clearTimeout(liftT);
+  liftT = setTimeout(() => p.playing && p.mix === 'boss' && p.set(back, { at: end }), Math.max(0, (end - ac.currentTime - 0.3) * 1000));
+});
+
+function markStep(i) { document.querySelectorAll('#steps li').forEach((li, j) => li.classList.toggle('now', j === i)); }
+// The run on loaded players (pick: name → player): every change scheduled ahead on the audio clock from t0, on the first track's bar
+// grid (a run's tracks share one tempo). A new track takes over on its bar line as the last one fades out over a quarter beat, as the
+// game does on the slam into the next fight; a null mix mid-run fades out (a results screen) and the next track starts fresh.
+function schedule(pick, t0, r = run) {
+  const bar = pick(r[0][4]).bar;
+  let cur = pick(r[0][4]); cur.start(r[0][1], t0);
+  for (const [b, mix, fade, , track] of r.slice(1)) {
+    const at = t0 + b * bar;
+    if (!mix) { if (cur) cur.stop(0.35, at); cur = null; continue; }
+    if (!cur) { cur = pick(track); cur.start(mix, at, fade); continue; }
+    if (track && track !== cur.name) { const nx = pick(track); cur.stop(0.25 * cur.beat, at); nx.start(mix, at, fade); cur = nx; }
+    else cur.set(mix, { at, fade });
+  }
+  return { end: t0 + r[r.length - 1][0] * bar };
+}
+const runTracks = (r = run) => [...new Set(r.map(x => x[4]).filter(Boolean))];
+$('#run').addEventListener('click', async () => {
+  if (timers.length) { stopAll(); return; }
+  const r = run;
+  for (const n of runTracks(r)) await live(n);
+  Object.values(players).forEach(q => q.playing && q.stop(0.05));
+  const t0 = ac.currentTime + 0.2, { end } = schedule(n => players[n], t0, r), bar = players[r[0][4]].bar;
+  p = players[r[0][4]];
+  r.forEach(([b, , , what, track], i) => timers.push(setTimeout(() => { if (track) p = players[track]; $('#caption').textContent = what; markStep(i); }, (t0 + b * bar - ac.currentTime) * 1000)));
+  timers.push(setTimeout(() => { stopAll(); $('#caption').textContent = r[r.length - 1][3]; }, (end + 0.4 - ac.currentTime) * 1000));
+  $('#run').textContent = 'STOP THE RUN'; $('#go').textContent = 'STOP'; $('#status').textContent = 'Playing the run.';
+});
+
+// The same run rendered offline (faster than real time) and saved by the local server to music/ace_test/previews/<name>.wav
+async function renderRun(r = run) {
+  const sr = 44100, info = await (await fetch(url(r[0][4]) + 'loop.json')).json(), secs = r[r.length - 1][0] * 240 / info.bpm + 1.2;
+  const oac = new OfflineAudioContext(2, Math.ceil(secs * sr), sr), pool = {};
+  for (const n of runTracks(r)) await get(oac, n, pool).load();
+  schedule(n => pool[n], 0.05, r); // (its last event fades the last track out: the results screen)
+  const buf = await oac.startRendering();
+  return { buf, wav: toWav(buf) };
+}
+function toWav(buf) {
+  const ch = [buf.getChannelData(0), buf.getChannelData(1)], n = buf.length, out = new DataView(new ArrayBuffer(44 + n * 4));
+  const str = (o, s) => [...s].forEach((c, i) => out.setUint8(o + i, c.charCodeAt(0)));
+  str(0, 'RIFF'); out.setUint32(4, 36 + n * 4, true); str(8, 'WAVEfmt '); out.setUint32(16, 16, true); out.setUint16(20, 1, true); out.setUint16(22, 2, true);
+  out.setUint32(24, buf.sampleRate, true); out.setUint32(28, buf.sampleRate * 4, true); out.setUint16(32, 4, true); out.setUint16(34, 16, true); str(36, 'data'); out.setUint32(40, n * 4, true);
+  for (let i = 0, o = 44; i < n; i++) for (let c = 0; c < 2; c++, o += 2) out.setInt16(o, Math.max(-1, Math.min(1, ch[c][i])) * 32767, true);
+  return out.buffer;
+}
+$('#render').addEventListener('click', async () => {
+  const b = $('#render'); b.disabled = true; $('#caption').textContent = 'Rendering…';
+  try {
+    const { wav } = await renderRun(), name = (runName === 'arcade' ? 'arcade_ladder_run_' : 'ghost_rumble_run_') + new Date().toISOString().slice(0, 19).replace(/[-:T]/g, '');
+    const r = await fetch(`/api/ace-render?name=${name}`, { method: 'POST', body: wav }), j = await r.json();
+    $('#caption').textContent = r.ok ? `Saved ${j.file}` : `Not saved: ${j.error}`;
+  } catch (e) { $('#caption').textContent = `Render failed: ${e.message}`; }
+  b.disabled = false;
+});
+
+// The clock, the mix name and the layer meters
+(function draw() {
+  const w = p && p.where(), dots = document.querySelectorAll('#dots i');
+  $('#bar').textContent = w ? `${w.bar} / ${w.bars}` : '–';
+  dots.forEach((d, i) => { d.classList.toggle('lit', !!w && i < w.beat); d.classList.toggle('one', i === 0); });
+  $('#mixname').textContent = p && p.playing && p.mix ? String(p.mix).toUpperCase() : '';
+  document.querySelectorAll('[data-m]').forEach(m => { m.style.width = `${Math.min(100, (p ? p.gain(m.dataset.m) : 0) / 2 * 100)}%`; });
+  document.querySelectorAll('[data-mix]').forEach(b => b.classList.toggle('on', !!(p && p.playing && p.mix === b.dataset.mix)));
+  requestAnimationFrame(draw);
+})();
+window.TEST = { RUN, ARC_RUN, renderRun, get p() { return p; }, get ac() { return ac; } }; // for checks from the console
+</script>
+</body>
+</html>

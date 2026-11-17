@@ -1,0 +1,24 @@
+# Tracks for the adaptive music (run: python tools/batch_tracks.py). One track per line:
+#
+#   name | BPM | key | style | mood | extras (optional)
+#
+# name    a-z, 0-9 and _ (it names the files). The same name always makes the same track; to try another take, change the name or add seed=.
+# BPM     a whole number. Tracks that should switch into each other in a mode share BPM and key.
+# key     like C minor, F# minor, Bb major.
+# style   genre and lead sounds. The drums, 808, piano, bells and synth the game's layers are cut from get added for you.
+# mood    a few words.
+# extras  seed=123  seconds=120  bars=16  caption=<a whole caption of your own, used instead of style + mood: keep it last>
+#
+# A track that's already made is skipped (delete its files to make it again). A # after a space starts a comment.
+
+# GHOST RUMBLE (Survival, Halloween): C minor, 90 BPM, so they switch with the first test beat (boss_orchestral_trap_90)
+ghost_haunted_90 | 90 | C minor | dark haunted trap with an eerie music box melody, a pipe organ and tolling church bells | eerie, creeping, Halloween night in a graveyard
+ghost_fight_90   | 90 | C minor | aggressive orchestral boom bap with brass stabs, pounding taiko drums and a dark choir | relentless, triumphant, final-round energy
+
+# ARCADE (the ladder): F minor, 95 BPM. Early fights on the walkout, the middle ones on the main event, the last fight on the boss track
+arcade_walkout_95   | 95 | F minor | gritty East Coast boom bap with a vinyl-sampled soul piano, horn stabs and a crowd chanting in the distance | confident, street, the walk to the ring
+arcade_mainevent_95 | 95 | F minor | hard-hitting cinematic trap with a string section, war drums and brass hits | aggressive, arena lights, the crowd on its feet
+arcade_boss_95      | 95 | F minor | epic dark orchestral trap with a choir, a pipe organ and a distorted 808 | menacing, final boss, everything on the line
+
+# More ideas (take the # off the front to make one):
+# arcade_boss_100   | 100 | D minor | epic cinematic trap with a full string section, war drums and a distorted 808 | menacing, final boss

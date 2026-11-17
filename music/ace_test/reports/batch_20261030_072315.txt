@@ -1,0 +1,18 @@
+batch 2026-10-30 07:23: 2 track(s) from C:\Users\aarons\Desktop\MM Game\global-reset-fighter\music\ace_test\prompts.txt
+
+ghost_haunted_90  (90 BPM, C minor, seed 943748405)
+  generate: 41 s, peak GPU 11.2 GB
+  split: Demucs 65 s
+  loops: tempo 90.00 BPM, loop = bars 23-38 from 61.395 s
+  layers (dB RMS): drums_core -19.7, perc -43.3, bass_808 -15.6, piano -33.8, synth -24.1, bells -51.1
+  NOTE: nearly silent in the loop: bells (that layer will add little in the game)
+  listen: music/ace_test/previews/ghost_haunted_90_demo.mp3
+
+ghost_fight_90  (90 BPM, C minor, seed 485325287)
+  generate: 22 s, peak GPU 11.1 GB
+  split: Demucs 14 s
+  loops: tempo 89.87 BPM, loop = bars 7-22 from 21.143 s
+  layers (dB RMS): drums_core -16.7, perc -38.4, bass_808 -21.2, piano -19.2, synth -22.8, bells -42.6
+  listen: music/ace_test/previews/ghost_fight_90_demo.mp3
+
+tracks.json: 3 finished track(s)

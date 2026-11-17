@@ -1,0 +1,182 @@
+/* Battle Rap Brawl supporter page — button kit + V2 look (dark angular panels, gold/ember, Anton/Inter). */
+:root {
+  --bg: #050508;
+  --panel: #0a0a0e;
+  --ink: #efeaf4;
+  --mute: #9a96a4;
+  --line: #26262e;
+  --ember: #ff5a1f;
+  --ember-hot: #ff8c28;
+  --gold: #ffd23f;
+  --font: Inter, system-ui, sans-serif;
+  --display: Anton, Impact, sans-serif;
+}
+html, body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--font); }
+body.support-page { min-height: 100vh; }
+.support-root, .support-page .support-wrap { max-width: 960px; margin: 0 auto; padding: 24px 18px 72px; }
+.support-page .support-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  max-width: 960px; margin: 0 auto; padding: 16px 18px 0;
+}
+.support-page .support-top a { color: var(--gold); text-decoration: none; font: 800 11px/1 Inter, sans-serif; letter-spacing: .16em; }
+.support-page .support-top img { height: 48px; width: auto; }
+
+.sup-kicker { margin: 0 0 6px; font: 800 11px/1 Inter, sans-serif; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; }
+.sup-hero, .sup-cash, .sup-tiers, .sup-faq, .sup-credits, .sup-battlers { margin: 0 0 28px; }
+.sup-hero { padding: 8px 0 10px; }
+.sup-hero h1, .sup-cash h2, .sup-tiers h2, .sup-faq h2, .sup-credits h2, .sup-battlers h2, .sup-pay h3, .sup-form h3, .sup-success h3 {
+  margin: 0 0 10px; font: 400 clamp(32px, 7vw, 72px)/0.95 var(--display); letter-spacing: .03em; text-transform: uppercase;
+}
+.sup-cash h2, .sup-tiers h2, .sup-faq h2, .sup-credits h2, .sup-battlers h2 { font-size: clamp(24px, 4.5vw, 42px); }
+.sup-lede, .sup-cash p, .sup-faq dd, .sup-fine { color: #cfcad6; }
+.sup-lede { margin: 0 0 12px; max-width: 640px; }
+
+.sup-cash {
+  position: relative;
+  padding: 22px 20px 24px;
+  background: radial-gradient(ellipse at 20% 0%, rgba(255,210,63,.14), transparent 50%), var(--panel);
+  border: 2px solid var(--gold);
+  box-shadow: 8px 8px 0 #000, inset 0 0 0 1px rgba(255,210,63,.2);
+}
+.sup-cash-row { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-top: 16px; }
+.sup-cash-cta { flex: 1 1 240px; }
+.sup-qr { margin: 0; flex: 0 0 auto; text-align: center; background: #fff; padding: 12px; }
+.sup-qr img { display: block; width: min(240px, 70vw); height: auto; image-rendering: pixelated; }
+.sup-qr figcaption { margin-top: 8px; font: 800 11px/1.2 Inter, sans-serif; letter-spacing: .08em; color: #111; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 22px; border: 2px solid #26262e; background: #0a0a0e; color: inherit;
+  font: 400 18px/1 Anton, Impact, sans-serif; letter-spacing: .06em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; transform: skewX(-8deg);
+}
+.btn > * { transform: skewX(8deg); }
+.btn.primary { background: var(--ember); border-color: #ff8c28; color: #1a0900; }
+.btn.primary:hover, .btn.primary:focus-visible { background: var(--gold); border-color: var(--gold); color: #1c1400; outline: none; }
+.btn.ghost { background: transparent; color: #fff; }
+.btn.ghost:hover, .btn.ghost:focus-visible { border-color: var(--gold); color: var(--gold); outline: none; }
+.btn.primary.cash-btn, a.btn.cash-btn { width: 100%; max-width: 420px; padding: 16px 24px; font-size: clamp(20px, 4vw, 28px); background: #00d64f; border-color: #14f06a; color: #043015; }
+.btn.primary.cash-btn:hover, .btn.primary.cash-btn:focus-visible, a.btn.cash-btn:hover, a.btn.cash-btn:focus-visible { background: #14f06a; border-color: #b8ffd0; color: #042010; }
+.btn.primary.cash-btn-xl, a.cash-btn-xl { min-height: 64px; box-shadow: 0 0 0 3px rgba(0,214,79,.25), 8px 8px 0 #000; }
+.support-root .sup-qr, .support-page .sup-qr { background: #fff !important; padding: 12px !important; }
+.support-root .sup-qr img, .support-page .sup-qr img {
+  display: block !important; width: 240px !important; max-width: 70vw !important; height: auto !important;
+  opacity: 1 !important; visibility: visible !important; filter: none !important; position: static !important;
+  object-fit: contain !important; image-rendering: pixelated;
+}
+.sup-fine { font-size: 13px; }
+
+.sup-pay { margin-top: 20px; padding: 16px; border: 2px solid var(--ember); background: rgba(255,90,31,.08); }
+.sup-pay h3 { font-size: clamp(22px, 4vw, 32px); color: var(--gold); }
+.sup-memo { display: inline-block; margin: 8px 0; padding: 8px 12px; background: #000; border: 1px solid var(--line); font: 800 16px/1.3 Inter, ui-monospace, monospace; color: #fff; }
+.sup-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+
+.sup-tier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 16px 0 20px; }
+.sup-tier {
+  display: flex; flex-direction: column; gap: 8px; padding: 16px;
+  background: var(--panel); border: 2px solid var(--line); text-align: left;
+}
+.sup-tier small { font: 800 11px/1 Inter, sans-serif; letter-spacing: .16em; color: var(--ember-hot); }
+.sup-tier b { font: 400 44px/0.9 Anton, Impact, sans-serif; color: #fff; }
+.sup-tier p { margin: 0; flex: 1; color: #cfcad6; font-size: 14px; }
+.sup-tier .btn { margin-top: 8px; width: 100%; }
+.sup-tier.legend { border-color: var(--gold); box-shadow: inset 0 0 0 1px rgba(255,210,63,.3); }
+
+.sup-custom { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; padding: 14px; border: 2px dashed var(--line); }
+.sup-custom label { display: flex; flex-direction: column; gap: 6px; font: 800 11px/1 Inter, sans-serif; letter-spacing: .14em; color: var(--mute); }
+.sup-custom input { width: 140px; padding: 10px 12px; border: 2px solid var(--line); background: #000; color: #fff; font: 400 22px/1 Anton, Impact, sans-serif; }
+
+.sup-faq { padding: 18px; background: var(--panel); border: 2px solid var(--line); }
+.sup-faq dl { margin: 0; }
+.sup-faq dt { margin: 14px 0 4px; font: 400 18px/1.1 Anton, Impact, sans-serif; letter-spacing: .04em; color: var(--gold); }
+.sup-faq dt:first-child { margin-top: 0; }
+.sup-faq dd { margin: 0; }
+
+.sup-credits, .sup-battlers { padding: 18px; border: 2px solid var(--line); background: var(--panel); }
+.sup-battlers { opacity: .9; border-color: #1c1c22; background: #08080c; }
+.sup-battlers h2 { font-size: clamp(20px, 3.6vw, 32px); color: #d8d2de; }
+.sup-empty, .mute { color: var(--mute); }
+.sup-credit-list, .sup-battler-list { list-style: none; margin: 0; padding: 0; }
+.sup-credit-list li { padding: 6px 0; border-bottom: 1px solid var(--line); font: 400 22px/1 Anton, Impact, sans-serif; }
+.sup-battler-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px 16px; }
+.sup-battler { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; border-bottom: 1px solid #1c1c22; }
+.sup-battler b { font: 400 20px/1 Anton, Impact, sans-serif; letter-spacing: .03em; }
+.sup-battler a { color: var(--gold); text-decoration: none; font: 800 12px/1.3 Inter, sans-serif; letter-spacing: .08em; }
+.sup-battler a:hover { color: #fff; }
+.sup-foot { text-align: center; color: var(--mute); }
+.sup-foot a { color: var(--gold); }
+
+@media (max-width: 640px) {
+  .support-root, .support-page .support-wrap { padding: 16px 14px 80px; }
+  .cash-btn-xl { box-shadow: 0 0 0 3px rgba(0,214,79,.25); }
+  .sup-cash { padding: 16px 14px; }
+}
+
+/* v80 supporter form */
+.sup-form h3, .sup-success h3 { font-size: clamp(22px, 4vw, 32px); color: var(--gold); }
+.sup-form, .sup-success {
+  margin-top: 20px; padding: 16px 16px 18px;
+  border: 2px solid var(--ember); background: rgba(255,90,31,.08);
+}
+.sup-success { border-color: #00d64f; background: rgba(0,214,79,.08); }
+.sup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 16px; margin: 12px 0; }
+.sup-field { display: flex; flex-direction: column; gap: 6px; font: 800 11px/1.2 Inter, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
+.sup-field input, .sup-field textarea {
+  padding: 10px 12px; border: 2px solid var(--line); background: #000; color: #fff;
+  font: 600 15px/1.3 Inter, system-ui, sans-serif; letter-spacing: 0; text-transform: none;
+}
+.sup-field textarea { resize: vertical; min-height: 88px; }
+.sup-field input:focus, .sup-field textarea:focus { border-color: var(--gold); outline: none; }
+.sup-hint { display: block; font: 600 12px/1.4 Inter, sans-serif; letter-spacing: 0; text-transform: none; color: #9a96a4; }
+.sup-check { display: flex; align-items: flex-start; gap: 10px; margin: 8px 0 4px; font: 600 14px/1.4 Inter, sans-serif; letter-spacing: 0; text-transform: none; color: #efeaf4; }
+.sup-check input { margin-top: 3px; width: 18px; height: 18px; flex: 0 0 auto; accent-color: var(--gold); }
+.sup-form-err { margin: 8px 0 0; padding: 8px 10px; border: 1px solid var(--ember); background: #1a0500; color: #ffd0c0; font: 600 14px/1.4 Inter, sans-serif; }
+.sup-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.sup-tier.on { border-color: var(--gold); box-shadow: inset 0 0 0 1px rgba(255,210,63,.35); }
+.sup-form .sup-grid .sup-check, .sup-form > .sup-check { grid-column: 1 / -1; }
+
+/* v82: decorative support panel art (real text and buttons stay in HTML, mobile-friendly). */
+.support-page {
+  background-color: #0a0a0c;
+  background-image: url("/media/support/support_panel_art.jpg");
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+@media (min-width: 900px) {
+  .support-page { background-size: 1400px auto; background-position: center 0; }
+}
+.support-page .support-wrap,
+.support-root.has-support-panel,
+#store .support-root.has-support-panel {
+  position: relative;
+  z-index: 1;
+}
+.support-page .support-wrap,
+.support-root.has-support-panel {
+  background: linear-gradient(180deg, rgba(8,8,10,.72), rgba(8,8,10,.92));
+  border: 2px solid rgba(212,175,55,.35);
+  padding: 18px 16px 28px;
+  border-radius: 8px;
+}
+#store.screen {
+  background-image: url("art/support/support_panel_art.jpg");
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.sup-contact { margin-top: 36px; }
+.sup-contact-mail { margin-top: 18px; }
+.sup-field select {
+  padding: 10px 12px; border: 2px solid var(--line); background: #000; color: #fff;
+  font: 600 15px/1.3 Inter, system-ui, sans-serif; letter-spacing: 0; text-transform: none;
+}
+.sup-field select:focus { border-color: var(--gold); outline: none; }
+.support-page .support-top::after {
+  content: "";
+  display: inline-block;
+  width: 36px; height: 28px; margin-left: 10px; vertical-align: middle;
+  background: url("/media/decals/mic.png") center / contain no-repeat;
+  opacity: .85;
+}

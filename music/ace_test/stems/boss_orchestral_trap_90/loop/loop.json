@@ -1,0 +1,46 @@
+{
+  "track": "boss_orchestral_trap_90",
+  "bpm": 90.0,
+  "beats_per_bar": 4,
+  "bars": 16,
+  "samples": 1881600,
+  "sample_rate": 44100,
+  "seconds": 42.6667,
+  "source_start_seconds": 21.3353,
+  "seam_crossfade_ms": 20,
+  "pad_samples": 4096,
+  "layers": [
+    "drums_core",
+    "perc",
+    "bass_808",
+    "piano",
+    "synth",
+    "bells"
+  ],
+  "splits": {
+    "drums": "drums_core <4-7 kHz> perc",
+    "other": "synth <1.2-2.5 kHz> bells"
+  },
+  "peak_dbfs_mix": -2.47,
+  "states": {
+    "story": [
+      "drums_core",
+      "piano",
+      "synth"
+    ],
+    "crowd": [
+      "drums_core",
+      "perc",
+      "piano",
+      "synth"
+    ],
+    "boss": [
+      "drums_core",
+      "perc",
+      "bass_808",
+      "piano",
+      "synth",
+      "bells"
+    ]
+  }
+}

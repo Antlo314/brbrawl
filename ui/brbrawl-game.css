@@ -1,0 +1,281 @@
+/* BRBrawl v73 — kit look on the existing main menu and Settings.
+   Labels, handlers, focus navigation, and layout/scroll rules are unchanged.
+   Visuals only: dark panels, angular clip, gold focus arrow, red focused fill, gold pressed, Press Start 2P. */
+:root {
+  --brb-bg: #07050b;
+  --brb-panel: #15111b;
+  --brb-red: #e54250;
+  --brb-red-dark: #571622;
+  --brb-gold: #f4c45d;
+  --brb-cream: #f5eee4;
+  --brb-muted: #9b8d9b;
+}
+
+/* ---- Main menu items ---- */
+#title .mm-blade { opacity: 0 !important; } /* focus chrome lives on the button now */
+
+#title .mm-item {
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-height: 3.05rem;
+  padding: .5rem .75rem .5rem 2.15rem;
+  border: 2px solid #554652;
+  border-radius: 2px;
+  color: var(--brb-cream);
+  background:
+    linear-gradient(#e54250, #e54250) 7px 9px / 5px calc(100% - 18px) no-repeat,
+    linear-gradient(180deg, #211a27, #100d16);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px));
+  font: 700 clamp(8px, 1.55vw, 11px)/1.3 "Press Start 2P", "Courier New", monospace;
+  letter-spacing: .03em;
+  text-align: left;
+  text-shadow: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: transform .12s ease, filter .12s ease, border-color .12s ease, background .12s ease, color .12s ease;
+}
+#title .mm-item::before {
+  content: "▶";
+  position: absolute;
+  left: .65rem;
+  top: 50%;
+  color: var(--brb-gold);
+  opacity: 0;
+  font-size: 9px;
+  line-height: 1;
+  transform: translate(-4px, -50%);
+  transition: opacity .12s ease, transform .12s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+#title .mm-item > * { translate: 0; transition: opacity .15s, filter .15s; }
+#title .mm-ic { width: 22px; height: 22px; margin: 0; flex: none; }
+#title .mm-lock { width: 14px; height: 14px; }
+#title .mm-arrow { font-size: 12px; padding: 2px 4px; color: var(--brb-gold); }
+
+#title .mm-item.on,
+#title .mm-item:hover,
+#title .mm-item:focus-visible {
+  outline: none;
+  color: #fff6e9;
+  border-color: var(--brb-gold);
+  background:
+    linear-gradient(#ff4354, #ff4354) 7px 9px / 5px calc(100% - 18px) no-repeat,
+    linear-gradient(180deg, #781b2a, #310e19);
+  transform: translateX(4px);
+  text-shadow: none;
+}
+#title .mm-item.on > *,
+#title .mm-item:hover > *,
+#title .mm-item:focus-visible > * { translate: 0; }
+#title .mm-item.on::before,
+#title .mm-item:hover::before,
+#title .mm-item:focus-visible::before {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+#title .mm-item:active {
+  color: #120b12;
+  border-color: #fff0ba;
+  background:
+    linear-gradient(#a22231, #a22231) 7px 9px / 5px calc(100% - 18px) no-repeat,
+    linear-gradient(180deg, #ffe18a, #d69a32);
+  transform: translate(2px, 2px);
+}
+#title .mm-item:active::before { color: #120b12; opacity: 1; }
+
+#title .mm-item.locked {
+  color: #837985;
+  border-color: #453d48;
+  filter: grayscale(.7);
+  opacity: .62;
+  cursor: pointer;
+}
+#title .mm-item.locked.on,
+#title .mm-item.locked:hover,
+#title .mm-item.locked:focus-visible {
+  color: #d9d4de;
+  filter: grayscale(.25);
+  opacity: 1;
+}
+#title .mm-item.practice-suggested { color: var(--brb-gold); }
+#title .mm-item.practice-suggested::after {
+  font: 800 9px/1 Inter, sans-serif;
+  color: #1c1400;
+  background: var(--brb-gold);
+  padding: 4px 5px;
+  letter-spacing: .04em;
+}
+
+@media (max-width: 800px), (max-height: 700px) {
+  #title .mm-item {
+    min-height: 48px;
+    white-space: normal;
+    font-size: clamp(8px, 2.6vw, 10px);
+    padding-left: 2.05rem;
+  }
+}
+@media (orientation: portrait) {
+  #title .mm-item {
+    font-size: clamp(8px, 2.8vw, 11px);
+    padding-left: 2.1rem;
+    min-height: 48px;
+  }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  #title .mm-item {
+    min-height: 2.15rem;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: clamp(7px, 2.2vh, 10px);
+  }
+  #title .mm-ic { width: 16px; height: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #title .mm-item, #title .mm-item::before { transition: none; }
+}
+
+/* ---- Settings: tabs, toggles, sliders, action buttons ---- */
+#settings.screen.sub { background: rgba(7, 5, 11, .96); }
+#settings .set-tabs {
+  gap: .5rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #332839;
+  padding: 0 12px 10px;
+}
+#settings .set-tab {
+  border: 1px solid #665463;
+  background: #15111b;
+  color: var(--brb-cream);
+  padding: .7rem .9rem;
+  font: 700 .62rem "Press Start 2P", "Courier New", monospace;
+  letter-spacing: .04em;
+  border-bottom: 1px solid #665463;
+  cursor: pointer;
+}
+#settings .set-tab.on {
+  color: #fff6e9;
+  background: linear-gradient(180deg, #781b2a, #310e19);
+  border-color: var(--brb-gold);
+}
+#settings .set-tab:focus-visible,
+#settings .set-dev:focus-visible,
+#settings .slot:focus-visible,
+#settings .set-choice button:focus-visible,
+#settings .set-slider input:focus-visible {
+  outline: 2px solid var(--brb-gold);
+  outline-offset: 2px;
+}
+
+#settings .set-dev {
+  border: 1px solid #786370;
+  border-radius: 2px;
+  padding: .55rem .8rem;
+  color: var(--brb-muted);
+  background: #211a27;
+  font: 700 .55rem "Press Start 2P", "Courier New", monospace;
+  letter-spacing: .04em;
+}
+#settings .set-dev.on {
+  color: #fff6e9;
+  background: linear-gradient(180deg, #781b2a, #310e19);
+  border-color: var(--brb-gold);
+}
+
+#settings .set-choice {
+  font: 700 .62rem/1.4 "Press Start 2P", "Courier New", monospace;
+  color: var(--brb-cream);
+  letter-spacing: .03em;
+  padding: .35rem 0;
+  border-bottom: 1px solid #2b2330;
+}
+#settings .set-choice button {
+  min-width: 4.8rem;
+  border: 1px solid #786370;
+  border-radius: 2px;
+  padding: .5rem .7rem;
+  color: var(--brb-muted);
+  background: #211a27;
+  font: 700 .55rem "Press Start 2P", "Courier New", monospace;
+  letter-spacing: .04em;
+  cursor: pointer;
+}
+#settings .set-choice button.on {
+  color: #fff6e9;
+  background: linear-gradient(180deg, #781b2a, #310e19);
+  border-color: var(--brb-gold);
+}
+#settings .set-choice button:active { color: #120b12; background: linear-gradient(180deg, #ffe18a, #d69a32); border-color: #fff0ba; }
+
+#settings .set-slider {
+  font: 700 .58rem/1.3 "Press Start 2P", "Courier New", monospace;
+  color: var(--brb-cream);
+  letter-spacing: .03em;
+  padding: .5rem 0;
+  border-bottom: 1px solid #2b2330;
+}
+#settings .set-slider input { accent-color: var(--brb-red); height: 28px; }
+#settings .set-tag input {
+  background: #09070d;
+  border: 1px solid #786370;
+  color: var(--brb-cream);
+  font: 700 .7rem "Press Start 2P", "Courier New", monospace;
+  letter-spacing: .06em;
+  border-radius: 2px;
+}
+#settings .set-tag input:focus { outline: 2px solid var(--brb-gold); outline-offset: 2px; }
+
+#settings .btn {
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
+  font: 700 .65rem/1.3 "Press Start 2P", "Courier New", monospace;
+  letter-spacing: .04em;
+  min-height: 3rem;
+  padding: .75rem 1.15rem;
+  border-radius: 2px;
+  overflow: visible;
+}
+#settings .btn::after { display: none; } /* drop the old glint so clip-path stays clean */
+#settings .btn.ghost {
+  color: var(--brb-cream);
+  border: 2px solid #554652;
+  background: linear-gradient(180deg, #211a27, #100d16);
+}
+#settings .btn.ghost:is(:hover, :focus-visible):not([disabled]) {
+  color: #fff6e9;
+  border-color: var(--brb-gold);
+  background: linear-gradient(180deg, #781b2a, #310e19);
+  transform: translateX(3px);
+  outline: none;
+}
+#settings .btn.primary {
+  color: #fff6e9;
+  border: 2px solid var(--brb-gold);
+  background: linear-gradient(180deg, #781b2a, #310e19);
+  box-shadow: none;
+}
+#settings .btn.primary:is(:hover, :focus-visible):not([disabled]) {
+  color: #120b12;
+  border-color: #fff0ba;
+  background: linear-gradient(180deg, #ffe18a, #d69a32);
+  box-shadow: none;
+  outline: none;
+}
+#settings .btn:active:not([disabled]) {
+  color: #120b12;
+  border-color: #fff0ba;
+  background: linear-gradient(180deg, #ffe18a, #d69a32);
+  transform: translate(2px, 2px);
+}
+
+@media (max-width: 560px) {
+  #settings .set-tab { padding: .55rem .55rem; font-size: .48rem; }
+  #settings .set-choice { font-size: .52rem; }
+  #settings .set-choice button { font-size: .48rem; padding: .45rem .4rem; min-width: 0; }
+  #settings .btn { font-size: .55rem; min-height: 2.7rem; }
+}
+@media (max-width: 360px) {
+  #settings .set-tab { padding: .5rem .4rem; font-size: .42rem; letter-spacing: .02em; }
+}

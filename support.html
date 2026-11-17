@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Support the Game — Battle Rap Brawl</title>
+  <meta name="description" content="Battle Rap Brawl is free to play. Support development on Cash App $lumenlabs1.">
+  <link rel="icon" href="/media/logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/support.css">
+</head>
+<body class="support-page">
+  <header class="support-top">
+    <a href="/"><img src="/media/logo.webp" alt="Battle Rap Brawl" width="120" height="67" onerror="this.onerror=null;this.src='art/logo.jpg'"></a>
+    <a href="/play/index.html" id="sup-play">PLAY FREE ▶</a>
+  </header>
+  <div class="support-wrap" id="support-root"></div>
+  <script src="/support-config.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var play = document.getElementById('sup-play');
+      if (play && location.pathname.indexOf('/play') < 0 && !/brbrawl\.com$/i.test(location.hostname)) play.href = 'index.html';
+      if (window.renderBRBSupport) renderBRBSupport(document.getElementById('support-root'));
+    });
+  </script>
+</body>
+</html>

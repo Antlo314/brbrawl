@@ -1,0 +1,12 @@
+﻿# backups, tests, large non-game material
+originals/
+showcase/
+tests/
+downloads/
+$S/
+_tmp_*
+# secrets and build state
+.env*
+*.pem
+.vercel/
+node_modules/

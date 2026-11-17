@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seedream Prompt Pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ember: #ff5a1f; --hot: #ffd23f; --ice: #39c8ff; --ink: #f4efe6; --mute: #9a96a0; --line: #26262e; --bg: #07070b; --panel: #101016; --ok: #3ddc84; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font: 15px/1.6 Inter, system-ui, sans-serif; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 32px 16px 96px; }
+  h1 { font: 400 clamp(34px, 6vw, 60px)/1 Anton, Impact, sans-serif; letter-spacing: .02em; }
+  h1 em { font-style: normal; color: var(--ember); }
+  h2 { font: 400 28px/1.1 Anton, Impact, sans-serif; letter-spacing: .03em; margin: 34px 0 8px; }
+  h3 { font: 400 20px/1.2 Anton, Impact, sans-serif; letter-spacing: .04em; margin: 30px 0 10px; color: var(--hot); }
+  h3 small { font: 600 12px Inter, sans-serif; letter-spacing: .1em; color: var(--mute); margin-left: 8px; }
+  .lede { color: var(--mute); max-width: 720px; margin-top: 10px; }
+  a { color: var(--hot); }
+  code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 13px; }
+  .kicker { font: 600 12px 'JetBrains Mono', monospace; letter-spacing: .1em; color: var(--mute); }
+  .tabs { position: sticky; top: 0; z-index: 3; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 14px 0; margin-top: 18px; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .tab { font: 16px Anton, Impact, sans-serif; letter-spacing: .06em; padding: 8px 14px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+  .tab[aria-selected="true"] { background: var(--ink); color: #000; }
+  .tab .n { font: 600 11px Inter, sans-serif; margin-left: 6px; opacity: .7; }
+  section[hidden] { display: none; }
+  .box { background: var(--panel); border: 1px solid var(--line); padding: 18px 20px; margin: 14px 0; }
+  .box.ok { border-left: 3px solid var(--ok); } .box.warn { border-left: 3px solid var(--hot); }
+  .box ul, .box ol { padding-left: 20px; } .box li { margin: 5px 0; }
+  .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .fields label { display: flex; flex-direction: column; gap: 4px; font: 600 12px Inter, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+  .fields textarea { font: 14px/1.4 Inter, sans-serif; color: var(--ink); background: #0a0a0f; border: 1px solid var(--line); padding: 8px 10px; resize: vertical; min-height: 58px; }
+  .fields textarea:focus, select:focus { outline: 2px solid var(--ice); }
+  .bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 16px 0 4px; }
+  .btn { font: 15px Anton, Impact, sans-serif; letter-spacing: .08em; padding: 9px 18px; border: 0; cursor: pointer; background: var(--ember); color: #160800; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .btn.copied { background: var(--ok); color: #04130a; }
+  .grid { display: grid; gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); padding: 16px 18px; }
+  .card.done { opacity: .5; }
+  .card header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .file { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--hot); background: #1a1a22; padding: 2px 8px; }
+  .chip { font: 600 11px Inter, sans-serif; letter-spacing: .08em; padding: 2px 8px; border: 1px solid var(--line); color: var(--mute); }
+  .chip.first { background: var(--ember); border-color: var(--ember); color: #160800; }
+  .chip.count { color: var(--ok); border-color: #1f4a32; }
+  .chip.count.over { color: #ff5a5a; border-color: #ff5a5a; }
+  .done-toggle { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--mute); cursor: pointer; }
+  .done-toggle input { accent-color: var(--ok); width: 16px; height: 16px; }
+  .card h4 { font: 400 20px Anton, Impact, sans-serif; letter-spacing: .03em; margin: 10px 0 2px; }
+  .attach { font-size: 13px; color: var(--mute); margin-bottom: 10px; }
+  .attach b { color: var(--ink); font-weight: 600; }
+  .layout { display: grid; gap: 4px; margin: 4px 0 12px; max-width: 460px; }
+  .layout span { font: 600 11px/1.3 Inter, sans-serif; color: var(--ink); background: #16161d; border: 1px dashed #34343e; padding: 8px 6px; text-align: center; }
+  .layout span.empty { color: var(--mute); }
+  .prompt { position: relative; white-space: pre-wrap; font: 13.5px/1.55 'JetBrains Mono', monospace; background: #0a0a0f; border: 1px solid var(--line); padding: 12px 14px; color: #ddd8cf; cursor: copy; transition: border-color .15s; }
+  .prompt:hover { border-color: var(--ember); }
+  .prompt::after { content: 'TAP TO COPY'; position: absolute; top: 8px; right: 10px; font: 600 10px Inter, sans-serif; letter-spacing: .14em; color: var(--mute); }
+  .prompt.copied { border-color: var(--ok); }
+  .prompt.copied::after { content: 'COPIED'; color: var(--ok); }
+  .copy-row { display: flex; gap: 10px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+  select { font: 14px Inter, sans-serif; color: var(--ink); background: #0a0a0f; border: 1px solid var(--line); padding: 8px 10px; max-width: 100%; }
+  .refs { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .thumbs { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+  .thumbs a { display: block; width: 132px; }
+  .thumbs img { width: 132px; height: 165px; object-fit: cover; border: 1px solid var(--line); display: block; background: #16161d; }
+  .thumbs small { display: block; font-size: 11px; color: var(--mute); margin-top: 4px; line-height: 1.3; }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--ok); color: #04130a; font: 15px Anton, Impact, sans-serif; letter-spacing: .08em; padding: 10px 18px; opacity: 0; transition: .2s; pointer-events: none; z-index: 9; }
+  .toast.show { opacity: 1; transform: translateX(-50%); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--mute); font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+  @media (max-width: 560px) { .done-toggle { margin-left: 0; } .prompt::after { display: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">BATTLE RAP BRAWL · ART AND AUDIO</p>
+  <h1>Seedream <em>32-bit</em> prompt pack</h1>
+  <p class="lede">Every piece of art for the game, in late-90s arcade fighting-game style. The battlers are drawn as <b>sprite sheets</b>: 9 poses in one image, so each character is about 9 generations instead of 40. Tap a prompt to copy it, attach what it says, and save the result with the file name shown.</p>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="start" aria-selected="true">START HERE</button>
+    <button class="tab" role="tab" data-tab="refs">REFERENCES</button>
+    <button class="tab" role="tab" data-tab="stage">STAGES<span class="n" data-count="stage"></span></button>
+    <button class="tab" role="tab" data-tab="story">STORY<span class="n" data-count="story"></span></button>
+    <button class="tab" role="tab" data-tab="text">TEXT &amp; LOGO<span class="n" data-count="text"></span></button>
+    <button class="tab" role="tab" data-tab="decals">DECALS<span class="n" data-count="decals"></span></button>
+    <button class="tab" role="tab" data-tab="audio">MUSIC &amp; SFX<span class="n" data-count="audio"></span></button>
+  </nav>
+
+  <section data-panel="start">
+    <h2>How it works</h2>
+    <div class="box">
+      <ol>
+        <li><b>Get reference photos</b> of each battler (see the References tab). Full-body photos in their fight-night outfit work best.</li>
+        <li><b>Make the master sprite</b> (<code>master.jpg</code>) for each battler from those photos. Get it perfect and approved. It goes in the game right away as their standing pose.</li>
+        <li><b>Make the 4 sprite sheets</b>, attaching <code>master.jpg</code> each time. Each sheet holds 9 poses, and the game cuts them apart automatically.</li>
+        <li><b>Make the extras:</b> effects sheet, portrait, nameplate and super title. Then the stage and the text.</li>
+        <li><b>Drop the downloads into the MM Game folder on your Desktop</b> and ask Claude to sort them. It reads each image, names it, and makes a game-sized copy. Or save them yourself as JPG with the exact name shown.</li>
+      </ol>
+    </div>
+    <div class="box ok">
+      <p><b>Why sheets work better:</b> poses drawn together in one image come out with the same face, outfit and scale. That's much more consistent than 35 separate generations, and far fewer prompts.</p>
+    </div>
+    <div class="box warn">
+      <p><b>When one pose on a sheet comes out wrong:</b></p>
+      <ul>
+        <li>Use Seedream's area edit on just that cell, or</li>
+        <li>use "Fix one pose" at the bottom of the character tab. It makes that single pose as its own image (e.g. <code>kick_2.jpg</code>), which replaces that cell in the game.</li>
+      </ul>
+    </div>
+
+    <h2>Rules that keep it clean</h2>
+    <div class="box">
+      <ul>
+        <li><b>No green in the art.</b> The game deletes the green background, and anything green in an outfit or effect disappears with it. Mook's ice stays pale blue, never teal.</li>
+        <li><b>Use the aspect ratio listed on each prompt.</b> Sprite sheets are 1:1.</li>
+        <li><b>Poses must not touch.</b> If two poses on a sheet overlap or bleed into the next cell, re-roll. The game finds the gaps between poses, but it can't separate two that are touching.</li>
+        <li><b>Check spelling</b> on every text image.</li>
+        <li><b>Keep game and company names out of the prompts.</b> The style description gets the look and keeps the characters original.</li>
+        <li><b>Chunkier pixels:</b> set <code>pixel: 3</code> in <code>fighters.js</code>, or <code>0</code> for no pixel snapping.</li>
+      </ul>
+    </div>
+
+    <h2>Everything you'll make</h2>
+    <div class="box"><table id="summary"><thead><tr><th>Tab</th><th>Images</th><th>Folder</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section data-panel="refs" hidden>
+    <h2>Reference photos</h2>
+    <p class="lede">There are no free-to-use photos of either battler online. Wikimedia Commons has nothing for them. Below is what exists publicly. Use it to study each battler's look; for the images you actually upload to Seedream, photos from the battlers themselves are the clean option.</p>
+
+    <div class="box ok">
+      <p><b>Best option: ask each battler's team for 4 phone photos</b> in the outfit they want in the game, against a plain wall:</p>
+      <ol>
+        <li>Full body, straight on</li>
+        <li>Full body, side view facing right</li>
+        <li>Face close-up</li>
+        <li>Their fight stance or signature battle pose</li>
+      </ol>
+      <p>Asking also gets you their OK to use their likeness, which you need anyway.</p>
+    </div>
+
+    <div class="refs">
+      <div class="box">
+        <h3 style="margin-top:0">Charlie Clips</h3>
+        <p class="attach">Current look: backwards black snapback, full beard, black graphic tee, chain. Chest-up only.</p>
+        <p class="attach"><b>Full body and stance:</b> pause his battles on a wide shot and screenshot. Links found by search; I haven't watched them.</p>
+        <ul>
+          <li><a href="https://www.youtube.com/watch?v=WbyBz9XP67w" target="_blank" rel="noopener">vs Ave — Summer Madness 7 (URL)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=RoWD6B31IU8" target="_blank" rel="noopener">vs O-Solo (BMBL)</a> (O-Solo is also on this card)</li>
+          <li><a href="https://www.youtube.com/watch?v=1CktDu6bJgk" target="_blank" rel="noopener">vs Arsonal (UW Battle League)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=RRwllXu26q4" target="_blank" rel="noopener">vs Chess (URL)</a></li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3 style="margin-top:0">Murda Mook</h3>
+        <p class="attach">Current look: a huge silver fur coat (a perfect fit for his ice element), black tee, gold chain, short hair and beard. Chest-up only.</p>
+        <p class="attach"><b>Full body:</b> <a href="https://www.gettyimages.com/photos/murda-mook" target="_blank" rel="noopener">Getty Images, 176 event photos</a> (2009–2017, BET Hip Hop Awards, Blackout 5). These are editorial images: look, don't upload.</p>
+        <p class="attach"><b>Stance:</b> pause his battles on a wide shot. Links found by search; I haven't watched them.</p>
+        <ul>
+          <li><a href="https://www.youtube.com/watch?v=Ds5iJs6Ip2k" target="_blank" rel="noopener">vs Tay Roc (full battle)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=ampRuisxBcw" target="_blank" rel="noopener">vs Serius Jones (URL classic)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=eVSuecKL3TY" target="_blank" rel="noopener">vs Jae Millz (the 2002 classic)</a></li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3 style="margin-top:0">Cassidy</h3>
+        <p class="attach">Saved in <code>MM Game/refs/cassidy/</code>. The 2023 photo is his current look: slim, gold aviators, headband, graphic crewneck. 5'9".</p>
+        <ul>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Cassidy_85_South_Show_2023.png" target="_blank" rel="noopener">85 South Show, 2023</a> (free, CC BY 3.0)</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:CassidyMay05.jpg" target="_blank" rel="noopener">2005 signing</a> (free, CC BY-SA 3.0)</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3 style="margin-top:0">Eazy the Block Captain</h3>
+        <p class="attach">Saved in <code>MM Game/refs/eazy/</code>: round gold glasses, full beard, white fitted cap, wooden beads. Height not found yet.</p>
+        <ul>
+          <li><a href="https://www.complex.com/music/a/markelibert/cassidy-and-eazy-the-block-captains-illadelphia-battle-ends-in-chaos" target="_blank" rel="noopener">Complex, Dec 2025</a> (Getty press photo: reference only)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section data-panel="stage" hidden></section>
+  <section data-panel="story" hidden></section>
+  <section data-panel="text" hidden></section>
+  <section data-panel="decals" hidden></section>
+  <section data-panel="audio" hidden></section>
+</div>
+<div class="toast" id="toast">COPIED</div>
+
+<script src="sheets.js"></script>
+<script>
+(() => {
+  // Dreamina caps prompts at 2,000 characters, so every prompt here is kept short (the count shows on each card).
+  const LIMIT = 2000;
+  const STYLE = 'Style: late-1990s 32-bit arcade fighting game pixel art (CPS-2/CPS-3 era): crisp dark outlines, limited palette, 2-3 tone cel shading, hard highlights, bold silhouette. No blur, soft gradients, photorealism or 3D look.';
+  const GREEN = 'Background: flat, solid, pure green (#00FF00) filling the whole image. No floor, shadow, gradient, texture, border or text.';
+  const LAYOUTS = window.SHEET_LAYOUTS;
+
+  const DEFAULTS = {
+    clips: {
+      name: 'Charlie Clips', corner: 'Harlem', dir: 'sprites/clips/',
+      height: '', build: 'a big, heavyset build (the heaviest battler on the card)', // height not found yet
+      outfit: 'black snapback worn backwards, oversized black tee with an orange flame graphic (no logos), silver chain with a pendant, black jeans, black-and-white sneakers',
+      vibe: 'relaxed, cocky swagger with a slight smirk',
+      colors: 'black, orange and gold',
+      element: 'orange and yellow fire with glowing embers', el: 'fire',
+      nameColors: 'molten orange-to-yellow gradient with small flame licks on top',
+      superName: 'BODY BAG', superColors: 'molten orange and yellow letters with flames licking off the top and glowing embers around them',
+      projectile: 'a blazing fireball with a bright yellow-white core, swirling orange flames and a short trailing tail of embers',
+      superball: 'a giant roaring wall of fire shaped like a huge flaming fist, with flames streaming behind it',
+    },
+    mook: {
+      name: 'Murda Mook', corner: 'Harlem', dir: 'sprites/mook/',
+      height: '', build: 'a broad, solid build under a huge coat', // height not confirmed
+      outfit: 'huge silver-gray fur coat worn open over a black tee, gold chain with a pendant, black jeans, black boots',
+      vibe: 'calm, ice-cold intimidating stare with the chin up',
+      colors: 'silver-gray, ice blue and gold',
+      element: 'pale-blue ice crystals and freezing white mist (no green or teal)', el: 'ice',
+      nameColors: 'icy pale-blue-to-white gradient with frost and small icicles on the edges',
+      superName: 'COLD WORLD', superColors: 'frozen pale-blue and white letters covered in frost, with icicles hanging from the bottom (no green or teal tones)',
+      projectile: 'a jagged spinning ice shard: a cluster of pale-blue crystals with white highlights and a short trail of frost mist (no green or teal tones)',
+      superball: 'a giant blast of jagged ice crystals like a breaking glacier wave, with swirling freezing mist (no green or teal tones)',
+    },
+    cassidy: {
+      name: 'Cassidy', corner: 'Philadelphia', dir: 'sprites/cassidy/',
+      height: '5\'9" (175 cm)', build: 'a slim, wiry build, smaller than Charlie Clips and Murda Mook',
+      outfit: 'a salmon-pink headband over a short low haircut, gold aviator sunglasses, a cream crewneck sweatshirt with a colorful comic-panel print (no logos or readable text), light-wash jeans, white sneakers and a thin gold chain',
+      vibe: 'smooth, cocky Philly confidence with a slight grin',
+      colors: 'gold and electric yellow',
+      element: 'crackling golden-yellow lightning with white electric arcs (no green tones)', el: 'lightning',
+      nameColors: 'electric gold-to-white gradient with small lightning bolts cracking off the edges',
+      superName: 'HUSTLA', superColors: 'electric gold letters with white lightning arcs crackling around them and a purple outer glow',
+      projectile: 'a crackling ball of golden-yellow lightning with a white-hot core, jagged electric arcs and a short trail of sparks (no green tones)',
+      superball: 'a huge blast of golden lightning bolts shaped like a charging fist, with electric arcs streaming behind it (no green tones)',
+    },
+    eazy: {
+      name: 'Eazy the Block Captain', corner: 'North Philly', dir: 'sprites/eazy/',
+      height: '', build: 'a compact, medium build, smaller than Charlie Clips and Murda Mook', // height not confirmed
+      outfit: 'a white fitted baseball cap with a small dark wing emblem (no team logos or text), round gold wire-frame glasses, a full thick beard, a wooden bead necklace, a heather-gray tee under an open black jacket, black pants and wheat-colored work boots',
+      vibe: 'loud, aggressive North Philly energy, chin up mid-shout',
+      colors: 'purple and gold',
+      element: 'pulsing purple sonic energy: bold concentric violet sound-wave rings with pink sparks (no green tones)', el: 'purple sonic energy',
+      nameColors: 'royal purple-to-violet gradient with gold edges and small gold sparks',
+      superName: 'BLOCK PARTY', superColors: 'neon purple letters with gold outlines, pulsing sound-wave rings and gold sparks around them',
+      projectile: 'a pulsing purple sound-wave blast: three bold concentric violet arcs like a speaker blast, with pink sparks (no green tones)',
+      superball: 'a giant shockwave of purple bass rings exploding forward like a speaker stack blowing out, with gold sparks (no green tones)',
+    },
+    jaz: {"name": "Jaz the Rapper", "tab": "JAZ", "corner": "Brooklyn", "dir": "sprites/jaz/", "pronoun": "she", "height": "", "build": "a curvy, fuller-figured build, shorter than the men", "outfit": "long straight platinum-blonde hair past the shoulders, a red, white and blue basketball jersey (no logos, team names or readable text), black leggings and white high-top sneakers, gold hoop earrings", "vibe": "unbothered, confident queen energy with a slight smirk", "colors": "hot pink and gold", "element": "sparkling hot-pink diamonds and white glints (no green tones)", "el": "pink diamonds", "nameColors": "hot-pink-to-gold gradient with small diamond sparkles", "superName": "QUEEN", "superColors": "hot-pink diamond letters with gold edges and white sparkles", "projectile": "a spinning hot-pink diamond with white sparkles and a short glittering trail (no green tones)", "superball": "a storm of giant hot-pink diamonds blasting forward with white sparkles (no green tones)"},
+    msfit: {"name": "Ms. Fit", "tab": "MS. FIT", "corner": "", "dir": "sprites/msfit/", "pronoun": "she", "height": "", "build": "a slim, athletic build, shorter than the men", "outfit": "long straight dark hair under a black fitted baseball cap worn backwards (no logos, team names or readable text), a sleeveless acid-wash denim vest over a gray tee, black jeans and black sneakers", "vibe": "cold, focused stare, all business", "colors": "crimson red and silver", "element": "crimson energy slashes: sharp red crescent blades with white edges (no green tones)", "el": "crimson slashes", "nameColors": "crimson-to-silver gradient with sharp slash marks across the letters", "superName": "PERFECT FIT", "superColors": "crimson letters with silver edges and sharp white slash streaks", "projectile": "a spinning crimson crescent energy slash with a white-hot edge and a short red trail (no green tones)", "superball": "a giant X-shaped crimson slash wave with white sparks (no green tones)"},
+    shotty: {"name": "Shotty Horroh", "tab": "SHOTTY", "corner": "Manchester, UK", "dir": "sprites/shotty/", "pronoun": "he", "height": "", "build": "a lean, wiry build", "outfit": "a black cap worn backwards over a short buzz cut, a black tee, black jeans and black boots, a gold championship belt slung over one shoulder (no logos, team names or readable text)", "vibe": "sneering, menacing UK swagger", "colors": "bone white and dark gray", "element": "bone-white skulls and swirling dark smoke (no green tones)", "el": "skull smoke", "nameColors": "bone-white letters with dark cracks and wisps of smoke", "superName": "NIGHTMARE", "superColors": "bone-white letters with dark cracks, dripping shadows and smoke wisps", "projectile": "a screaming bone-white skull with glowing eyes and a trail of dark smoke (no green tones)", "superball": "a giant phantom skull made of swirling dark smoke with bone-white teeth (no green tones)"},
+    trex: {"name": "T-Rex", "tab": "T-REX", "corner": "Harlem", "dir": "sprites/trex/", "pronoun": "he", "height": "about 5'4\" (163 cm)", "build": "a short, compact, extremely muscular build", "outfit": "a black durag, a tight gray long-sleeve compression shirt, black cargo pants and black boots", "vibe": "mean mug, arms ready, built like a tank", "colors": "earth brown and burnt orange", "element": "cracked brown rock, dust and flying stone chunks (no green tones)", "el": "rock", "nameColors": "cracked stone letters in brown and burnt orange with dust", "superName": "EXTINCTION", "superColors": "cracked stone letters with burnt-orange lava glowing in the cracks", "projectile": "a rolling boulder of cracked brown rock with a dust trail and flying pebbles (no green tones)", "superball": "a giant shockwave of erupting brown rock spikes and dust (no green tones)"},
+    calicoe: {"name": "Calicoe", "tab": "CALICOE", "corner": "Detroit", "dir": "sprites/calicoe/", "pronoun": "he", "height": "", "build": "a big, tall, heavy build", "outfit": "long locs past the shoulders, clear-frame glasses, a full beard, a white and light-blue track jacket (no logos, team names or readable text) over a white tee, stacked gold chains with a big pendant, light jeans and white sneakers", "vibe": "loud, animated, mid-bar with the mouth open", "colors": "chrome silver and fiery orange sparks", "element": "polished chrome metal with hot orange sparks (no green tones)", "el": "chrome", "nameColors": "polished chrome letters with orange sparks", "superName": "313", "superColors": "huge polished chrome numbers with hot orange sparks and steam", "projectile": "a spinning polished chrome gear trailing hot orange sparks (no green tones)", "superball": "a massive chrome piston blast exploding with orange sparks and steam (no green tones)"},
+    award: {"name": "A. Ward", "tab": "A. WARD", "corner": "Kansas City", "dir": "sprites/award/", "pronoun": "he", "height": "", "build": "a stocky, solid build", "outfit": "an orange snapback worn backwards, a thick ginger beard, a white hoodie (no logos, team names or readable text), gray joggers and white sneakers", "vibe": "calm, steady, sincere confidence", "colors": "white and prism colors", "element": "a beam of white light splitting into a prism of red, orange, gold, blue and violet (no green tones)", "el": "prism light", "nameColors": "glowing white letters with a prism rainbow edge of red, orange, gold, blue and violet", "superName": "REVELATION", "superColors": "glowing white letters with prism rays of red, orange, gold, blue and violet bursting behind them", "projectile": "a white beam of light splitting into prism rays of red, orange, gold, blue and violet (no green tones)", "superball": "a blinding wall of white light with prism rays of red, orange, gold, blue and violet (no green tones)"},
+    osolo: {"name": "O-Solo", "tab": "O-SOLO", "corner": "", "dir": "sprites/osolo/", "pronoun": "he", "height": "", "build": "a slim build", "outfit": "a gold jeweled crown, dark shield sunglasses, a black studded leather jacket over a black tee, black jeans and black boots", "vibe": "royal, cocky, chin up", "colors": "royal blue and gold", "element": "royal blue energy with gold sparks (no green tones)", "el": "royal blue energy", "nameColors": "gold metallic letters with royal blue jewels", "superName": "KING SOLO", "superColors": "gold metallic letters with royal blue jewels and a small crown", "projectile": "a spinning golden crown with blue jewels trailing gold sparks and royal blue energy (no green tones)", "superball": "a giant blast of royal blue energy shaped like a throne with gold sparks (no green tones)"},
+    j2: {"name": "J2", "tab": "J2", "corner": "", "dir": "sprites/j2/", "pronoun": "he", "height": "", "build": "a medium build", "outfit": "a black fitted baseball cap (no logos, team names or readable text), black square sunglasses, a short beard, a gray skull-graphic tee, a silver chain, black jeans and black sneakers", "vibe": "smooth and cocky, lips pursed", "colors": "neon cyan and hot pink", "element": "neon cyan energy with hot-pink streaks like city signs at night (no green tones)", "el": "neon energy", "nameColors": "neon cyan tube letters with a hot-pink glow", "superName": "SECOND TO NONE", "superColors": "neon cyan tube letters with a hot-pink glow", "projectile": "a crackling neon-cyan energy arrow with hot-pink streaks (no green tones)", "superball": "a giant burst of neon cyan and hot-pink light shaped like a glowing sign (no green tones)"},
+    rosenberg: {"name": "Rosenberg Raw", "tab": "Rosenberg Raw", "corner": "NORRISTOWN, PA", "dir": "sprites/rosenberg/", "pronoun": "he", "height": "", "build": "a big, heavyset build: about as heavy as Charlie Clips, a little shorter, thick arms, wide frame and a round belly", "outfit": "a red fitted baseball cap worn forward with a navy underbrim (no logos), short dark hair under the cap, a thick reddish-ginger full beard, a white button-up baseball jersey with thin red pinstripes and red piping (no logos, lettering or numbers), worn open over a black tee, dark-wash jeans, wheat-colored work boots, a light-blue rubber wristband on his left wrist and a small script tattoo on his right forearm", "vibe": "loud, rowdy Philly energy, mouth open mid-bar, eyebrows raised", "colors": "bronze and red", "element": "ringing bronze Liberty Bell energy: bronze shockwave rings with a jagged crack of white light (no green tones)", "el": "ringing bronze bell energy", "nameColors": "bronze-to-gold metallic gradient with red pinstripe edges and a thin crack running through the letters", "superName": "LAST BELL", "superColors": "bronze metallic letters with a jagged white crack, a small gold crown over the K, and ringing shockwave lines around them", "projectile": "a glowing bronze Liberty Bell with its famous crack, flying forward and ringing out bronze shockwave rings, with a short trail of sparks (no green tones, no text)", "superball": "a giant bronze Liberty Bell slamming forward, a huge cracked shockwave of bronze and white light bursting out of it (no green tones, no text)"},
+    lux: {"name": "Loaded Lux", "tab": "Loaded Lux", "corner": "HARLEM", "dir": "sprites/lux/", "pronoun": "he", "height": "5'10\" (178 cm)", "build": "a lean, wiry build, a touch taller than Cassidy, long arms", "outfit": "short tapered black hair, a full black beard, a plain white tee (no logos or readable text), a thin gold chain, black jeans and black-and-white sneakers", "vibe": "intense, cerebral stare, a Harlem legend who has seen it all", "colors": "jet black and gold", "element": "splashing black ink with flicks of gold, like a pen stroke (no green tones)", "el": "black ink and gold", "nameColors": "glossy black ink letters with thick gold edges and gold ink drips", "superName": "LOADED", "superColors": "gold metallic letters with glossy black ink splattered across them", "projectile": "a gold fountain-pen nib flying forward inside a splash of glossy black ink, flicking gold droplets behind it (no green tones, no text)", "superball": "a giant crashing wave of glossy black ink streaked with gold pen strokes and gold droplets (no green tones, no text)"},
+    nitty: {"name": "Rum Nitty", "tab": "Rum Nitty", "corner": "PHOENIX, AZ", "dir": "sprites/nitty/", "pronoun": "he", "height": "", "build": "a slim, lean build, about Cassidy's height", "outfit": "a navy-blue silk durag, a thin mustache and goatee, a royal-blue tee (no logos or readable text), a gold rope chain, a red rubber wristband on his right wrist, dark tattoo sleeves on both forearms, black jeans and white sneakers", "vibe": "sly, calculating smirk, tapping his temple like he just thought of the next bar", "colors": "sunset orange and magenta", "element": "blazing desert-sun heat: an orange-red sun disc with a magenta corona and shimmering heat waves (no green tones)", "el": "desert-sun heat", "nameColors": "sunset gradient from orange to magenta with a heat-shimmer glow", "superName": "SCORCHED", "superColors": "blazing orange-to-magenta letters with heat waves rising off them and a cracked-earth edge", "projectile": "a blazing miniature desert sun (an orange-red disc with a magenta corona) flying forward and trailing shimmering heat waves and sparks (no green tones, no text)", "superball": "a massive desert-sun flare bursting forward: a huge orange-red sun with magenta flames and rippling heat waves (no green tones, no text)"},
+    geechi: {"name": "Geechi Gotti", "tab": "Geechi Gotti", "corner": "COMPTON, CA", "dir": "sprites/geechi/", "pronoun": "he", "height": "", "build": "a stocky, heavy build: thick arms, wide chest and a round belly, a bit shorter than Rosenberg Raw", "outfit": "long cornrow braids under a blue paisley bandana folded as a headband, a full beard, a navy work shirt worn open over a white tee (no logos or readable text), navy work pants, white low-top sneakers and a thin silver chain", "vibe": "calm, cold West Coast confidence, chin up, looking down his nose", "colors": "chrome silver and candy blue", "element": "gleaming chrome and candy-blue paint with bright white sparks, like a lowrider (no green tones)", "el": "chrome and blue sparks", "nameColors": "polished chrome letters with candy-blue pinstripe edges and a bright shine", "superName": "HIT THE SWITCH", "superColors": "candy-blue letters with chrome edges, bouncing at a tilt, with white sparks", "projectile": "a spinning chrome lowrider wire-spoke wheel rolling forward through the air, throwing bright white and blue sparks behind it (no green tones, no logos, no text)", "superball": "a candy-blue lowrider car with chrome trim bouncing forward on its hydraulics, front wheels high, sparks spraying from the back bumper (side view, no green tones, no logos, no text)"},
+  };
+  const CHAR_IDS = Object.keys(DEFAULTS);
+  {
+    const nav = document.querySelector('.tabs'), before = nav.querySelector('[data-tab="stage"]');
+    const panelBefore = document.querySelector('[data-panel="stage"]');
+    for (const id of CHAR_IDS) {
+      const b = document.createElement('button');
+      b.className = 'tab'; b.setAttribute('role', 'tab'); b.dataset.tab = id;
+      b.innerHTML = `${DEFAULTS[id].tab || DEFAULTS[id].name.toUpperCase()}<span class="n" data-count="${id}"></span>`;
+      nav.insertBefore(b, before);
+      const sec = document.createElement('section'); sec.dataset.panel = id; sec.hidden = true;
+      panelBefore.parentNode.insertBefore(sec, panelBefore);
+    }
+  }
+
+  // What each sheet cell shows. {el} becomes the battler's effect in one word (fire / ice);
+  // the full effect description goes in once per prompt.
+  const POSES = {
+    dash_1: ['Dash 1', 'dashing forward, leaning far forward, back foot pushing off the floor'], dash_2: ['Dash 2', 'mid-dash, both feet just off the floor, leaning hard forward'],
+    backdash_1: ['Backdash', 'hopping backward, leaning back, fists up guarding'], counter_1: ['Counter 1', 'counter wind-up, twisting out of his guard'],
+    counter_2: ['Counter 2', 'counter strike, shoving forward with an open palm'], taunt_1: ['Taunt 1', 'taunting the opponent'], taunt_2: ['Taunt 2', 'taunting, a bigger second beat'],
+    win_3: ['Win 3', 'a third victory pose'], hit_2: ['Hit 2', 'hit in the stomach, doubled over forward'],
+    sp2_1: ['Special 2, 1', 'special 2 wind-up (see his move list in builder.html)'], sp2_2: ['Special 2, 2', 'special 2 in motion'], sp2_3: ['Special 2, 3', 'special 2 at full extension'], sp2_4: ['Special 2, 4', 'special 2 follow-through'],
+    sp3_1: ['Special 3, 1', 'special 3 wind-up'], sp3_2: ['Special 3, 2', 'special 3 in motion'], sp3_3: ['Special 3, 3', 'special 3 at full extension'], sp3_4: ['Special 3, 4', 'special 3 follow-through'],
+    su2_1: ['Super 2, 1', 'super 2, first hit'], su2_2: ['Super 2, 2', 'super 2, second hit'], su2_3: ['Super 2, 3', 'super 2, third hit'], su2_4: ['Super 2, 4', 'super 2 finisher'],
+    intro_1: ['Walkout 1', 'walking out to the crowd'], intro_2: ['Walkout 2', 'hyping up the crowd'], intro_3: ['Walkout 3', 'dropping into his fighting stance'],
+    ref: ['Size reference', 'the same neutral fighting stance as Image 1'],
+    idle_1: ['Idle 1', 'fighting stance, knees bent, fists up'],
+    idle_2: ['Idle 2', 'same stance mid-breath, shoulders and fists slightly lower'],
+    idle_3: ['Idle 3', 'same stance mid-breath, chest lifted, fists slightly higher'],
+    walk_1: ['Walk 1', 'walking forward in stance, front foot stepping'],
+    walk_2: ['Walk 2', 'walking forward, feet together mid-step'],
+    walk_3: ['Walk 3', 'walking forward, rear foot passing forward'],
+    walk_4: ['Walk 4', 'walking forward, wide step, both feet down'],
+    jump_1: ['Jump 1', 'jumping, knees tucked to chest, fists up'],
+    jump_2: ['Jump 2', 'falling, legs extending down, arms out'],
+    punch_1: ['Punch 1', 'punch wind-up, lead fist pulled back to the cheek'],
+    punch_2: ['Punch 2', 'jab, lead arm fully extended at head height, motion lines'],
+    punch_3: ['Punch 3', 'punch recovery, arm halfway back to guard'],
+    kick_1: ['Kick 1', 'kick wind-up, front knee raised to chest'],
+    kick_2: ['Kick 2', 'side kick, front leg fully extended at chest height, torso leaning back'],
+    kick_3: ['Kick 3', 'kick recovery, leg bent, foot coming down'],
+    airKick_1: ['Flying kick', 'flying kick in mid-air, front leg angled down and forward'],
+    block_1: ['Block', 'standing block, forearms crossed in front of the face'],
+    hit_1: ['Hit', 'getting hit, head snapped back, body recoiling, eyes shut'],
+    special_1: ['Special 1', 'special charge, hands at the hip, a glowing ball of {el} between the palms'],
+    special_2: ['Special 2', 'special release, palms thrust forward, a burst of {el}'],
+    special_3: ['Special 3', 'follow-through, arms extended, wisps of {el} fading'],
+    super_1: ['Super 1', 'super power-up, fists raised overhead, shouting, a huge {el} aura around the body'],
+    super_2: ['Super 2', 'super strike, wide low stance, palms forward, a massive {el} blast'],
+    choke_1: ['Choke', 'choking, embarrassed, hands on head, sweat drops, normal outfit colors (not icy)'],
+    knockdown_1: ['Knockdown 1', 'knocked back through the air, almost horizontal, limbs flailing'],
+    knockdown_2: ['Knockdown 2', 'knocked out, lying flat on the back, head on the left'],
+    getup_1: ['Get up', 'getting up, kneeling on one knee, one hand on the floor'],
+    crouch_1: ['Crouch', 'deep crouch, fists up guarding the face'],
+    crouchBlock_1: ['Crouch block', 'deep crouch, forearms raised in front of the face'],
+    lowPunch_1: ['Low punch 1', 'crouching, lead fist pulled back'],
+    lowPunch_2: ['Low punch 2', 'crouching jab, arm fully extended at waist height'],
+    sweep_1: ['Sweep 1', 'dropping low, one hand on the floor'],
+    sweep_2: ['Sweep 2', 'leg sweep, one hand on the floor, front leg extended along the floor'],
+    win_1: ['Win 1', 'victory pose, one fist raised high, chin up'],
+    win_2: ['Win 2', 'victory pose, arms spread wide, shouting'],
+  };
+
+  const TEXTS = [
+    ['round1', 'ROUND 1', 'gold metallic letters with a red outer glow'],
+    ['round2', 'ROUND 2', 'gold metallic letters with a red outer glow'],
+    ['finalround', 'FINAL ROUND', 'gold metallic letters with red-hot glowing edges'],
+    ['battle', 'BATTLE!', 'a fiery red-orange to yellow gradient with sparks flying off the letters'],
+    ['runitback', 'RUN IT BACK!', 'a fiery red-orange to yellow gradient with sparks'],
+    ['letsgo', "LET'S GO!", 'a fiery red-orange to yellow gradient with sparks'],
+    ['ko', 'K.O.', 'a blood-red to bright orange gradient with cracked, shattered edges'],
+    ['bodybag', 'BODY BAG!', 'molten orange and yellow letters with flames licking off the top'],
+    ['time', 'TIME!', 'silver chrome letters with a bright white shine'],
+    ['judgesdecision', "JUDGES' DECISION", "gold metallic letters on two lines (JUDGES' on top, DECISION below)"],
+    ['perfect', 'PERFECT', 'gold letters with white sparkles'],
+    ['counter', 'COUNTER!', 'bright yellow letters with a red outline, slanted hard to the right'],
+    ['choke', 'CHOKE!', 'pale gray-blue wobbly letters with sweat drops, embarrassed comic style'],
+    ['ohhh', 'OHHH!', 'white comic-book shout letters with a red outline and burst lines around them'],
+    ['vs', 'VS', 'giant letters: the V made of orange fire and the S made of pale-blue ice, with a jagged lightning crack between them'],
+    ['youwin', 'YOU WIN', 'gold metallic gradient letters'],
+    ['youlose', 'YOU LOSE', 'dull red-to-gray gradient letters with cracks'],
+    ['pressstart', 'PRESS START', 'white letters with a gold bevel and a soft yellow glow, the classic arcade attract-screen prompt'],
+    ['subtitle', 'BATTLE RAP FIGHTER', 'icy chrome-blue letters with a white shine and wide letter spacing'],
+  ];
+
+  const TITLE_TEXT = ['pressstart', 'subtitle']; // listed on the Decals tab
+
+  // ---- remembered in this browser only ----
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem('pp2:' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem('pp2:' + k, JSON.stringify(v)); } catch (e) { /* storage off */ } },
+  };
+  const FIELDS = [['height', 'Height'], ['build', 'Build'], ['outfit', 'Outfit'], ['vibe', 'Attitude'], ['colors', 'Accent colors'], ['element', 'Special-move effect'], ['el', 'Effect in one word']];
+  const chars = Object.fromEntries(CHAR_IDS.map(id => [id, { ...DEFAULTS[id], ...store.get('char:' + id, {}) }]));
+  const done = new Set(store.get('done', []));
+  const fixPick = { ...Object.fromEntries(CHAR_IDS.map(id => [id, 'kick_2'])), ...store.get('fix', {}) };
+  const bodyOf = c => {
+    const P = c.pronoun === 'she' ? 'She' : 'He';
+    return c.height ? `${P} is ${c.height} tall with ${c.build}: draw those proportions.` : c.build ? `${P} has ${c.build}.` : '';
+  };
+
+  // ---- prompt builders ----
+  const fill = (s, c) => s.replace(/\{el\}/g, c.el);
+  const usesEl = cells => cells.some(cell => cell && POSES[cell] && POSES[cell][1].includes('{el}'));
+  const lettering = (text, colors, ratio) => `Arcade fighting game title graphic. The text reads exactly "${text}", with no other words, letters or symbols. Huge, chunky 1990s arcade letters with a beveled edge: ${colors}; thick black outline, hard drop shadow, slight forward slant, crisp pixel-art lettering. Centered with an empty margin. ${ratio}\n\n${GREEN} No green in the letters.`;
+  const masterPrompt = c => `Full-body 2D fighting game sprite of ${c.name}, a battle rapper, based on the person in the reference photos. Keep their face, skin tone, hairstyle, facial hair and build so fans recognize them. ${bodyOf(c)}\nOutfit: ${c.outfit}.\nPose: fighting stance, side view facing right, knees bent, lead fist at chin height, rear fist guarding the face.\nAttitude: ${c.vibe}. Accent colors: ${c.colors}.\nFull body head to feet, centered, about 75% of the image height, feet near the bottom. Square 1:1.\n\n${STYLE}\n${GREEN}`;
+  function sheetPrompt(c, s) {
+    const list = s.cells.map((cell, i) => `${i + 1}. ${fill(POSES[cell][1], c)}`).join('\n');
+    const fx = usesEl(s.cells) ? `\n${c.el[0].toUpperCase() + c.el.slice(1)} = ${c.element}.` : '';
+    return `Image 1 is the finished sprite of ${c.name}${c.height ? ` (${c.height}, ${c.build})` : ''}. Make a sprite sheet of this exact character: a ${s.cols}x${s.rows} grid of ${s.cols * s.rows} separate poses, read left to right, top to bottom. Same face, hairstyle, headwear, outfit, colors, body proportions and scale in every pose; every pose faces right, side view, full body.${fx}\n\n${list}\n\nEach pose centered in its own equal cell with wide empty space between poses; nothing touches or crosses into another cell. No grid lines, floor lines, shadows, numbers, labels or text. Square 1:1.\n\n${STYLE}\n${GREEN}`;
+  }
+  const effectsPrompt = c => `Sprite sheet of special-move effects for a 2D arcade fighting game: a 3x2 grid, read left to right, top to bottom. Effects only, no characters, all flying to the right with their trails behind them on the left.\nCells 1-3: three looping frames of the special projectile: ${c.projectile}. Same size each frame, energy shifting slightly.\nCells 4-5: two frames of the super blast: ${c.superball}. Much bigger, filling most of each cell.\nCell 6: empty.\nEach effect centered in its own equal cell with wide space around it; nothing crosses cells. No grid lines, numbers, labels or text. Wide 3:2.\n\n${STYLE}\n${GREEN}`;
+  const fixPrompt = (c, cell) => {
+    const fx = usesEl([cell]) ? ` ${c.el[0].toUpperCase() + c.el.slice(1)} = ${c.element}.` : '';
+    return `Image 1 is the finished sprite of ${c.name}. Redraw this exact character (same face, hair, outfit, colors, outline, shading, proportions and scale) in this pose: ${fill(POSES[cell][1], c)}.${fx}\nFull body, side view facing right, centered, feet near the bottom (leave space below if airborne). Square 1:1.\n\n${STYLE}\n${GREEN}`;
+  };
+
+  function characterCards(id) {
+    const c = chars[id], master = `<b>${c.dir}master.jpg</b>`;
+    return [
+      { group: 'Step 1 · Master sprite', note: 'make this first' },
+      { file: c.dir + 'master.jpg', title: 'Master sprite', first: true, ratio: '1:1', attach: '<b>1–3 photos of the battler</b> (see References: full body plus a face close-up)', prompt: masterPrompt(c),
+        note: 'Every other prompt uses this as Image 1. It also shows up in the game right away as the standing pose.' },
+      { group: 'Step 2 · Sprite sheets', note: '9 poses each' },
+      ...LAYOUTS.sprites.map((s, i) => ({ file: `${c.dir}${s.file}.jpg`, title: `Sheet ${i + 1}: ${s.title}`, ratio: '1:1', attach: `Image 1: ${master}`, layout: s, prompt: sheetPrompt(c, s) })),
+      { group: 'Step 3 · Extras' },
+      { file: `${c.dir}${LAYOUTS.effects.file}.jpg`, title: 'Effects sheet (projectile and super blast)', ratio: '3:2', attach: 'Nothing', layout: LAYOUTS.effects, prompt: effectsPrompt(c) },
+      { file: c.dir + 'portrait.jpg', title: 'Portrait (select + VS screens)', ratio: '3:4', attach: `Image 1: ${master} · plus your best face photo`,
+        prompt: `Character-select portrait of ${c.name}, the character in Image 1 (use the photo for the face). Chest-up bust, three-quarter view facing right, ${c.vibe}, wearing ${c.outfit}. Dramatic rim light in ${c.colors}. 1990s arcade select-screen style: detailed pixel art, bold outlines, cel shading. The bust fills the frame from mid-chest up. Portrait 3:4.\n\n${GREEN}` },
+      { file: c.dir + 'name.jpg', title: 'Nameplate', ratio: '16:9', attach: 'Nothing', prompt: lettering(c.name.toUpperCase(), c.nameColors, 'Wide 16:9 image.') },
+      { file: c.dir + 'supername.jpg', title: `Super title: ${c.superName}`, ratio: '4:3', attach: 'Nothing', prompt: lettering(c.superName, c.superColors, 'Wide 4:3 image.') },
+    ];
+  }
+  const stageCards = () => [
+    { group: 'Harlem Block Party', note: 'the default stage · art/' },
+    { file: 'art/stage.jpg', title: 'Stage background', first: true, ratio: '16:9', attach: 'Nothing',
+      prompt: `Background stage for a 32-bit 2D side-view arcade fighting game, wide 16:9. Scene: an outdoor underground battle rap event on a Harlem street at night. Classic brownstones and tenement buildings with warmly lit windows, fire escapes, wooden water towers on the rooftops, string lights across the street, a glowing pink neon sign shape with no letters, and a raised plywood stage with big speaker stacks on both sides. Warm orange street light floods the left half and cold blue light floods the right half (fire vs ice). The ground is a flat street-level stage floor that fills the bottom 22% of the image, seen straight on with slight perspective. Keep the middle of the image open: no people, characters or objects in the center where two fighters will stand. No crowd (it is added as a separate layer). Richly detailed hand-pixeled background art like a 1990s arcade fighting game stage, limited palette, crisp edges. Absolutely no text, words, letters, numbers or logos anywhere.`,
+      note: 'Generate this at 16:9, the same as the logo. A square one gets cropped top and bottom. Keep the stage free of writing: generated text comes out garbled.' },
+    { file: 'art/crowd.jpg', title: 'Crowd layer (pops up on big moments)', ratio: '16:9 or 3:2', attach: 'Image 1 (optional): <b>art/stage.jpg</b> so the lighting matches',
+      prompt: `A wide panoramic strip of a hyped battle rap crowd for a 32-bit 2D arcade fighting game, used as a separate background layer. A single packed row of about 30 fans seen from the front, waist-up, shoulder to shoulder: some with hands raised, some holding up phones with glowing screens, wearing hoodies, caps, beanies and puffer jackets in dark colors. Orange light on the left half and blue light on the right half. Pixel art with dark outlines, limited palette. Wide 16:9 image. The fans fill the bottom 70% of the image; everything behind and above them is one flat, solid, pure green color (#00FF00). No green clothing, no text.`,
+      note: 'Hidden until the crowd pops up (a 3+ hit combo, a super landing, a K.O. or a decision). Then its top rows rise above the stage edge like fans jumping up behind a barricade. crowdY and crowdShow in fighters.js move it.' },
+    ...newStageCards(),
+  ];
+  // The stages added after Harlem (made with Gemini 3 Pro Image on Vertex AI). Each one attaches art/stage.jpg so the style matches.
+  // Their positions, props and effects live in stages.js.
+  const stageBg = (scene, light, ground) => `Image 1 is a finished stage from this game. Match its art style exactly: late-1990s 32-bit arcade fighting game pixel art (CPS-2/CPS-3 era), crisp dark outlines, limited palette, 2-3 tone cel shading, the same camera height, the same floor placement and the same level of detail. Make a NEW background stage for the same 2D side-view fighting game. Wide 16:9.\n\nScene: ${scene}\n\nLighting: ${light}\n\nThe ground: ${ground}`;
+  const stageCrowd = (people, who, behind) => `Image 1 is the crowd layer from this game. Use it only as a reference for the art style, the framing and the format; draw completely different people with different faces, clothes and poses.\n\nA wide panoramic strip of a battle rap crowd for a 32-bit 2D arcade fighting game, used as a separate background layer. ${people}\n\nPixel art with dark outlines, limited palette, the same style as Image 1. Wide 16:9 image. The ${who} fill only the bottom 65% of the image. The top 35% of the image and every gap between people is one flat, solid, pure green color (#00FF00): no ${behind} behind them. No green clothing, no text, no logos.`;
+  const stageProp = (thing, size, ratio, extra = '') => `A single prop for a 32-bit 2D arcade fighting game stage: ${thing} Centered, ${size}. ${ratio}\n\n${STYLE}\n${GREEN} No green on the object.${extra}`;
+  // League stages, their founders ringside and the host. People: Image 1 = a finished sprite (style), Image 2 = their photo from refs/.
+  const SPRITE_REF = 'Image 1 is a finished character sprite from this game: match its pixel art style, outline weight and shading exactly.';
+  const GREEN_PEOPLE = `${GREEN} No green on the characters or objects.`;
+  const PEOPLE_ATTACH = person => `Image 1: <b>sprites/clips/master.jpg</b> (style) · Image 2: <b>refs/${person}/</b> photo (the sources are in refs/${person}/SOURCES.txt)`;
+  const twoPoses = (who, keep, outfit, idle, react) => `${SPRITE_REF} Image 2 is a photo of ${who}. Make a sprite sheet with 2 equal cells side by side (left cell, right cell), each showing him full body head to feet as a background character: keep his ${keep} from the photo. Outfit: ${outfit}. He faces the viewer at three-quarters, turned slightly to the right.\n\nLeft cell: ${idle}\nRight cell: ${react}\n\nSame scale and outfit in both cells, centered, with empty space between the cells. No writing or logos on the clothes. No grid lines, floor, shadows, labels or text. Wide 16:9 image.\n\n${STYLE}\n${GREEN_PEOPLE}`;
+  const NOTE_OWNER = 'Watching on the left, reacting on the right. The game swaps to the reaction on big hits, 3+ hit combos, supers and K.O.s. Get the person\'s OK before launch.';
+  // Story mode (ROAD TO THE BRAWL): cutscene backgrounds and the extras. The battlers use their portrait.jpg and Jay Blac his host sheet.
+  const cutsceneBg = (scene, light) => `Image 1 is a finished stage from this game. Match its art style exactly: late-1990s 32-bit arcade fighting game pixel art (CPS-2/CPS-3 era), crisp dark outlines, limited palette, 2-3 tone cel shading and the same level of detail. Make a NEW background for a story cutscene in the same game. Wide 16:9.\n\nScene: ${scene}\n\nLighting: ${light}\n\nNo people anywhere. Richly detailed hand-pixeled background art, limited palette, crisp edges. Absolutely no text, words, letters, numbers, signs or logos anywhere.`;
+  const storyCards = () => [
+    { group: 'Cutscene backgrounds', note: 'art/story/ · the stages double as backgrounds too (stage:<id> in story.js)' },
+    { file: 'art/story/barbershop.jpg', title: 'Harlem barbershop (the barbershop debate)', ratio: '16:9', attach: REF_STAGE,
+      prompt: cutsceneBg('a classic Harlem barbershop at night after closing time, seen from the front of the shop: three red leather and chrome barber chairs facing a long wall of mirrors, a counter with clippers, spray bottles and combs soaking in blue disinfectant jars, framed photos on the wall turned too small to see, a flat-screen TV mounted high on the wall showing a plain dark screen, a red, white and blue striped barber pole by the front window, a black-and-white checkered floor, a waiting bench with a stack of magazines, warm lamps. Through the front window: a Harlem street at night with brownstones and a lit street lamp.',
+        'warm orange lamp light on the left half, cold blue street light through the window on the right half.') },
+    { file: 'art/story/presser.jpg', title: 'Press conference (the face-off before the main event)', ratio: '16:9', attach: REF_STAGE,
+      prompt: cutsceneBg("the press conference for a big battle rap fight night: a long black table across the middle of the room with several microphones on small stands and blank folded name cards, a podium with a microphone in the center, a big plain dark backdrop wall behind the table (blank, no logos), stage lights with orange and blue gels, rows of photographers' tripods and video cameras on both sides, a velvet rope in front, camera flashes popping.",
+        'orange light on the left half, ice-blue light on the right half, bright and dramatic.') },
+    { file: 'art/story/tunnel.jpg', title: 'Walkout tunnel (the ending)', ratio: '16:9', attach: REF_STAGE,
+      prompt: cutsceneBg('a dark concrete backstage tunnel leading toward a blindingly bright arena entrance at the far end, seen straight down the tunnel: haze and smoke, stage light beams spilling in from the entrance, cables taped on the floor, black road cases and equipment along the walls, a hanging curtain pulled open at the end, distant crowd lights glowing beyond the entrance.',
+        'warm orange light on the left wall, cold blue light on the right wall, and a white-hot glow from the arena at the end.') },
+    { group: 'Extras', note: 'made-up characters for the scenes' },
+    { file: 'art/story/barbers.jpg', title: 'The two barbers (left: OLD HEAD, right: YOUNG BARBER)', ratio: '16:9', attach: 'Nothing',
+      prompt: `A pair of character portraits for a late-1990s 32-bit arcade fighting game cutscene, in the style of a character-select portrait. Make 2 equal cells side by side (left cell, right cell), each a chest-up portrait of a different fictional Harlem barber, in the middle of a heated barbershop debate about who wins a battle rap match.\n\nLeft cell: an older barber with a neat gray beard and short gray hair, glasses on his forehead, a white barber smock, holding clippers, pointing with them, skeptical expression. Three-quarter view facing right.\nRight cell: a younger, stockier barber with 360 waves and a sharp lineup, a short full beard and a small silver hoop earring, a black barber smock with a towel over his shoulder, laughing and waving one hand dismissively. Three-quarter view facing left.\n\nEach portrait fills its cell from mid-chest up, centered, with empty space between the cells. These are made-up characters, not real people. No frames or borders around the portraits. No writing or logos on clothes. No grid lines, labels or text. Wide 16:9 image.\n\n${STYLE}\n${GREEN} No green on the characters or objects.`,
+      note: 'Left cell = barber1, right cell = barber2 in story.js (extras). Check that neither one looks like a real celebrity, and if the portraits come back inside boxes, ask Gemini to edit the frames out (that\'s how the current one was made).' },
+  ];
+  const leagueCards = () => [
+    { group: 'URL · Ultimate Rap League', note: 'art/stages/url/ · Smack and Beasley ringside' },
+    { file: 'art/stages/url/stage.jpg', title: 'URL background (Queens warehouse event)', ratio: '16:9', attach: REF_STAGE,
+      prompt: stageBg('an underground battle rap league event in Queens, New York at night, inside a gritty converted warehouse: exposed brick and raw concrete walls, steel columns, black stage curtains, harsh overhead work lights hanging on chains plus a few colored stage lights, cables taped across the floor. The event is being filmed for streaming: a row of professional video cameras on tripods and a camera slider stand along the back wall. A big plain dark cloth banner hangs on the back wall with nothing on it. Through tall factory windows high on the back wall: the Manhattan skyline across the East River at night.',
+        'warm orange light floods the left half, cold blue light floods the right half (fire vs ice), dark shadows.',
+        'a flat stained concrete floor with a worn painted circle where the battlers face off, filling the bottom 22% of the image, seen straight on with slight perspective, like a classic fighting game stage floor. Keep the middle of the image open: no people, characters or objects in the center or at the front where two fighters will stand. No people anywhere at all (the crowd is a separate layer). Richly detailed hand-pixeled background art, limited palette, crisp edges. Absolutely no text, words, letters, numbers, logos or writing anywhere, including on the banner and the cameras.'),
+      note: 'The cameras nod to URL growing out of Smack filming SMACK DVD; finishers play back through a camcorder viewfinder in the game. The crowd is borrowed from Fight Night.' },
+    { file: 'art/stages/url/owners.jpg', title: 'Smack and Beasley (ringside)', ratio: '16:9', attach: PEOPLE_ATTACH('smack_beasley'),
+      prompt: `${SPRITE_REF} Image 2 is a photo of the two owners of a New York battle rap league. Make a sprite sheet with 2 equal cells side by side (left cell, right cell). In each cell draw the same two men from the photo standing side by side, full body head to feet, as background characters watching a battle: keep their faces, beards, head and hair, skin tones, builds and outfits from the photo (the man on the left: long full beard, dark snapback with no writing, navy and tan jacket, jeans; the man on the right: bald head, short beard, black sweater, dark jeans). They face the viewer at three-quarters, turned slightly to the right.\n\nLeft cell: both standing calm and serious with arms folded, watching.\nRight cell: both reacting to a huge punchline: the man on the left leaning back with a fist over his mouth, the man on the right pointing forward and laughing.\n\nSame scale and outfits in both cells, each pair centered in its cell with empty space between the cells. No writing or logos on the clothes. No grid lines, floor, shadows, labels or text. Wide 16:9 image.\n\n${STYLE}\n${GREEN_PEOPLE}`,
+      note: `${NOTE_OWNER} The XXL photo used does not say which man is which, so confirm it's the two of them (or swap in a captioned photo) before launch.` },
+    { file: 'art/stages/url/camera.jpg', title: 'Broadcast camera (gets knocked over)', ratio: '9:16', attach: 'Nothing',
+      prompt: `A single prop for a 32-bit 2D arcade fighting game stage: a professional broadcast video camera with a lens hood and a small monitor, mounted on a tall black tripod, seen from the front at three-quarters, standing upright. Centered, filling about 85% of the image height. Tall portrait 9:16 image.\n\n${STYLE}\n${GREEN_PEOPLE} No text or logos.` },
+    { group: 'RBE · Rare Breed Entertainment', note: 'art/stages/rbe/ · A.R.P. ringside' },
+    { file: 'art/stages/rbe/stage.jpg', title: 'RBE background (Atlanta event hall)', ratio: '16:9', attach: REF_STAGE,
+      prompt: stageBg('a big modern battle rap league event hall in Atlanta at night. Tall black truss towers with deep red, white and amber stage lights, haze in the air, a low black stage riser across the back with a short metal stair, velvet ropes and VIP booth tables with small table lights along the sides. On the back wall to the right side: a huge tall vertical blank LED screen, from about 18% to 62% of the image height and about 62% to 82% of the width, a plain dark screen with a faint pixel grid, showing nothing at all. A thin blank LED strip runs along the front edge of the riser.',
+        'deep red and warm orange light on the left half, cold blue light on the right half, dark shadows.',
+        'a flat glossy black event floor reflecting the colored lights, filling the bottom 22% of the image, seen straight on with slight perspective, like a classic fighting game stage floor. Keep the middle of the image open: no people, characters or objects in the center or at the front where two fighters will stand. No people anywhere at all (the crowd is a separate layer). Richly detailed hand-pixeled background art, limited palette, crisp edges. Absolutely no text, words, letters, numbers, logos or writing anywhere, and nothing on the screens.'),
+      note: 'The big screen runs a live fan feed in the game (A.R.P. built RBE posting battle updates online), so it has to stay blank. If a new take moves it, change the feed x, y, w, h in stages.js.' },
+    { file: 'art/stages/rbe/arp.jpg', title: 'A.R.P. (ringside)', ratio: '16:9', attach: PEOPLE_ATTACH('arp'),
+      prompt: twoPoses('A.R.P., the founder and host of an Atlanta battle rap league', 'face, glasses, beard, skin tone and build', 'plain red fitted cap with no writing, glasses, red jacket over a black tee, dark jeans, sneakers, holding a black wireless microphone',
+        'standing at ease, mic down at his side, watching the battle with a serious face.', 'reacting to a huge bar: leaning back, mic raised high, mouth wide open yelling.'),
+      note: `${NOTE_OWNER} The photo used is the thumbnail of FOX 5's A.R.P. interview, which doesn't caption it; confirm it's him.` },
+    { group: 'King of the Dot', note: 'art/stages/kotd/ · Organik ringside · the alley where it started' },
+    { file: 'art/stages/kotd/stage.jpg', title: 'King of the Dot background (Toronto alley)', ratio: '16:9', attach: REF_STAGE,
+      prompt: stageBg('a downtown Toronto back alley at night in winter, the kind of alley where an underground battle rap league first started. A narrow alley between tall old brick buildings with black metal fire escapes, seen straight down its length. A green dumpster and recycling bins against the right wall near the edge, a steel back door with a caged security light on the left wall, steam rising from a grate, a chain-link gate pushed open, wet pavement with patches of snow and slush. At the far end the alley opens onto a bright busy downtown street with glowing storefront lights (no readable signs), and above the buildings in the distance the CN Tower lit up against the night sky. Light snow falling.',
+        'warm orange from the security light on the left half, cold blue from the street and sky on the right half (fire vs ice).',
+        'a flat wet asphalt alley floor with snow at the edges, filling the bottom 22% of the image, seen straight on with slight perspective, like a classic fighting game stage floor. Keep the middle of the image open: no people, characters, cars or objects in the center or at the front where two fighters will stand. No people anywhere at all. Richly detailed hand-pixeled background art, limited palette, crisp edges. Absolutely no text, words, letters, numbers, signs, graffiti tags or logos anywhere.'),
+      note: 'KOTD began in 2008 in an alley by the Eaton Centre after security moved them off Yonge-Dundas Square, so after a K.O. a security flashlight sweeps the alley, and the winner gets a crown. The crowd is borrowed from North Philly (dressed for winter).' },
+    { file: 'art/stages/kotd/organik.jpg', title: 'Organik (ringside)', ratio: '16:9', attach: PEOPLE_ATTACH('organik'),
+      prompt: twoPoses('Organik, the founder and host of a Toronto battle rap league', 'face, skin tone and build, a few years older', 'plain black snapback with no logo, black hoodie, a thin gold chain, black jeans, white sneakers, holding a black wireless microphone',
+        'standing with arms folded, mic in one hand, watching the battle with a calm, sharp look.', 'reacting to a huge bar: both hands on top of his head in disbelief, mouth open.'),
+      note: `${NOTE_OWNER} The photo used is from 2011 (Wikimedia); a recent one will age him right.` },
+    { file: 'art/stages/kotd/streetcar.jpg', title: 'Toronto streetcar (crosses the far end of the street)', ratio: '21:9', attach: 'Nothing',
+      prompt: `A single modern city streetcar (low-floor tram) for the background of a 32-bit 2D arcade fighting game, seen exactly from the side (perfect side elevation, no perspective): bright red body with white and black trim, a long row of lit windows with dark silhouettes of riders inside, sliding doors, a pantograph on the roof, wheels hidden behind a skirt. The whole streetcar fits in the frame, centered, filling the image from side to side. Very wide 21:9 image.\n\n${STYLE}\n${GREEN_PEOPLE} No text, numbers or logos on the streetcar.` },
+    { group: 'Host · Jay Blac', note: 'art/host/ · calls every round on every stage' },
+    { file: 'art/host/jayblac.jpg', title: 'Jay Blac host sheet (idle, walk, walk, announce, point)', ratio: '3:2', attach: PEOPLE_ATTACH('jayblac'),
+      prompt: `${SPRITE_REF} Image 2 is a photo of JayBlac, a Philadelphia battle rap host. Make a sprite sheet of JayBlac as the host of this 2D arcade fighting game: a 3x2 grid of 6 equal cells, read left to right, top to bottom. Keep his face, clear-framed glasses, long full beard, shoulder-length locs, skin tone and build so fans recognize him. Outfit: black tee under an open black bomber jacket, dark jeans, clean white sneakers, holding a black wireless microphone.\n\n1. standing relaxed, facing right, mic in his right hand down at his side\n2. walking to the right, left foot forward\n3. walking to the right, right foot forward\n4. announcing: facing the viewer at three-quarters, mic to his mouth, free arm raised high pointing up, mouth open\n5. pointing: facing right, arm fully extended pointing to the right, mic in the other hand, hyped expression\n6. empty\n\nFull body head to feet in every pose, same face, outfit, colors and scale in every pose, each pose centered in its own cell with wide empty space between poses; nothing touches or crosses into another cell. No grid lines, floor lines, shadows, numbers, labels or text. Wide 3:2 image.\n\n${STYLE}\n${GREEN_PEOPLE}`,
+      note: 'He walks out to center to call each round, steps back before the fight, walks over to point out the winner after a K.O., and calls judges\' decisions. If the sheet comes back with grid lines or green shadows, paint them pure green before saving (they ruin the crop). His voice is the vo_ announcer lines on the Music & SFX tab.' },
+  ];
+  const REF_STAGE = 'Image 1: <b>art/stage.jpg</b> (the Harlem stage, so the style matches)', REF_CROWD = 'Image 1: <b>art/crowd.jpg</b> (style only)';
+  const NOTE_CROWD = 'Pops up on big moments like the Harlem crowd. Keep a take where the green fills the whole top and every gap. If a faded copy of the crowd shows up along the top edge (a known 16:9 quirk), paint that strip green before saving.';
+  const newStageCards = () => [
+    { group: 'North Philly', note: "Cassidy and Eazy's home stage · art/stages/philly/" },
+    { file: 'art/stages/philly/stage.jpg', title: 'North Philly background', ratio: '16:9', attach: REF_STAGE,
+      prompt: stageBg('a North Philadelphia block at night in December. Narrow two-story red-brick rowhomes in a continuous row, white marble front steps, iron railings, bay windows, warm lit windows, a corner store with a bright yellow awning and a glowing window (nothing written on the awning), a big colorful abstract wall mural on the side of one rowhome (shapes and colors only, no faces, no writing), a pair of sneakers hanging by their laces from a telephone wire, leafless trees, light snow on the rooftops and window ledges. Behind the rowhomes, in the middle distance, an elevated steel train track (the Philly El) on riveted steel girders and columns runs straight across the whole width of the image just above the rooftops, at about 25-35% of the image height from the top, with the dark night sky visible above it and no train on it. The whole track is visible from the side, so a train running on it would be fully visible.',
+        'warm orange street light floods the left half, cold blue light floods the right half (fire vs ice), dark navy night sky.',
+        'a flat street-level stage floor of cracked asphalt and sidewalk that fills the bottom 22% of the image, seen straight on with slight perspective, like a classic fighting game stage floor. Keep the middle of the image open: no people, characters, cars or objects in the center where two fighters will stand. No crowd (it is added as a separate layer). No trash cans or barrels (added separately). Richly detailed hand-pixeled background art, limited palette, crisp edges. Absolutely no text, words, letters, numbers, graffiti tags, street signs or logos anywhere.'),
+      note: 'The El train crosses the gap between the two rows of houses. If a new take moves that gap, change the train\'s clip and y in stages.js.' },
+    { file: 'art/stages/philly/crowd.jpg', title: 'North Philly crowd layer', ratio: '16:9', attach: REF_CROWD,
+      prompt: stageCrowd('A single packed row of about 26 people at a street battle on a North Philadelphia block on a freezing December night, seen from the front, waist-up, shoulder to shoulder, mostly Black and Latino men and women of different ages and builds: heavy puffer jackets, hooded parkas with fur-trimmed hoods, hoodies under jackets, beanies, durags, fitted caps, scarves, a few with their breath steaming in the cold. Reactions: some with fists up, some covering their mouths after a hard bar, one pointing, one with both hands on his head, a few holding up phones with glowing screens. Warm orange light on the left half and cold blue light on the right half.', 'people', 'buildings, sky, lights or scenery'),
+      note: NOTE_CROWD },
+    { file: 'art/stages/philly/train.jpg', title: 'El train car (crosses the skyline, rumbles the screen)', ratio: '21:9', attach: 'Nothing',
+      prompt: `A single elevated subway car for the background of a 32-bit 2D arcade fighting game, seen exactly from the side (perfect side elevation, no perspective), as a middle car of a train with flat ends and couplers at both ends. Silver stainless-steel body with a thin blue and red stripe, a long row of lit warm-yellow windows with dark silhouettes of riders inside, two sets of sliding doors, dark wheel trucks underneath. The whole car fits in the frame, centered, filling the image from side to side. Very wide 21:9 image.\n\n${STYLE}\n${GREEN} No green on the object. No text, numbers or logos on the car.`,
+      note: 'The game strings 4 of these together into one train.' },
+    { file: 'art/stages/philly/trashcan.jpg', title: 'Trash can (topples when a fighter is knocked into it)', ratio: '1:1', attach: 'Nothing',
+      prompt: stageProp('a dented, scuffed galvanized steel street trash can with its round lid on, standing upright, seen from the front at eye level. Silver-gray metal with ribbed bands, a little snow on the lid.', 'filling about 70% of the image height', 'Square 1:1 image.') },
+    { file: 'art/stages/philly/barrel.jpg', title: 'Fire barrel (rocks and flares up on fire hits)', ratio: '1:1', attach: 'Nothing',
+      prompt: stageProp('a rusty black 55-gallon steel drum used as a fire barrel on a winter street corner, standing upright, seen from the front at eye level. Ragged holes punched around the sides glow bright orange from the fire inside, and the rim glows hot. Only a few short low flames just above the rim.', 'filling about 70% of the image height', 'Square 1:1 image.'),
+      note: 'The game adds the moving flames and the glow on top.' },
+    { group: 'Fight Night', note: 'the arena · art/stages/venue/' },
+    { file: 'art/stages/venue/stage.jpg', title: 'Fight Night background', ratio: '16:9', attach: REF_STAGE,
+      prompt: stageBg('the main stage of a sold-out underground battle rap fight night inside an old Harlem ballroom, seen from the stage. Old ornate ballroom walls with arched windows and exposed brick, two empty curved balconies with rows of empty seats, haze and smoke in the air, a black steel lighting truss running across the top of the image with rows of stage spotlights and moving-head lights, beams of colored light cutting through the haze. A huge blank LED video wall hangs in the upper middle of the image, from about 15% to 40% of the image height and about 30% to 70% of the width: a plain dark screen with a faint pixel grid, showing nothing at all. A pay-per-view camera on a tall camera crane on one side, cable runs on the floor edges.',
+        'hot orange and red light floods the left half, cold ice-blue light floods the right half (fire vs ice), deep black shadows.',
+        'a flat black-painted wooden battle stage floor that fills the bottom 22% of the image, seen straight on with slight perspective, like a classic fighting game stage floor, with the warm and cold light pooling on it. Keep the middle of the image open: no people, characters or objects in the center or at the front where two fighters will stand. No people anywhere, not on the balconies and not behind the barricades (the crowd is a separate layer that pops up on big moments). No speaker stacks (added separately). Richly detailed hand-pixeled background art, limited palette, crisp edges. Absolutely no text, words, letters, numbers, banners with writing or logos anywhere, and nothing on the video wall.'),
+      note: 'The game draws the scrolling text, OHHH!, K.O. and super names on the blank LED wall, so the screen has to stay empty. If a new take moves it, change the screen x, y, w, h in stages.js. If a take still has fans in it (the one in the game did), attach it and ask: "Edit Image 1. Remove every person from the scene. Keep everything else exactly the same."' },
+    { file: 'art/stages/venue/crowd.jpg', title: 'Fight Night crowd layer', ratio: '16:9', attach: REF_CROWD,
+      prompt: stageCrowd('A single packed front row of about 26 fans at a sold-out indoor battle rap fight night, crushed together at the front of the stage, seen from the front, waist-up, shoulder to shoulder, mostly Black and Latino men and women: fitted caps, durags, braids, hoodies, leather and denim jackets, gold and silver chains. They are going wild: both arms in the air, fists pumping, hands on heads in disbelief, pointing at the stage, mouths wide open yelling, phones held high with glowing screens. Strong orange-red stage rim light on the left half and ice-blue rim light on the right half, dark shadows on the faces.', 'fans', 'truss, lights, stage, walls or scenery'),
+      note: NOTE_CROWD },
+    { file: 'art/stages/venue/speaker.jpg', title: 'Speaker stack (knocked over, keeps sparking)', ratio: '9:16', attach: 'Nothing',
+      prompt: stageProp('a tall concert speaker stack, three big black PA speaker cabinets stacked on top of each other on a black road case with small wheels, seen from the front at eye level. Each cabinet has a large woofer cone and a horn, black metal grilles, silver corner protectors.', 'the stack fills about 85% of the image height', 'Tall portrait 9:16 image.', ' No text or logos.') },
+    { group: 'Harlem Rooftop', note: 'art/stages/rooftop/ · no crowd layer' },
+    { file: 'art/stages/rooftop/stage.jpg', title: 'Harlem Rooftop background', ratio: '16:9', attach: REF_STAGE,
+      prompt: stageBg('a Harlem tenement rooftop at night in December, where a late-night rooftop cypher happens. A low brick parapet wall runs along the back edge of the roof. On the left: a big wooden water tower on a steel stand and a brick chimney. On the right: a weathered wooden pigeon coop with chicken-wire windows and a perch on top, a rooftop stairwell bulkhead with a metal door and a caged bulb, and an old TV antenna. A short metal vent pipe sticks up from the roof near each side. Warm string lights zig-zag overhead between the water tower and the bulkhead. Behind the parapet: the Harlem and upper Manhattan skyline at night, brownstone rooftops, more water towers, a church steeple, tall apartment towers with lit windows, a lit bridge far away on the right, a big full moon, light snow falling.',
+        'warm orange light from the string lights and windows on the left half, cold ice-blue moonlight on the right half (fire vs ice), dark navy sky.',
+        'a flat tar-paper rooftop floor with a dusting of snow that fills the bottom 22% of the image, seen straight on with slight perspective, like a classic fighting game stage floor. Keep the middle of the image open: no people, characters or objects in the center or at the front where two fighters will stand. No birds. Richly detailed hand-pixeled background art, limited palette, crisp edges. Absolutely no text, words, letters, numbers, signs or logos anywhere.'),
+      note: 'The game adds the pigeons (on the coop roof), the steam from the two vent pipes and the snow. If a new take moves those, change pigeons and steam x, y in stages.js.' },
+    { file: 'art/stages/rooftop/boombox.jpg', title: 'Boombox on a milk crate (topples, record scratch)', ratio: '1:1', attach: 'Nothing',
+      prompt: stageProp('a big 1980s silver and black boombox with two large round speakers and a cassette deck sitting on top of an upside-down red plastic milk crate, seen from the front at eye level.', 'filling about 70% of the image height', 'Square 1:1 image.', ' No text, brand names or logos.') },
+    ...leagueCards(),
+    { group: 'Stage sounds', note: 'optional: built-in synth versions play until you add these' },
+    sfx('stage_crash', 'Trash can knocked over', 1, 'A metal garbage can knocked over onto concrete, loud clanging crash with the lid rattling and spinning to a stop, starts instantly',
+      'Add "crash" to STAGE_SFX in stages.js once the file is in audio/sfx/.'),
+    sfx('stage_thud', 'Speaker stack falls', 1.5, 'A heavy concert speaker cabinet tipping over onto a wooden stage, one deep boom with a short burst of electric feedback squeal, starts instantly', 'Add "thud" to STAGE_SFX.'),
+    sfx('stage_scratch', 'Boombox falls (record scratch)', 1, 'A hip-hop DJ record scratch, one fast back-and-forth scratch then silence, starts instantly', 'Add "scratch" to STAGE_SFX.'),
+    sfx('stage_train', 'El train passing', 3.5, 'An elevated subway train rumbling past overhead, steel wheels clacking over rail joints, low rumble that swells and fades out', 'Add "train" to STAGE_SFX.'),
+    sfx('stage_zap', 'Neon sign shorting out', 0.8, 'A neon sign shorting out, sharp electric zap and crackle with a low buzz, starts instantly', 'Add "zap" to STAGE_SFX.'),
+    sfx('stage_flap', 'Pigeons scatter', 1.5, 'A flock of pigeons suddenly taking off, loud fluttering wing flaps, starts instantly', 'Add "flap" to STAGE_SFX.'),
+    sfx('stage_pop', 'Confetti cannons', 1, 'Two stage confetti cannons firing at once, a loud pop and whoosh of paper confetti, starts instantly', 'Add "pop" to STAGE_SFX.'),
+    sfx('stage_whistle', 'Security whistle (King of the Dot)', 1, 'A security guard blowing a whistle twice in an alley, short and sharp, starts instantly', 'Add "whistle" to STAGE_SFX.'),
+    sfx('stage_ding', 'Streetcar bell (King of the Dot)', 1, 'A city streetcar bell ringing twice in the distance, starts instantly', 'Add "ding" to STAGE_SFX.'),
+  ];
+  const textCards = () => [
+    { file: 'art/logo.jpg', title: 'Title logo', first: true, ratio: '16:9', attach: 'Nothing',
+      prompt: `Title logo for a 1990s 32-bit arcade fighting game. The text reads exactly "BATTLE RAP BRAWL", with no other words, letters or symbols anywhere: "BATTLE RAP" in smaller letters on top and "BRAWL" in huge letters below. Chunky beveled metal letters: the left half molten orange fire, the right half pale-blue ice, meeting in a jagged crack down the middle, with a thick black outline, a hard drop shadow and small sparks. Crisp pixel-art lettering. Centered with an empty margin. Wide 16:9 image.\n\n${GREEN} No green anywhere in the letters.` },
+    ...TEXTS.filter(([slug]) => !TITLE_TEXT.includes(slug)).map(([slug, text, colors]) => ({ file: `art/text/${slug}.jpg`, title: text, ratio: '4:3', attach: 'Nothing', prompt: lettering(text, colors, 'Wide 4:3 image.') })),
+  ];
+
+  const badge = (text, look) => `Arcade fighting game corner emblem: a bold crest badge that reads exactly "${text}", spelled exactly like that, with no other words, letters or symbols anywhere. ${look} Chunky beveled letters, a thick black outline and a hard drop shadow. Crisp 1990s 32-bit arcade pixel-art style. Centered with an empty margin around it. Square 1:1 image.\n\n${GREEN} No green anywhere in the badge.`;
+  const decalCards = () => [
+    { file: 'art/roundwin.jpg', title: 'Round-win icon', ratio: '1:1', attach: 'Nothing',
+      prompt: `A single round-win icon for a 2D arcade fighting game HUD: a shiny gold microphone with a small white star sparkle. Chunky 32-bit pixel art with a thick black outline and 3-tone shading, readable at a tiny size. Centered, filling about 70% of the image. Square 1:1 image.\n\n${GREEN} No green anywhere in the icon.`,
+      note: 'Replaces the dots next to the timer: one lights up for each round won.' },
+    { file: 'art/locked.jpg', title: 'Locked battler card', ratio: '3:4', attach: 'Nothing',
+      prompt: `Character-select "locked" portrait for a 2D arcade fighting game: the silhouette of a mystery battle rapper from the chest up, three-quarter view facing right, wearing a hoodie and a chain, filled solid near-black with only a thin purple-and-gold rim light, and a big glowing white question mark floating over the chest. 1990s arcade character-select style, crisp pixel art. The bust fills the frame from mid-chest up. Portrait 3:4 image.\n\n${GREEN}`,
+      note: 'Fills the 10 locked slots on the select screen until each battler is revealed.' },
+    { file: 'art/sparks.jpg', title: 'Hit sparks sheet', ratio: '3:2', attach: 'Nothing', layout: LAYOUTS.sparks,
+      prompt: `Create a sprite sheet of impact effects for a 2D arcade fighting game: a 3x2 grid (3 columns, 2 rows), read left to right, top to bottom.\n\nRow 1 (cells 1-3): three animation frames of a hit spark: a star-shaped burst of white-hot light with yellow and orange spikes. Small in frame 1, biggest in frame 2, breaking apart into scattered sparks in frame 3.\nRow 2 (cells 4-5): two animation frames of a block spark: a small blue-white flash with a ring of short speed lines, then the same flash fading out.\nCell 6 (bottom right): leave it completely empty.\n\nLayout rules: each effect is centered in its own equal-sized cell with wide empty space around it; nothing crosses into another cell. No grid lines, no borders, no numbers, no labels, no text. Wide 3:2 image.\n\n${STYLE}\n\n${GREEN}`,
+      note: 'Plays at the exact spot every punch, kick or special lands (or gets blocked).' },
+    ...TEXTS.filter(([slug]) => TITLE_TEXT.includes(slug)).map(([slug, text, colors]) => ({ file: `art/text/${slug}.jpg`, title: text, ratio: '16:9', attach: 'Nothing',
+      prompt: lettering(text, colors, 'Wide 16:9 image.'), note: slug === 'pressstart' ? 'Blinks on the title screen in place of the orange button.' : 'Sits under the logo on the title screen.' })),
+  ];
+
+  // Suno: Custom mode, Instrumental on, the prompt goes in the Style box (1,000 characters max).
+  const SUNO = 1000;
+  const suno = (title, extra = '') => `Custom mode · Instrumental <b>on</b> · Title: <b>${title}</b> · Exclude styles: <b>vocals, singing, rap vocals</b>${extra}`;
+  const sfx = (name, title, secs, prompt, note) => ({ file: `audio/sfx/${name}.mp3`, title, ratio: `${secs} s`, limit: 0, prompt, note, attachLabel: 'ElevenLabs Sound Effects',
+    attach: `Duration <b>${secs} s</b> · Prompt influence <b>high</b> · Loop <b>off</b>` });
+  const HOST = 'Jay Blac, the game\'s host, recorded for real: loud, hyped, drawn out. (The current files are an ElevenLabs stand-in.)';
+  const vo = (name, line, who = HOST) => ({ file: `audio/sfx/${name}.mp3`, title: line, ratio: 'Voice line', attach: who, attachLabel: 'Voice', limit: 0, prompt: line });
+  const audioCards = () => [
+    { group: 'Music · Suno', note: 'all 4 are in the game; these stay here for re-rolls' },
+    { file: 'audio/music/menu.mp3', title: 'Title + character select theme', first: true, ratio: 'Loops', limit: SUNO, attach: suno('Battle Rap Brawl (Title)'), attachLabel: 'Settings',
+      prompt: 'instrumental 90s arcade fighting game title theme mixed with East Coast boom bap, 92 BPM, dusty vinyl drums, hard cracking snare, deep sub bass, gritty sampled horn stabs, orchestral hits, record scratches, distant crowd chants, hype and cinematic, steady groove that loops cleanly, no vocals',
+      note: 'Plays on the title and select screens and keeps going through the VS screen.' },
+    { file: 'audio/music/clips.mp3', title: 'Charlie Clips theme', ratio: 'Loops', limit: SUNO, attach: suno('Charlie Clips'), attachLabel: 'Settings',
+      prompt: 'instrumental aggressive East Coast battle rap beat, 90 BPM, fire and heat energy, distorted 808 bass, punchy boom bap drums, menacing brass stabs, wailing square-wave synth lead like a 32-bit arcade fighting game stage theme, record scratches, relentless and cocky, beat starts on the first bar, loops cleanly, no vocals',
+      note: 'Plays in rounds 1 and 3 when Clips is Player 1 (each round plays one fighter\'s theme). Pick a take where the drums hit right away: the round starts immediately.' },
+    { file: 'audio/music/mook.mp3', title: 'Murda Mook theme', ratio: 'Loops', limit: SUNO, attach: suno('Murda Mook'), attachLabel: 'Settings',
+      prompt: 'instrumental cold dark Harlem street rap beat, 86 BPM, icy music-box bell melody, eerie strings, sparse hard-hitting drums, deep sliding 808, crystal chime arpeggios, cold wind ambience, 32-bit arcade fighting game stage theme feel, calm and menacing, beat starts on the first bar, loops cleanly, no vocals',
+      note: 'Plays in Mook\'s rounds. Same tip: the drums should hit within the first second or two.' },
+    { file: 'audio/music/win.mp3', title: 'Victory jingle', ratio: 'Plays once', limit: SUNO, attach: suno('Battle Rap Brawl Victory', ' · then crop it to the first 10–20 seconds'), attachLabel: 'Settings',
+      prompt: 'short instrumental victory fanfare, 90s arcade fighting game win theme, triumphant brass and orchestra hits over a hard boom bap drum break, record scratch ending, short and punchy, no vocals',
+      note: 'Suno makes full-length tracks, so crop it (Suno\'s editor or Audacity) to a short sting. Plays once on the results screen.' },
+    { group: 'Sound effects', note: 'optional: the game already has built-in synth versions' },
+    sfx('punch', 'Punch hit', 0.5, 'Single hard punch impact on a body, sharp snappy thwack, retro arcade fighting game hit sound, starts instantly, dry, no reverb'),
+    sfx('kick', 'Kick hit', 0.5, 'Single heavy kick impact on a body, deep thud with a sharp crack, retro arcade fighting game hit sound, starts instantly, dry'),
+    sfx('block', 'Block', 0.5, 'Single quick hard clack of a blocked punch, short muffled smack with a tick of metal, retro arcade fighting game, starts instantly, dry'),
+    sfx('whoosh', 'Swing whoosh', 0.5, 'Single fast whoosh of a fist swinging through the air, short and tight, starts instantly'),
+    sfx('land', 'Body hits the floor', 0.8, 'A body slamming down onto a wooden stage floor, one heavy thud with a short rattle, starts instantly'),
+    sfx('special_fire', 'Fire special (Clips)', 1, 'Fireball launched from the hands, a burst of roaring flame whoosh with crackling embers, retro arcade fighting game special move, starts instantly'),
+    sfx('special_ice', 'Ice special (Mook)', 1, 'Ice shard launched from the hands, crystalline shimmer, cracking ice and a cold rushing whoosh, retro arcade fighting game special move, starts instantly'),
+    sfx('super', 'Super move charge', 1.5, 'Super move power-up, a fast rising energy surge that ends in a thunder boom, retro arcade fighting game, starts instantly'),
+    sfx('crowd', 'Crowd "OHHH!"', 2, 'Indoor hip-hop battle rap crowd of about 200 people all reacting "OHHHH!" together after a big punchline, sudden loud reaction',
+      'Plays when a hit or bar lands hard. A real clip from a battle rap event (with permission) beats any generator here.'),
+    sfx('boo', 'Crowd boo (choke)', 2, 'Indoor crowd of about 200 people booing and groaning at a performer who choked'),
+    sfx('ko', 'Knockout boom', 1.5, 'Knockout impact, one huge slow-motion boom with a deep echo tail, starts instantly'),
+    sfx('bell', 'Round bell', 1.5, 'Boxing ring bell, one single clean ding ringing out'),
+    sfx('select', 'Menu select', 0.5, 'One short bright retro arcade menu select blip, 16-bit video game sound, starts instantly'),
+    { group: 'Voices', note: 'best recorded by a real host and the battlers themselves' },
+    vo('vo_clips_super', 'BODY BAG!', 'Charlie Clips himself, shouting his super. This is the one fans will clip and share.'),
+    vo('vo_mook_super', 'COLD WORLD!', 'Murda Mook himself, cold and calm, then hitting the last word hard.'),
+    vo('vo_clips_special', 'Sit down.', 'Charlie Clips, cocky and quick. Plays on every special move.'),
+    vo('vo_mook_special', 'Crowd control.', 'Murda Mook, low and calm. Plays on every special move.'),
+    vo('vo_clips_win', 'Light work, b. Bag him up.', 'Charlie Clips, laughing at you. Plays on the results screen when he wins.'),
+    vo('vo_mook_win', 'Harlem, stand up.', 'Murda Mook, slow and proud. Plays on the results screen when he wins.'),
+    vo('vo_round1', 'ROUND ONE!'), vo('vo_round2', 'ROUND TWO!'), vo('vo_finalround', 'FINAL ROUND!'),
+    vo('vo_battle', 'BATTLE!', `${HOST} Also plays for "RUN IT BACK!" and "LET'S GO!".`),
+    vo('vo_ko', 'K.O.!'), vo('vo_bodybag', 'BODY BAG!', `${HOST} The announcer's call when a super finishes the fight.`),
+    vo('vo_time', 'TIME!'), vo('vo_perfect', 'PERFECT!'), vo('vo_youwin', 'YOU WIN!'), vo('vo_youlose', 'YOU LOSE!'),
+  ];
+
+  // ---- copying ----
+  const toast = document.getElementById('toast');
+  let toastT = 0;
+  async function copy(text, label = 'COPIED') {
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) {
+      const t = document.createElement('textarea'); t.value = text; t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove();
+    }
+    toast.textContent = label; toast.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove('show'), 1300);
+  }
+
+  // ---- rendering ----
+  const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+  const layoutGrid = s => `<div class="layout" style="grid-template-columns:repeat(${s.cols},1fr)">${s.cells.map(cell =>
+    `<span class="${cell ? '' : 'empty'}">${cell ? esc(POSES[cell] ? POSES[cell][0] : cell.replace('_', ' ')) : 'empty'}</span>`).join('')}</div>`;
+  const limitOf = c => c.limit ?? LIMIT; // 0 = no limit to show
+  function cardHTML(c) {
+    if (c.group) return `<h3>${esc(c.group)}${c.note ? `<small>${esc(c.note)}</small>` : ''}</h3>`;
+    return `<article class="card${done.has(c.file) ? ' done' : ''}" data-file="${esc(c.file)}">
+      <header>
+        <span class="file">${esc(c.file)}</span>
+        ${c.first ? '<span class="chip first">START HERE</span>' : ''}
+        <span class="chip">${esc(c.ratio)}</span>
+        ${limitOf(c) ? `<span class="chip count${c.prompt.length > limitOf(c) ? ' over' : ''}">${c.prompt.length.toLocaleString()} / ${limitOf(c).toLocaleString()} chars</span>` : ''}
+        <label class="done-toggle"><input type="checkbox"${done.has(c.file) ? ' checked' : ''}> done</label>
+      </header>
+      <h4>${esc(c.title)}</h4>
+      <p class="attach">${c.attachLabel || 'Attach'}: ${c.attach}</p>
+      ${c.layout ? layoutGrid(c.layout) : ''}
+      <pre class="prompt" tabindex="0" role="button" aria-label="Copy prompt for ${esc(c.file)}">${esc(c.prompt)}</pre>
+      ${c.note ? `<p class="attach" style="margin-top:8px">${esc(c.note)}</p>` : ''}
+      <div class="copy-row"><button class="btn copy">COPY PROMPT</button><button class="btn ghost copyname">COPY FILE NAME</button></div>
+    </article>`;
+  }
+  const allPrompts = list => list.filter(c => c.file).map(c => `=== ${c.file} (${c.ratio}) ===\n${c.attachLabel || 'Attach'}: ${c.attach.replace(/<[^>]+>/g, '')}\n\n${c.prompt}`).join('\n\n\n');
+  function wire(panel, list) {
+    panel.querySelectorAll('.card[data-file]').forEach(card => {
+      const item = list.find(c => c.file === card.dataset.file), pre = card.querySelector('.prompt');
+      const doCopy = () => { copy(item.prompt, 'PROMPT COPIED'); pre.classList.add('copied'); setTimeout(() => pre.classList.remove('copied'), 1300); };
+      pre.addEventListener('click', doCopy);
+      pre.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doCopy(); } });
+      card.querySelector('.copy').addEventListener('click', doCopy);
+      card.querySelector('.copyname').addEventListener('click', () => copy(item.file.split('/').pop(), 'FILE NAME COPIED'));
+      card.querySelector('.done-toggle input').addEventListener('change', e => {
+        e.target.checked ? done.add(item.file) : done.delete(item.file);
+        card.classList.toggle('done', e.target.checked); store.set('done', [...done]); counts();
+      });
+    });
+    const all = panel.querySelector('[data-copyall]');
+    if (all) all.addEventListener('click', () => copy(allPrompts(list), 'ALL PROMPTS COPIED'));
+  }
+  function renderCharacter(id) {
+    const c = chars[id], list = characterCards(id), panel = document.querySelector(`[data-panel="${id}"]`);
+    const cells = [...new Set(LAYOUTS.sprites.flatMap(s => s.cells))].filter(n => n !== 'ref');
+    panel.innerHTML = `
+      <h2>${esc(c.name)} · ${esc(c.corner)}</h2>
+      <p class="lede">Save everything into <code>${esc(c.dir)}</code>. The details below come from their current promo photos. Change them to match what they'll wear on fight night, and every prompt updates.</p>
+      <div class="box"><div class="fields">${FIELDS.map(([k, label]) => `<label>${label}<textarea data-field="${k}" rows="2">${esc(c[k])}</textarea></label>`).join('')}</div></div>
+      <div class="bar"><button class="btn ghost" data-copyall>COPY ALL ${list.filter(x => x.file).length} PROMPTS</button><span class="attach" style="margin:0">Pastes into Notes with each file name on top.</span></div>
+      <div class="grid">${list.map(cardHTML).join('')}</div>
+      <h3>Fix one pose <small>when a sheet is right except one cell</small></h3>
+      <div class="card">
+        <p class="attach">Pick the pose. Save the result as the file name shown and it replaces that cell in the game. Attach: Image 1: <b>${esc(c.dir)}master.jpg</b></p>
+        <select data-fix>${cells.map(n => `<option value="${n}"${n === fixPick[id] ? ' selected' : ''}>${esc(POSES[n][0])} → ${n}.jpg</option>`).join('')}</select>
+        <pre class="prompt" tabindex="0" role="button" data-fixprompt style="margin-top:10px"></pre>
+        <div class="copy-row"><button class="btn" data-fixcopy>COPY PROMPT</button><button class="btn ghost" data-fixname>COPY FILE NAME</button></div>
+      </div>`;
+    panel.querySelectorAll('[data-field]').forEach(t => t.addEventListener('change', () => {
+      c[t.dataset.field] = t.value.trim();
+      store.set('char:' + id, Object.fromEntries(FIELDS.map(([k]) => [k, c[k]])));
+      renderCharacter(id);
+    }));
+    wire(panel, list);
+    const sel = panel.querySelector('[data-fix]'), fixPre = panel.querySelector('[data-fixprompt]');
+    const showFix = () => { fixPre.textContent = fixPrompt(c, sel.value); fixPick[id] = sel.value; store.set('fix', fixPick); };
+    const copyFix = () => { copy(fixPre.textContent, 'PROMPT COPIED'); fixPre.classList.add('copied'); setTimeout(() => fixPre.classList.remove('copied'), 1300); };
+    sel.addEventListener('change', showFix); showFix();
+    fixPre.addEventListener('click', copyFix);
+    panel.querySelector('[data-fixcopy]').addEventListener('click', copyFix);
+    panel.querySelector('[data-fixname]').addEventListener('click', () => copy(`${sel.value}.jpg`, 'FILE NAME COPIED'));
+    counts();
+  }
+  function renderSimple(id, title, lede, list) {
+    const panel = document.querySelector(`[data-panel="${id}"]`);
+    panel.innerHTML = `<h2>${title}</h2><p class="lede">${lede}</p>
+      <div class="bar"><button class="btn ghost" data-copyall>COPY ALL ${list.filter(c => c.file).length} PROMPTS</button></div>
+      <div class="grid">${list.map(cardHTML).join('')}</div>`;
+    wire(panel, list);
+  }
+  const lists = () => ({ ...Object.fromEntries(CHAR_IDS.map(id => [id, characterCards(id)])), stage: stageCards(), story: storyCards(), text: textCards(), decals: decalCards(), audio: audioCards() });
+  function counts() {
+    for (const [k, list] of Object.entries(lists())) {
+      const files = list.filter(c => c.file), n = files.filter(c => done.has(c.file)).length;
+      const el = document.querySelector(`[data-count="${k}"]`); if (el) el.textContent = `${n}/${files.length}`;
+    }
+  }
+  function summary() {
+    const L = lists();
+    document.querySelector('#summary tbody').innerHTML = [
+      ...CHAR_IDS.map(id => [chars[id].name, L[id], chars[id].dir]), ['Stages', L.stage, 'art/ and art/stages/'], ['Story mode', L.story, 'art/story/'],['Text & logo', L.text, 'art/ and art/text/'], ['Decals', L.decals, 'art/ and art/text/'], ['Music & SFX', L.audio, 'audio/music/ and audio/sfx/'],
+    ].map(([name, list, dir]) => `<tr><td>${name}</td><td>${list.filter(c => c.file).length}</td><td><code>${dir}</code></td></tr>`).join('');
+  }
+
+  // ---- tabs ----
+  const tabs = document.querySelectorAll('.tab');
+  function select(name) {
+    tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
+    document.querySelectorAll('[data-panel]').forEach(p => { p.hidden = p.dataset.panel !== name; });
+    store.set('tab', name);
+  }
+  tabs.forEach(t => t.addEventListener('click', () => { select(t.dataset.tab); window.scrollTo({ top: 0 }); }));
+
+  CHAR_IDS.forEach(id => renderCharacter(id));
+  renderSimple('stage', 'Stages', 'Harlem (the default stage) saves into <code>art/</code>; every other stage saves into <code>art/stages/&lt;id&gt;/</code>. The stage fills the whole screen behind the fighters; the crowd layer sits in front of it and bounces when the crowd pops. Props and trains go on flat green like the sprites. Where things sit, which battlers call a stage home and what reacts to the fight is set in <code>stages.js</code>. The new stages were made with Gemini 3 Pro Image at 16:9, 2K, with <code>art/stage.jpg</code> attached so they match.', stageCards());
+  renderSimple('story', 'Story mode', 'ROAD TO THE BRAWL: cutscene backgrounds go in <code>art/story/</code> (16:9, no people, attach <code>art/stage.jpg</code>), extras (made-up side characters) on flat green as two cells side by side. The script, who\'s in each scene and the fights live in <code>story.js</code>. The battlers appear through their <code>portrait.jpg</code> and Jay Blac through his host sheet, so they need no new art. Made with Gemini 3 Pro Image.', storyCards());
+  renderSimple('text', 'Text &amp; logo', 'Save the logo into <code>art/</code> and everything else into <code>art/text/</code>. Text the game builds on the fly (names in the HUD, combo counts, bars on projectiles) stays as game type.', textCards());
+  renderSimple('decals', 'Decals', 'The small graphics around the fight: corner badges, round-win icons, the locked-battler card, hit sparks and the title-screen text. Save into <code>art/</code> (PRESS START and BATTLE RAP FIGHTER go in <code>art/text/</code>).', decalCards());
+  renderSimple('audio', 'Music &amp; SFX', 'Save music into <code>audio/music/</code> and everything else into <code>audio/sfx/</code>, as MP3s with exactly the file names shown. Any file you add replaces the built-in sound; anything missing keeps it. Music comes from Suno (paid plan for commercial use). Sound effects and the announcer come from ElevenLabs: Sound Effects for the hits, text-to-speech for the voices. Use a paid plan there too, since the free plan doesn\'t cover commercial use. Make 2–3 takes of each and keep the snappiest. A free CC0 pack (for example Kenney.nl\'s impact sounds) also works for the hits.', audioCards());
+  summary(); counts();
+  select(store.get('tab', 'start'));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+batch 2026-10-30 07:50: 3 track(s) from C:\Users\aarons\Desktop\MM Game\global-reset-fighter\music\ace_test\prompts.txt
+
+arcade_walkout_95  (95 BPM, F minor, seed 1885625215)
+  generate: 26 s, peak GPU 11.2 GB
+  split: Demucs 27 s
+  loops: tempo 95.00 BPM, loop = bars 7-22 from 19.267 s, levelled +3.3 dB to -14.7 LUFS
+  layers (dB RMS): drums_core -19.1, perc -32.2, bass_808 -21.6, piano -56.3, synth -28.6, bells -35.3
+  NOTE: nearly silent in the loop: piano (that layer will add little in the game)
+  listen: music/ace_test/previews/arcade_walkout_95_demo.mp3
+
+arcade_mainevent_95  (95 BPM, F minor, seed 1606174106)
+  generate: 22 s, peak GPU 11.2 GB
+  split: Demucs 14 s
+  loops: tempo 95.00 BPM, loop = bars 22-37 from 58.090 s, levelled +4.3 dB to -14.2 LUFS
+  layers (dB RMS): drums_core -21.7, perc -32.0, bass_808 -14.2, piano -55.9, synth -27.2, bells -58.3
+  NOTE: nearly silent in the loop: piano, bells (that layer will add little in the game)
+  listen: music/ace_test/previews/arcade_mainevent_95_demo.mp3
+
+arcade_boss_95  (95 BPM, F minor, seed 185466342)
+  generate: 22 s, peak GPU 11.2 GB
+  split: Demucs 14 s
+  loops: tempo 95.00 BPM, loop = bars 24-39 from 61.244 s, levelled +1.9 dB to -14.9 LUFS
+  layers (dB RMS): drums_core -17.9, perc -32.9, bass_808 -21.3, piano -37.6, synth -26.0, bells -34.4
+  listen: music/ace_test/previews/arcade_boss_95_demo.mp3
+
+tracks.json: 6 finished track(s)

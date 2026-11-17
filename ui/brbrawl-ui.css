@@ -1,0 +1,20 @@
+/* BRBrawl UI button styles; dependency-free and responsive. */
+:root { --brb-bg:#07050b; --brb-panel:#15111b; --brb-red:#e54250; --brb-red-dark:#571622; --brb-gold:#f4c45d; --brb-cream:#f5eee4; --brb-muted:#9b8d9b; }
+.brb-menu { display:grid; gap:.65rem; max-width:34rem; }
+.brb-btn { position:relative; display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%; min-height:3.65rem; padding:.85rem 1.15rem .85rem 2.85rem; border:2px solid #554652; border-radius:2px; color:var(--brb-cream); background:linear-gradient(180deg,#211a27,#100d16); clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px)); font:700 .77rem/1.4 'Press Start 2P','Courier New',monospace; letter-spacing:.035em; text-align:left; cursor:pointer; transition:transform .12s ease,filter .12s ease,border-color .12s ease,background .12s ease; }
+.brb-btn::before { content:'▶'; position:absolute; left:1rem; color:var(--brb-gold); opacity:0; transform:translateX(-4px); transition:opacity .12s ease,transform .12s ease; }
+.brb-btn:hover,.brb-btn:focus-visible,.brb-btn[aria-pressed="true"],.brb-btn.is-selected { outline:none; border-color:var(--brb-gold); background:linear-gradient(180deg,#781b2a,#310e19); transform:translateX(4px); }
+.brb-btn:hover::before,.brb-btn:focus-visible::before,.brb-btn[aria-pressed="true"]::before,.brb-btn.is-selected::before { opacity:1; transform:translateX(0); }
+.brb-btn:active,.brb-btn.is-pressed { color:#120b12; background:linear-gradient(180deg,#ffe18a,#d69a32); transform:translate(2px,2px); }
+.brb-btn:disabled,.brb-btn[aria-disabled="true"] { color:#837985; border-color:#453d48; filter:grayscale(.8); opacity:.52; cursor:not-allowed; transform:none; }
+.brb-btn__hint { color:var(--brb-gold); font:600 .65rem/1.4 Inter,Arial,sans-serif; letter-spacing:.06em; }
+.brb-settings { color:var(--brb-cream); background:var(--brb-bg); border:1px solid #332839; padding:1.25rem; }
+.brb-tabs { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.25rem; }
+.brb-tab { border:1px solid #665463; background:#15111b; color:var(--brb-cream); padding:.75rem 1rem; font:700 .65rem 'Press Start 2P','Courier New',monospace; cursor:pointer; }
+.brb-tab[aria-selected="true"] { color:#fff6e9; background:linear-gradient(180deg,#781b2a,#310e19); border-color:var(--brb-gold); }
+.brb-setting-row { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.85rem 0; border-bottom:1px solid #2b2330; font:600 .9rem Inter,Arial,sans-serif; }
+.brb-toggle { min-width:6.2rem; border:1px solid #786370; border-radius:2px; padding:.55rem .8rem; color:var(--brb-muted); background:#211a27; font:700 .65rem 'Press Start 2P','Courier New',monospace; cursor:pointer; }
+.brb-toggle[aria-pressed="true"] { color:#fff6e9; background:linear-gradient(180deg,#781b2a,#310e19); border-color:var(--brb-gold); }
+.brb-slider { accent-color:var(--brb-red); width:min(16rem,45vw); }
+@media (max-width:560px) { .brb-btn { min-height:3.2rem; font-size:.62rem; padding-left:2.4rem; } .brb-setting-row { font-size:.82rem; } }
+@media (prefers-reduced-motion:reduce) { .brb-btn,.brb-btn::before { transition:none; } }

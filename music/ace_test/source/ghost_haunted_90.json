@@ -1,0 +1,20 @@
+{
+  "model": "acestep_v1.5_xl_turbo_bf16.safetensors (bf16)",
+  "planner": "qwen_1.7b_ace15",
+  "caption": "Dark haunted trap with an eerie music box melody, a pipe organ and tolling church bells, instrumental at 90 BPM in C minor. Mood: eerie, creeping, Halloween night in a graveyard. Like a fighting game soundtrack recorded by a hip-hop producer with live session players: hard live drums with a tight snare and trap hi-hat rolls, a deep 808 bass, a concert grand piano, real bells and a warm analog synth pad. Big, polished studio mix with natural reverb, instrumental, no vocals.",
+  "lyrics": "[Intro - solo grand piano and ringing bells]\n\n[Verse - hard live drums and deep 808 bass come in]\n\n[Hook - full arrangement, bells and synth pad swell]\n\n[Outro - piano and bells alone]",
+  "style": "dark haunted trap with an eerie music box melody, a pipe organ and tolling church bells",
+  "mood": "eerie, creeping, Halloween night in a graveyard",
+  "bpm": 90,
+  "key": "C minor",
+  "time_signature": "4/4",
+  "seconds": 120.0,
+  "seed": 943748405,
+  "steps": 8,
+  "cfg": 1.0,
+  "sampler": "euler/simple",
+  "shift": 3.0,
+  "seconds_taken": 41.4,
+  "peak_vram_gb": 11.2,
+  "made": "2026-10-30 with tools/batch_tracks.py"
+}

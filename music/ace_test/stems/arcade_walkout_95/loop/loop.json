@@ -1,0 +1,52 @@
+{
+  "track": "arcade_walkout_95",
+  "bpm": 95.0,
+  "beats_per_bar": 4,
+  "bars": 16,
+  "samples": 1782568,
+  "sample_rate": 44100,
+  "seconds": 40.421,
+  "source_start_seconds": 19.2674,
+  "seam_crossfade_ms": 20,
+  "pad_samples": 4096,
+  "layers": [
+    "drums_core",
+    "perc",
+    "bass_808",
+    "piano",
+    "synth",
+    "bells"
+  ],
+  "splits": {
+    "drums": "drums_core <4-7 kHz> perc",
+    "other": "synth <1.2-2.5 kHz> bells"
+  },
+  "peak_dbfs_mix": -1.0,
+  "states": {
+    "story": [
+      "drums_core",
+      "piano",
+      "synth"
+    ],
+    "crowd": [
+      "drums_core",
+      "perc",
+      "piano",
+      "synth"
+    ],
+    "boss": [
+      "drums_core",
+      "perc",
+      "bass_808",
+      "piano",
+      "synth",
+      "bells"
+    ]
+  },
+  "level": {
+    "target_lufs": -14.0,
+    "was_lufs": -18.0,
+    "gain_db": 3.25,
+    "mix_lufs": -14.7
+  }
+}
